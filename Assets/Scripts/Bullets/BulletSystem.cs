@@ -14,19 +14,14 @@ namespace ShootEmUp
         [SerializeField] private Transform _worldTransform;
         [SerializeField] private LevelBounds _levelBounds;
 
-        private readonly Queue<Bullet> m_bulletPool = new();
+        private BulletPool _bulletPool;
         private readonly HashSet<Bullet> m_activeBullets = new();
         private readonly List<Bullet> m_cache = new();
         
         private void Awake()
         {
-            var bulletPool = new BulletPool(_prefab, initialCount);
+            _bulletPool = new BulletPool(_prefab, initialCount);
 
-            for (var i = 0; i < initialCount; i++)
-            {
-                var bullet = Instantiate(this._prefab, this._container);
-                m_bulletPool.Enqueue(bullet);
-            }
         }
         
         private void FixedUpdate()
@@ -46,14 +41,8 @@ namespace ShootEmUp
 
         public void FlyBulletByArgs(Args args)
         {
-            if (m_bulletPool.TryDequeue(out var bullet))
-            {
-                bullet.transform.SetParent(_worldTransform);
-            }
-            else
-            {
-                bullet = Instantiate(_prefab, _worldTransform);
-            }
+            var bullet = _bulletPool.TryGet(_worldTransform);
+            
 
             bullet.SetPosition(args.position);
             bullet.SetColor(args.color);
@@ -70,7 +59,7 @@ namespace ShootEmUp
         
         private void OnBulletCollision(Bullet bullet, Collision2D collision)
         {
-            BulletUtils.DealDamage(bullet, collision.gameObject);
+            bullet.DealDamage(collision.gameObject);
             RemoveBullet(bullet);
         }
 
@@ -80,7 +69,7 @@ namespace ShootEmUp
             {
                 bullet.OnCollisionEntered -= OnBulletCollision;
                 bullet.transform.SetParent(_container);
-                m_bulletPool.Enqueue(bullet);
+                _bulletPool.Release(bullet);
             }
         }
         

@@ -4,7 +4,7 @@ namespace ShootEmUp
 {
     internal static class BulletUtils
     {
-        internal static void DealDamage(Bullet bullet, GameObject other)
+        internal static void DealDamage(this Bullet bullet, GameObject other)
         {
             if (!other.TryGetComponent(out TeamComponent team))
             {
