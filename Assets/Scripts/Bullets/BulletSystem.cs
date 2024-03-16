@@ -1,3 +1,4 @@
+using Assets.Scripts.GenericPool;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace ShootEmUp
         
         private void Awake()
         {
+            var bulletPool = new BulletPool(_prefab, initialCount);
+
             for (var i = 0; i < initialCount; i++)
             {
                 var bullet = Instantiate(this._prefab, this._container);
