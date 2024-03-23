@@ -1,48 +1,50 @@
-﻿using ShootEmUp;
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Enemy
+namespace ShootEmUp
 {
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] private Transform _worldTransform;
-        [SerializeField] private GameObject _character;
-        [SerializeField] private BulletSystem _bulletSystem;
+        [SerializeField] private GameObject _prefab;
 
-        [SerializeField] private EnemyPositions _enemyPositions;
+        [SerializeField] private HitPointsComponent _hitPointsComponent;
+        [SerializeField] private EnemyMoveAgent _enemyMoveAgent;
+        [SerializeField] private EnemyAttackAgent _enemyAttackAgent;
 
-        [SerializeField] HitPointsComponent _hitPointsComponent;
-        [SerializeField] EnemyMoveAgent _enemyMoveAgent;
-        [SerializeField] EnemyAttackAgent _enemyAttackAgent;
 
-        public event Action<Enemy> OnEnemyDieEvent;
+        public Action<Enemy> OnEnemyDie;
+        public Action<Enemy, Vector2, Vector2> OnEnemyFire;
 
-        public HitPointsComponent EnemyHitComponent => GetComponent<HitPointsComponent>();
-
-        public void Construct()
+        private void OnEnable()
         {
-            //пока не понял зачем это
-            transform.SetParent(_worldTransform);
-
-            _hitPointsComponent.HpEmpty += OnDestroyed;
+            _hitPointsComponent.HpEmpty += Die;
             _enemyAttackAgent.OnFire += OnFire;
-
-            transform.position = _enemyPositions.RandomSpawnPosition().position;
-            _enemyMoveAgent.SetDestination(_enemyPositions.RandomAttackPosition().position);
-            _enemyAttackAgent.SetTarget(_character);
         }
-
-        public void OnDestroyed(GameObject enemy)
+        public void SetParent(Transform tr)
         {
-            _hitPointsComponent.HpEmpty -= OnDestroyed;
+            transform.SetParent(tr);
+        }
+        public void SetPosition(Transform tr)
+        {
+            transform.position = tr.position;
+        }
+        public void SetTargetDestination(Transform tr)
+        {
+            _enemyMoveAgent.SetDestination(tr.position);
+        }
+        public void SetTarget(GameObject target)
+        {
+            _enemyAttackAgent.SetTarget(target);
+        }
+        public void Die(GameObject enemy)
+        {
+            _hitPointsComponent.HpEmpty -= Die;
             _enemyAttackAgent.OnFire -= OnFire;
-            OnEnemyDieEvent?.Invoke(this);
+            OnEnemyDie?.Invoke(this);
         }
-
-        private void OnFire(GameObject enemy, Vector2 position, Vector2 direction)
+        public void OnFire(GameObject enemy, Vector2 position, Vector2 direction)
         {
-            _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
+            /*_bulletSystem.FlyBulletByArgs(new BulletSystem.Args
             {
                 isPlayer = false,
                 physicsLayer = (int)PhysicsLayer.ENEMY,
@@ -50,7 +52,10 @@ namespace Assets.Scripts.Enemy
                 damage = 1,
                 position = position,
                 velocity = direction * 2.0f
-            });
+            });*/
+            OnEnemyFire.Invoke(this, position, direction);
         }
+
     }
+
 }
