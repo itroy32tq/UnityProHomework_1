@@ -10,6 +10,7 @@ namespace ShootEmUp
         [SerializeField] private HitPointsComponent _hitPointsComponent;
         [SerializeField] private EnemyMoveAgent _enemyMoveAgent;
         [SerializeField] private EnemyAttackAgent _enemyAttackAgent;
+        [SerializeField] private Character _character;
 
 
         public Action<Enemy> OnEnemyDie;
@@ -19,6 +20,12 @@ namespace ShootEmUp
         {
             _hitPointsComponent.HpEmpty += Die;
             _enemyAttackAgent.OnFire += OnFire;
+        }
+        private void Start()
+        {
+            _enemyAttackAgent.Condition?
+                .Append(_character.IsHitPointsExists)
+                .Append(_character.IsHitPointsExists);
         }
         public void SetParent(Transform tr)
         {
@@ -32,7 +39,7 @@ namespace ShootEmUp
         {
             _enemyMoveAgent.SetDestination(tr.position);
         }
-        public void SetTarget(GameObject target)
+        public void SetTarget(Character target)
         {
             _enemyAttackAgent.SetTarget(target);
         }
@@ -42,6 +49,7 @@ namespace ShootEmUp
             _enemyAttackAgent.OnFire -= OnFire;
             OnEnemyDie?.Invoke(this);
         }
+        public void Fire(Enemy enemy) { }
         public void OnFire(GameObject enemy, Vector2 position, Vector2 direction)
         {
             /*_bulletSystem.FlyBulletByArgs(new BulletSystem.Args

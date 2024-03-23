@@ -1,21 +1,23 @@
+using Assets.Scripts.Conditions;
 using UnityEngine;
 
 namespace ShootEmUp
 {
     public sealed class EnemyAttackAgent : MonoBehaviour
     {
+        public CompositeCondition Condition = new();
+
         public delegate void FireHandler(GameObject enemy, Vector2 position, Vector2 direction);
 
         public event FireHandler OnFire;
 
         [SerializeField] private WeaponComponent _weaponComponent;
-        [SerializeField] private EnemyMoveAgent _moveAgent;
         [SerializeField] private float _countdown;
 
-        private GameObject _target;
+        private Character _target;
         private float _currentTime;
 
-        public void SetTarget(GameObject target)
+        public void SetTarget(Character target)
         {
             _target = target;
         }
@@ -27,12 +29,12 @@ namespace ShootEmUp
 
         private void FixedUpdate()
         {
-            if (!_moveAgent.IsReached)
+            if (!Condition.IsTrue())
             {
                 return;
             }
             
-            if (!_target.GetComponent<HitPointsComponent>().IsHitPointsExists())
+            if (!_target.IsHitPointsExists())
             {
                 return;
             }

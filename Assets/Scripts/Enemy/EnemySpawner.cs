@@ -20,13 +20,11 @@ namespace ShootEmUp
         
         private void Start()
         {
-    
             _enemyPool = new Pool<Enemy>(_initialCount, _enemyFactory);
         }
 
         public void Update()
         {
-  
             _timer += Time.deltaTime;
 
             if (_timer < _spawnDelay) return;

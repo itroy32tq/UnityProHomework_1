@@ -10,15 +10,10 @@ namespace ShootEmUp
 
         public event Action<Enemy> OnEnemyDieEvent;
 
-        public HitPointsComponent EnemyHitComponent => GetComponent<HitPointsComponent>();
-
-        
-
         public void OnEnemyDieHandler(Enemy enemy)
         {
             
         }
-
         public void OnEnemyFireHandler(Enemy enemy, Vector2 position, Vector2 direction)
         {
             

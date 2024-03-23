@@ -7,7 +7,7 @@ namespace Assets.Scripts.Factory
     public class EnemyFactory : MonoBehaviour, IFactory<Enemy>
     {
         [SerializeField] private Transform _worldTransform;
-        [SerializeField] private GameObject _character;
+        [SerializeField] private Character _character;
         [SerializeField] private EnemyPositions _enemyPositions;
         [SerializeField] Enemy _prefab;
         [SerializeField] private EnemyController _enemyController;
