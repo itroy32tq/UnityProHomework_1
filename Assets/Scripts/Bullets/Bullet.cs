@@ -1,5 +1,7 @@
 using System;
+using System.Drawing;
 using UnityEngine;
+using static ShootEmUp.BulletSystem;
 
 namespace ShootEmUp
 {
@@ -7,38 +9,31 @@ namespace ShootEmUp
     {
         public event Action<Bullet, Collision2D> OnCollisionEntered;
 
-        [NonSerialized] public bool isPlayer;
-        [NonSerialized] public int damage;
+        [NonSerialized] private bool _isPlayer;
+        [NonSerialized] public int _damage;
 
         [SerializeField]
-        private new Rigidbody2D rigidbody2D;
+        private Rigidbody2D _rigidbody2D;
 
         [SerializeField]
-        private SpriteRenderer spriteRenderer;
+        private SpriteRenderer _spriteRenderer;
+
+        public bool IsPlayer => _isPlayer;
+
+        public void Construct(Args args)
+        { 
+            transform.position = args.position;
+            _spriteRenderer.color = args.color;
+            gameObject.layer = args.physicsLayer;
+            _damage = args.damage;
+            _isPlayer = args.isPlayer;
+            _rigidbody2D.velocity = args.velocity;
+
+        }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            this.OnCollisionEntered?.Invoke(this, collision);
-        }
-
-        public void SetVelocity(Vector2 velocity)
-        {
-            this.rigidbody2D.velocity = velocity;
-        }
-
-        public void SetPhysicsLayer(int physicsLayer)
-        {
-            this.gameObject.layer = physicsLayer;
-        }
-
-        public void SetPosition(Vector3 position)
-        {
-            this.transform.position = position;
-        }
-
-        public void SetColor(Color color)
-        {
-            this.spriteRenderer.color = color;
+            OnCollisionEntered?.Invoke(this, collision);
         }
     }
 }

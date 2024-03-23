@@ -8,49 +8,49 @@ namespace ShootEmUp
 
         public event FireHandler OnFire;
 
-        [SerializeField] private WeaponComponent weaponComponent;
-        [SerializeField] private EnemyMoveAgent moveAgent;
-        [SerializeField] private float countdown;
+        [SerializeField] private WeaponComponent _weaponComponent;
+        [SerializeField] private EnemyMoveAgent _moveAgent;
+        [SerializeField] private float _countdown;
 
-        private GameObject target;
-        private float currentTime;
+        private GameObject _target;
+        private float _currentTime;
 
         public void SetTarget(GameObject target)
         {
-            this.target = target;
+            _target = target;
         }
 
         public void Reset()
         {
-            this.currentTime = this.countdown;
+            _currentTime = _countdown;
         }
 
         private void FixedUpdate()
         {
-            if (!this.moveAgent.IsReached)
+            if (!_moveAgent.IsReached)
             {
                 return;
             }
             
-            if (!this.target.GetComponent<HitPointsComponent>().IsHitPointsExists())
+            if (!_target.GetComponent<HitPointsComponent>().IsHitPointsExists())
             {
                 return;
             }
 
-            this.currentTime -= Time.fixedDeltaTime;
-            if (this.currentTime <= 0)
+            _currentTime -= Time.fixedDeltaTime;
+            if (_currentTime <= 0)
             {
-                this.Fire();
-                this.currentTime += this.countdown;
+                Fire();
+                _currentTime += _countdown;
             }
         }
 
         private void Fire()
         {
-            var startPosition = this.weaponComponent.Position;
-            var vector = (Vector2) this.target.transform.position - startPosition;
+            var startPosition = _weaponComponent.Position;
+            var vector = (Vector2) _target.transform.position - startPosition;
             var direction = vector.normalized;
-            this.OnFire?.Invoke(this.gameObject, startPosition, direction);
+            OnFire?.Invoke(gameObject, startPosition, direction);
         }
     }
 }

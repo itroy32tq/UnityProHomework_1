@@ -1,0 +1,64 @@
+using Assets.Scripts.Enemy;
+using Assets.Scripts.Factory;
+using Assets.Scripts.GenericPool;
+using Assets.Scripts.Inventary;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace ShootEmUp
+{
+    public sealed class EnemySpawner : MonoBehaviour
+    {
+        private Pool<Enemy> _enemyPool;
+        private readonly HashSet<Enemy> m_activeEnemies = new();
+        private IFactory<Enemy> _enemyFactory;
+        private float _timer;
+
+        [SerializeField] private Enemy _prefab;
+        [SerializeField] private float _spawnDelay = 1f;
+
+        [Header("Pool")]
+        [SerializeField] private Transform _container;
+        [SerializeField] private int _initialCount = 7;
+        
+
+        
+
+        private void Start()
+        {
+            _enemyFactory = new Factory<Enemy>(_prefab, _container);
+            _enemyPool = new Pool<Enemy>(_initialCount, _enemyFactory);
+
+        }
+
+        public void Update()
+        {
+  
+            _timer += Time.deltaTime;
+
+            if (_timer < _spawnDelay) return;
+
+            Enemy enemy = _enemyPool.TryGet();
+            if (enemy != null)
+            {
+                if (m_activeEnemies.Add(enemy))
+                {
+                    enemy.Construct();
+                    enemy.OnEnemyDieEvent += RemoveEnemy;
+                }
+            }
+            _timer = 0f;
+        }
+
+        private void RemoveEnemy(Enemy enemy)
+        {
+            if (m_activeEnemies.Remove(enemy))
+            {
+                enemy.transform.SetParent(_container);
+                _enemyPool.Release(enemy);
+                enemy.OnEnemyDieEvent -= RemoveEnemy;
+            }
+
+        }
+    }
+}
