@@ -1,3 +1,4 @@
+using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
 using Assets.Scripts.Inventary;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace ShootEmUp
         private readonly HashSet<Enemy> m_activeEnemies = new();
         private float _timer;
 
-        [SerializeField] private IFactory<Enemy> _enemyFactory; 
+        [SerializeField] private EnemyFactory _enemyFactory; 
         [SerializeField] private Enemy _prefab;
         [SerializeField] private float _spawnDelay = 1f;
 

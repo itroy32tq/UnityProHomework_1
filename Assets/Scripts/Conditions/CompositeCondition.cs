@@ -6,11 +6,10 @@ namespace Assets.Scripts.Conditions
 {
     public class CompositeCondition
     {
-        private List<Func<bool>> _conditions = new();
-        public Func<> Append(Func<bool> func)
+        private readonly List<Func<bool>> _conditions = new();
+        public void Append(Func<bool> func)
         { 
-            Func t = _conditions.Add(func);
-            return _conditions.Add(func);
+            _conditions.Add(func);
         }
         public bool IsTrue()
         { 

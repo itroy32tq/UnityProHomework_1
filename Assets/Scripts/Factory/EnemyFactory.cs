@@ -11,17 +11,18 @@ namespace Assets.Scripts.Factory
         [SerializeField] private EnemyPositions _enemyPositions;
         [SerializeField] Enemy _prefab;
         [SerializeField] private EnemyController _enemyController;
+        [SerializeField] private BulletSystem _enemyBulletSystem;
 
         public Enemy Create()
         {
-            var enemy = Instantiate(_prefab);
+            Enemy enemy = Instantiate(_prefab);
+            enemy.WeaponComponent.SetBulletSystem(_enemyBulletSystem);
             enemy.SetParent(_worldTransform);
-
+            enemy.Character = _character;
             enemy.OnEnemyDie += _enemyController.OnEnemyDieHandler;
             enemy.OnEnemyFire += _enemyController.OnEnemyFireHandler;
             enemy.SetPosition(_enemyPositions.RandomSpawnPosition());
             enemy.SetTargetDestination(_enemyPositions.RandomAttackPosition());
-            enemy.SetTarget(_character);
             return enemy;
         }
     }

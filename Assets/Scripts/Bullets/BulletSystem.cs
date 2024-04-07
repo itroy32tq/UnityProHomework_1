@@ -2,6 +2,7 @@ using Assets.Scripts;
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
 using Assets.Scripts.Inventary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace ShootEmUp
         [SerializeField] private LevelBounds _levelBounds;
 
         private Pool<Bullet> _bulletPool;
-        private IFactory<Bullet> _bulletFactory;
+        private Factory<Bullet> _bulletFactory;
         private readonly HashSet<Bullet> m_activeBullets = new();
         private readonly List<Bullet> m_cache = new();
         
@@ -34,27 +35,33 @@ namespace ShootEmUp
             m_cache.Clear();
             m_cache.AddRange(m_activeBullets);
 
-            var inBoundsBullet = m_cache.Where(x => _levelBounds.InBounds(x.transform.position));
+            var notBoundsBullet = m_cache.Where(x => !_levelBounds.InBounds(x.transform.position));
 
-            for (int i = 0, count = m_cache.Count; i < count; i++)
+
+            foreach (var bullet in notBoundsBullet)
             {
-                Bullet bullet = m_cache[i];
-                if (!_levelBounds.InBounds(bullet.transform.position))
-                {
-                    RemoveBullet(bullet);
-                }
+                RemoveBullet(bullet);
             }
+
         }
 
         public void FlyBulletByArgs(Args args)
         {
-            var bullet = _bulletPool.TryGet();
-            bullet.Construct(args);
-
-            if (m_activeBullets.Add(bullet))
+            try
             {
-                bullet.OnCollisionEntered += OnBulletCollision;
+                var bullet = _bulletPool.TryGet();
+                bullet.Construct(args);
+
+                if (m_activeBullets.Add(bullet))
+                {
+                    bullet.OnCollisionEntered += OnBulletCollision;
+                }
             }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+            
         }
         
         private void OnBulletCollision(Bullet bullet, Collision2D collision)

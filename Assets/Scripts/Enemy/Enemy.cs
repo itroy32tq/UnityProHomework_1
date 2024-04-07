@@ -10,11 +10,14 @@ namespace ShootEmUp
         [SerializeField] private HitPointsComponent _hitPointsComponent;
         [SerializeField] private EnemyMoveAgent _enemyMoveAgent;
         [SerializeField] private EnemyAttackAgent _enemyAttackAgent;
-        [SerializeField] private Character _character;
+        [SerializeField] private WeaponComponent _weaponComponent;
+        [SerializeField] private TeamComponent _teamComponent;
 
+        public WeaponComponent WeaponComponent => _weaponComponent;
+        public Character Character { get; set; }
 
         public Action<Enemy> OnEnemyDie;
-        public Action<Enemy, Vector2, Vector2> OnEnemyFire;
+        public Action<Enemy> OnEnemyFire;
 
         private void OnEnable()
         {
@@ -23,9 +26,12 @@ namespace ShootEmUp
         }
         private void Start()
         {
-            _enemyAttackAgent.Condition?
-                .Append(_character.IsHitPointsExists)
-                .Append(_character.IsHitPointsExists);
+            _enemyAttackAgent.Condition?.Append(Character.IsHitPointsExists);
+            _enemyAttackAgent.Condition?.Append(IsReached);
+        }
+        public bool IsReached()
+        { 
+            return _enemyMoveAgent.IsReached;
         }
         public void SetParent(Transform tr)
         {
@@ -39,29 +45,17 @@ namespace ShootEmUp
         {
             _enemyMoveAgent.SetDestination(tr.position);
         }
-        public void SetTarget(Character target)
-        {
-            _enemyAttackAgent.SetTarget(target);
-        }
+   
         public void Die(GameObject enemy)
         {
             _hitPointsComponent.HpEmpty -= Die;
             _enemyAttackAgent.OnFire -= OnFire;
             OnEnemyDie?.Invoke(this);
         }
-        public void Fire(Enemy enemy) { }
-        public void OnFire(GameObject enemy, Vector2 position, Vector2 direction)
+        public void OnFire()
         {
-            /*_bulletSystem.FlyBulletByArgs(new BulletSystem.Args
-            {
-                isPlayer = false,
-                physicsLayer = (int)PhysicsLayer.ENEMY,
-                color = Color.red,
-                damage = 1,
-                position = position,
-                velocity = direction * 2.0f
-            });*/
-            OnEnemyFire.Invoke(this, position, direction);
+            _weaponComponent.Shoot(_teamComponent.IsPlayer, _enemyMoveAgent.Direction);
+            OnEnemyFire?.Invoke(this);
         }
 
     }

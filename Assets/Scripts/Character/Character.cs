@@ -10,6 +10,10 @@ namespace ShootEmUp
         
         [SerializeField] WeaponComponent _weaponComponent;
         [SerializeField] HitPointsComponent _hitPointsComponent;
+        [SerializeField] TeamComponent _teamComponent;
+
+        //todo по умолчанию игрок стреляет только вверх
+        [SerializeField] Vector2 _direction = Vector2.up;
 
         public Action<Character> OnCharacterDie;
 
@@ -28,7 +32,7 @@ namespace ShootEmUp
         }
         public override void Shoot()
         {
-            _weaponComponent.Shoot();
+            _weaponComponent.Shoot(_teamComponent.IsPlayer, _direction);
         }
         public bool IsHitPointsExists()
         { 

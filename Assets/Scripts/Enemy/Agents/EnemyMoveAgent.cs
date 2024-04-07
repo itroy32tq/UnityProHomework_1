@@ -6,7 +6,8 @@ namespace ShootEmUp
     {
         private bool _isReached;
         public bool IsReached => _isReached;
-       
+        private Vector2 _direction;
+        public Vector2 Direction => _direction;
 
         [SerializeField] private MoveComponent _moveComponent;
 
@@ -31,9 +32,9 @@ namespace ShootEmUp
                 _isReached = true;
                 return;
             }
-
-            var direction = vector.normalized * Time.fixedDeltaTime;
-            _moveComponent.MoveByRigidbodyVelocity(direction);
+            _direction = vector.normalized;
+            var moveDirection = vector.normalized * Time.fixedDeltaTime;
+            _moveComponent.MoveByRigidbodyVelocity(moveDirection);
         }
     }
 }

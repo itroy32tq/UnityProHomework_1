@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f607d62c36cf429b98fd5e0d29773f70, type: 3}
-  m_Name: PlayerBullet
+  m_Name: EnemyBullet
   m_EditorClassIdentifier: 
-  _physicsLayer: 14
-  _color: {r: 0.9811321, g: 0, b: 0, a: 0}
+  _physicsLayer: 13
+  _color: {r: 0.035967592, g: 0.9716981, b: 0.0045834924, a: 0}
   _damage: 1
   _speed: 3

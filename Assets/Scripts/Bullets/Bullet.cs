@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using UnityEngine;
 using static ShootEmUp.BulletSystem;
 
@@ -23,7 +22,9 @@ namespace ShootEmUp
         public void Construct(Args args)
         { 
             transform.position = args.position;
-            _spriteRenderer.color = args.color;
+            //пока не работает передача цвета из конфига в спрайтрендерниг
+            _spriteRenderer.color = Color.red;
+
             gameObject.layer = args.physicsLayer;
             _damage = args.damage;
             _isPlayer = args.isPlayer;
