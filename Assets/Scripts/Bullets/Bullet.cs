@@ -9,7 +9,9 @@ namespace ShootEmUp
         public event Action<Bullet, Collision2D> OnCollisionEntered;
 
         [NonSerialized] private bool _isPlayer;
-        [NonSerialized] public int _damage;
+        [NonSerialized] private int _damage;
+
+        public int Damege => _damage;
 
         [SerializeField]
         private Rigidbody2D _rigidbody2D;
@@ -22,9 +24,7 @@ namespace ShootEmUp
         public void Construct(Args args)
         { 
             transform.position = args.position;
-            //пока не работает передача цвета из конфига в спрайтрендерниг
-            _spriteRenderer.color = Color.red;
-
+            _spriteRenderer.color = args.color;
             gameObject.layer = args.physicsLayer;
             _damage = args.damage;
             _isPlayer = args.isPlayer;

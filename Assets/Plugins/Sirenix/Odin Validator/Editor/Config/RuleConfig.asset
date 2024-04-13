@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f607d62c36cf429b98fd5e0d29773f70, type: 3}
-  m_Name: PlayerBullet
+  m_Script: {fileID: 1434321088, guid: afbf832bc46149f5a291e87cab63e46d, type: 3}
+  m_Name: RuleConfig
   m_EditorClassIdentifier: 
-  _physicsLayer: 14
-  _color: {r: 0.25847846, g: 0.98039216, b: 0, a: 1}
-  _damage: 1
-  _speed: 3
+  projectRules: []
