@@ -18,7 +18,7 @@ namespace ShootEmUp
 
             if (other.TryGetComponent(out HitPointsComponent hitPoints))
             {
-                hitPoints.TakeDamage(bullet._damage);
+                hitPoints.TakeDamage(bullet.Damege);
             }
         }
     }
