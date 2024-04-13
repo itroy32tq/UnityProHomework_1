@@ -537,7 +537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55e0c0d37f64d1f835fe367d4939922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 3926786964592264469}
 --- !u!850595691 &1263964384
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1158,7 +1157,7 @@ PrefabInstance:
     - target: {fileID: 809540891661548872, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 809540891661548872, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
         type: 3}
@@ -1215,21 +1214,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
-    - target: {fileID: 2055828243161356722, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: _container
       value: 
       objectReference: {fileID: 363245576}
-    - target: {fileID: 2055828243161356722, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: _levelBounds
       value: 
       objectReference: {fileID: 2572952653776768186}
-    - target: {fileID: 2055828243161356722, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: _worldTransform
       value: 
       objectReference: {fileID: 1683128698}
+    - target: {fileID: 2609238919329682414, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
+        type: 3}
+      propertyPath: _inputManager
+      value: 
+      objectReference: {fileID: 1134805361}
     - target: {fileID: 2609238919329682414, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
         type: 3}
       propertyPath: _teamComponent
@@ -1240,8 +1241,7 @@ PrefabInstance:
       propertyPath: _bulletSystem
       value: 
       objectReference: {fileID: 363245577}
-    m_RemovedComponents:
-    - {fileID: 2055828243161356722, guid: 9699e7e809fd44b2bbf3d30c951ecbd2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9699e7e809fd44b2bbf3d30c951ecbd2, type: 3}
 --- !u!114 &3926786964592264469 stripped
 MonoBehaviour:
@@ -1303,6 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697fe7ba192e484db495320b9c01bcd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameState: 0
 --- !u!212 &4162873433806880330
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1401,10 +1402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5377a5d4caa94482972174d0a74ac4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_params:
-    m_startPositionY: 19
-    m_endPositionY: -38
-    m_movingSpeedY: 5
+  _startPositionY: 19
+  _endPositionY: -38
+  _movingSpeedY: 5
 --- !u!1 &4914023371208914563
 GameObject:
   m_ObjectHideFlags: 0

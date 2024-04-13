@@ -22,7 +22,7 @@ namespace ShootEmUp
 
         private Transform RandomTransform(Transform[] transforms)
         {
-            var index = Random.Range(0, transforms.Length);
+            int index = Random.Range(0, transforms.Length);
             return transforms[index];
         }
     }

@@ -1,7 +1,6 @@
-using Assets.Scripts;
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
-using Assets.Scripts.Inventary;
+using Assets.Scripts.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour
+    public sealed class BulletSystem : MonoBehaviour, IGameStartListener
     {
         [SerializeField] private int _initialCount = 50;
         
@@ -22,22 +21,22 @@ namespace ShootEmUp
         private Factory<Bullet> _bulletFactory;
         private readonly HashSet<Bullet> m_activeBullets = new();
         private readonly List<Bullet> m_cache = new();
-        
+
         private void Awake()
+        {
+            IGameListener.Register(this);
+        }
+        public void OnStartGame()
         {
             _bulletFactory = new Factory<Bullet>(_prefab, _container);
             _bulletPool = new Pool<Bullet>(_initialCount, _bulletFactory);
-
         }
-        
+
         private void FixedUpdate()
         {
             m_cache.Clear();
             m_cache.AddRange(m_activeBullets);
-
             var notBoundsBullet = m_cache.Where(x => !_levelBounds.InBounds(x.transform.position));
-
-
             foreach (var bullet in notBoundsBullet)
             {
                 RemoveBullet(bullet);
@@ -78,7 +77,7 @@ namespace ShootEmUp
                 _bulletPool.Release(bullet);
             }
         }
-        
+
         public struct Args
         {
             public Vector2 position;

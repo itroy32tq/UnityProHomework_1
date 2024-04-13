@@ -1,4 +1,4 @@
-using Assets.Scripts.Interface;
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -8,13 +8,14 @@ namespace ShootEmUp
         private float _horizontalDirection;
         public float HorizontalDirection => _horizontalDirection;
 
-        [SerializeField] private Unit unit;
+        public event Action OnShoot;
+        public event Action<Vector2> OnMove;
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                unit.Shoot();
+                OnShoot?.Invoke();
             }
 
             if (Input.GetKey(KeyCode.LeftArrow))
@@ -34,7 +35,7 @@ namespace ShootEmUp
         private void FixedUpdate()
         {
             Vector2 direction = new Vector2(_horizontalDirection, 0) * Time.fixedDeltaTime;
-            unit.Move(direction);
+            OnMove?.Invoke(direction);
         }
     }
 }

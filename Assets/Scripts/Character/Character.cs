@@ -4,24 +4,30 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class Character : Unit
+    public class Character : MonoBehaviour, IGameStartListener, IGameFinishListener
     {
         [SerializeField] MoveComponent _moveComponent;
-        
         [SerializeField] WeaponComponent _weaponComponent;
         [SerializeField] HitPointsComponent _hitPointsComponent;
         [SerializeField] TeamComponent _teamComponent;
+        [SerializeField] InputManager _inputManager;
 
         //todo по умолчанию игрок стреляет только вверх
         [SerializeField] Vector2 _direction = Vector2.up;
 
+        private void Awake()
+        {
+            IGameListener.Register(this);
+        }
         public Action<Character> OnCharacterDie;
-
-        private void OnEnable()
+        public void OnStartGame()
         {
             _hitPointsComponent.HpEmpty += Die;
+            _inputManager.OnMove += _moveComponent.MoveByRigidbodyVelocity;
+            _inputManager.OnShoot += Shoot;
         }
-        public override void Move(Vector2 vector)
+
+        public void Move(Vector2 vector)
         {
             _moveComponent.MoveByRigidbodyVelocity(vector);
         }
@@ -30,13 +36,20 @@ namespace ShootEmUp
             _hitPointsComponent.HpEmpty -= Die;
             OnCharacterDie?.Invoke(this);
         }
-        public override void Shoot()
+        public void Shoot()
         {
             _weaponComponent.Shoot(_teamComponent.IsPlayer, _direction);
         }
         public bool IsHitPointsExists()
         { 
             return _hitPointsComponent.IsHitPointsExists();
+        }
+
+        public void OnFinishGame()
+        {
+            _hitPointsComponent.HpEmpty -= Die;
+            _inputManager.OnMove -= _moveComponent.MoveByRigidbodyVelocity;
+            _inputManager.OnShoot -= Shoot;
         }
     }
 }

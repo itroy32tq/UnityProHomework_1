@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Assets.Scripts.Interface;
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, IGameStartListener
     {
         [SerializeField] private GameObject _prefab;
 
@@ -18,14 +19,14 @@ namespace ShootEmUp
 
         public Action<Enemy> OnEnemyDie;
         public Action<Enemy> OnEnemyFire;
-
-        private void OnEnable()
+        private void Awake()
+        {
+            IGameListener.Register(this);
+        }
+        public void OnStartGame()
         {
             _hitPointsComponent.HpEmpty += Die;
             _enemyAttackAgent.OnFire += OnFire;
-        }
-        private void Start()
-        {
             _enemyAttackAgent.Condition?.Append(Character.IsHitPointsExists);
             _enemyAttackAgent.Condition?.Append(IsReached);
         }
@@ -57,7 +58,6 @@ namespace ShootEmUp
             _weaponComponent.Shoot(_teamComponent.IsPlayer, _enemyMoveAgent.Direction);
             OnEnemyFire?.Invoke(this);
         }
-
     }
 
 }
