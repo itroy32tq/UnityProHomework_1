@@ -16,30 +16,39 @@ namespace ShootEmUp
         {
             _gameState = GameState.Off;
 
-            IGameListener.onRegister += AddListener;
+            IGameListener.OnRegister += AddListener;
         }
         private void OnDestroy()
         {
             _gameState = GameState.Finish;
-            IGameListener.onRegister -= AddListener;
+            IGameListener.OnRegister -= AddListener;
         }
         private void AddListener(IGameListener _) => _gameListeners.Add(_);
 
         [Button]
         public void StartGame()
         {
-            var startListener = _gameListeners?
-                .GetUniqueItemOfType<IGameStartListener>();
-            startListener.OnStartGame();
+            var startListeners = _gameListeners?
+                .GetItemsOfType<IGameStartListener>();
+
+            foreach (var listener in startListeners) 
+            {
+                listener.OnStartGame();
+            }
+
             _gameState = GameState.Start;
 
         }
         [Button]
         public void FinishGame()
         {
-            var finishListener = _gameListeners?
-                .GetUniqueItemOfType<IGameFinishListener>();
-            finishListener.OnFinishGame();
+            var finishListeners = _gameListeners?
+                .GetItemsOfType<IGameFinishListener>();
+
+            foreach (var listener in finishListeners)
+            {
+                listener.OnFinishGame();
+            }
 
             _gameState = GameState.Finish;
 
@@ -50,9 +59,15 @@ namespace ShootEmUp
         [Button]
         public void PauseGame()
         {
-            var pauseListener = _gameListeners?
-                .GetUniqueItemOfType<IGamePauseListener>();
-            pauseListener.OnPauseGame();
+            var pauseListeners = _gameListeners?
+                .GetItemsOfType<IGamePauseListener>();
+
+            foreach (var listener in pauseListeners)
+            {
+                listener.OnPauseGame();
+            }
+
+            
             _gameState = GameState.Pause;
 
         }
@@ -60,9 +75,13 @@ namespace ShootEmUp
         [Button]
         public void ResumeGame()
         {
-            var resumeeListener = _gameListeners?
-                .GetUniqueItemOfType<IGamePauseListener>();
-            resumeeListener.OnPauseGame();
+            var resumeListeners = _gameListeners?
+                .GetItemsOfType<IGameResumeListener>();
+
+            foreach (var listener in resumeListeners)
+            {
+                listener.OnResumeGame();
+            }
             _gameState = GameState.Resume;
 
         }

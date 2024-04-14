@@ -1,18 +1,17 @@
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
     public sealed class EnemyMoveAgent : MonoBehaviour
     {
-        private bool _isReached;
-        public bool IsReached => _isReached;
-        private Vector2 _direction;
-        public Vector2 Direction => _direction;
-
-        [SerializeField] private MoveComponent _moveComponent;
-
         private Vector2 _destination;
+        private bool _isReached;
+        private Vector2 _direction;
 
+        public Vector2 Direction => _direction;
+        public bool IsReached => _isReached;
+        public event Action<Vector2> OnMove;
         public void SetDestination(Vector2 endPoint)
         {
             _destination = endPoint;
@@ -34,7 +33,7 @@ namespace ShootEmUp
             }
             _direction = vector.normalized;
             var moveDirection = vector.normalized * Time.fixedDeltaTime;
-            _moveComponent.MoveByRigidbodyVelocity(moveDirection);
+            OnMove?.Invoke(moveDirection);
         }
     }
 }

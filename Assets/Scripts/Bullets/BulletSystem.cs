@@ -36,7 +36,14 @@ namespace ShootEmUp
         {
             m_cache.Clear();
             m_cache.AddRange(m_activeBullets);
+            
             var notBoundsBullet = m_cache.Where(x => !_levelBounds.InBounds(x.transform.position));
+
+            if (!m_activeBullets.Any())
+            {
+                return;
+            }
+
             foreach (var bullet in notBoundsBullet)
             {
                 RemoveBullet(bullet);
@@ -74,7 +81,7 @@ namespace ShootEmUp
             if (m_activeBullets.Remove(bullet))
             {
                 bullet.OnCollisionEntered -= OnBulletCollision;
-                _bulletPool.Release(bullet);
+                _bulletPool?.Release(bullet);
             }
         }
 

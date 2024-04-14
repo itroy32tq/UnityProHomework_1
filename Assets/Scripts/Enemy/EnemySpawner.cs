@@ -35,13 +35,16 @@ namespace ShootEmUp
 
             if (_timer < _spawnDelay) return;
 
-            Enemy enemy = _enemyPool.TryGet();
-            if (enemy != null)
+            Enemy enemy = _enemyPool?.TryGet();
+
+            if (enemy == null)
             {
-                if (m_activeEnemies.Add(enemy))
-                {
-                    enemy.OnEnemyDie += RemoveEnemy;
-                }
+                return;
+            }
+
+            if (m_activeEnemies.Add(enemy))
+            {
+                enemy.OnEnemyDie += RemoveEnemy;
             }
             _timer = 0f;
         }
@@ -50,7 +53,7 @@ namespace ShootEmUp
         {
             if (m_activeEnemies.Remove(enemy))
             {
-                _enemyPool.Release(enemy);
+                _enemyPool?.Release(enemy);
                 enemy.OnEnemyDie -= RemoveEnemy;
             }
         }

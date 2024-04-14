@@ -150,6 +150,7 @@ MonoBehaviour:
   _enemyAttackAgent: {fileID: 6990200333486156836}
   _weaponComponent: {fileID: 4147548107729901410}
   _teamComponent: {fileID: 7985548722874343103}
+  _moveComponent: {fileID: 5323950941128109415}
 --- !u!114 &2013990906242561554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdb5771141e4cf18c434a69ec116e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveComponent: {fileID: 3373125525858710695}
 --- !u!114 &5323950941128109415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _firePoint: {fileID: 3195880656587174614}
+  _bulletSystem: {fileID: 0}
   _bulletConfig: {fileID: 11400000, guid: c3334524937189d449d9863a40f92bbe, type: 2}
 --- !u!114 &7985548722874343103
 MonoBehaviour:

@@ -11,9 +11,10 @@ namespace ShootEmUp
         [SerializeField] HitPointsComponent _hitPointsComponent;
         [SerializeField] TeamComponent _teamComponent;
         [SerializeField] InputManager _inputManager;
+        [SerializeField] BulletSystem _bulletSystem;
 
         //todo по умолчанию игрок стреляет только вверх
-        [SerializeField] Vector2 _direction = Vector2.up;
+        [SerializeField] Vector2 _shootDirection = Vector2.up;
 
         private void Awake()
         {
@@ -25,6 +26,7 @@ namespace ShootEmUp
             _hitPointsComponent.HpEmpty += Die;
             _inputManager.OnMove += _moveComponent.MoveByRigidbodyVelocity;
             _inputManager.OnShoot += Shoot;
+            _weaponComponent.SetBulletSystem(_bulletSystem);
         }
 
         public void Move(Vector2 vector)
@@ -38,7 +40,7 @@ namespace ShootEmUp
         }
         public void Shoot()
         {
-            _weaponComponent.Shoot(_teamComponent.IsPlayer, _direction);
+            _weaponComponent.Shoot(_teamComponent.IsPlayer, _shootDirection);
         }
         public bool IsHitPointsExists()
         { 

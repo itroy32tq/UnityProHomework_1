@@ -4,31 +4,29 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class Enemy : MonoBehaviour, IGameStartListener
+    public class Enemy : MonoBehaviour
     {
         [SerializeField] private GameObject _prefab;
-
         [SerializeField] private HitPointsComponent _hitPointsComponent;
         [SerializeField] private EnemyMoveAgent _enemyMoveAgent;
         [SerializeField] private EnemyAttackAgent _enemyAttackAgent;
         [SerializeField] private WeaponComponent _weaponComponent;
         [SerializeField] private TeamComponent _teamComponent;
+        [SerializeField] private MoveComponent _moveComponent;
 
         public WeaponComponent WeaponComponent => _weaponComponent;
         public Character Character { get; set; }
 
         public Action<Enemy> OnEnemyDie;
         public Action<Enemy> OnEnemyFire;
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
-        public void OnStartGame()
+      
+        private void Start()
         {
             _hitPointsComponent.HpEmpty += Die;
             _enemyAttackAgent.OnFire += OnFire;
             _enemyAttackAgent.Condition?.Append(Character.IsHitPointsExists);
             _enemyAttackAgent.Condition?.Append(IsReached);
+            _enemyMoveAgent.OnMove += _moveComponent.MoveByRigidbodyVelocity;
         }
         public bool IsReached()
         { 
@@ -51,6 +49,7 @@ namespace ShootEmUp
         {
             _hitPointsComponent.HpEmpty -= Die;
             _enemyAttackAgent.OnFire -= OnFire;
+            _enemyMoveAgent.OnMove -= _moveComponent.MoveByRigidbodyVelocity;
             OnEnemyDie?.Invoke(this);
         }
         public void OnFire()
