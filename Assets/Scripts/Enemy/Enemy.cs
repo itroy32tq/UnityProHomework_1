@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interface;
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -6,28 +7,26 @@ namespace ShootEmUp
     public class Enemy : MonoBehaviour
     {
         [SerializeField] private GameObject _prefab;
-
         [SerializeField] private HitPointsComponent _hitPointsComponent;
         [SerializeField] private EnemyMoveAgent _enemyMoveAgent;
         [SerializeField] private EnemyAttackAgent _enemyAttackAgent;
         [SerializeField] private WeaponComponent _weaponComponent;
         [SerializeField] private TeamComponent _teamComponent;
+        [SerializeField] private MoveComponent _moveComponent;
 
         public WeaponComponent WeaponComponent => _weaponComponent;
         public Character Character { get; set; }
 
         public Action<Enemy> OnEnemyDie;
         public Action<Enemy> OnEnemyFire;
-
-        private void OnEnable()
+      
+        private void Start()
         {
             _hitPointsComponent.HpEmpty += Die;
             _enemyAttackAgent.OnFire += OnFire;
-        }
-        private void Start()
-        {
             _enemyAttackAgent.Condition?.Append(Character.IsHitPointsExists);
             _enemyAttackAgent.Condition?.Append(IsReached);
+            _enemyMoveAgent.OnMove += _moveComponent.MoveByRigidbodyVelocity;
         }
         public bool IsReached()
         { 
@@ -50,6 +49,7 @@ namespace ShootEmUp
         {
             _hitPointsComponent.HpEmpty -= Die;
             _enemyAttackAgent.OnFire -= OnFire;
+            _enemyMoveAgent.OnMove -= _moveComponent.MoveByRigidbodyVelocity;
             OnEnemyDie?.Invoke(this);
         }
         public void OnFire()
@@ -57,7 +57,6 @@ namespace ShootEmUp
             _weaponComponent.Shoot(_teamComponent.IsPlayer, _enemyMoveAgent.Direction);
             OnEnemyFire?.Invoke(this);
         }
-
     }
 
 }

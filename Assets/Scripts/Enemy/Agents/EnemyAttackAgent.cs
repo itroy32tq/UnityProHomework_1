@@ -15,7 +15,6 @@ namespace ShootEmUp
 
         private float _currentTime;
 
-
         public void Reset()
         {
             _currentTime = _countdown;

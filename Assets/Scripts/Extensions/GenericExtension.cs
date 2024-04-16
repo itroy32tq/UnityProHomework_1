@@ -5,9 +5,9 @@ namespace Assets.Scripts
 {
     internal static class GenericExtension
     {
-        public static T GetUniqueItemOfType<T>(this IEnumerable<object> objects)
+        public static IEnumerable<T> GetItemsOfType<T>(this IEnumerable<object> objects)
         { 
-            return objects.OfType<T>().FirstOrDefault();
+            return objects.OfType<T>();
         }
     }
 }

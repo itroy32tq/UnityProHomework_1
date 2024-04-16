@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 3926786964091724597}
   - component: {fileID: 3926786963732877808}
   - component: {fileID: 2609238919329682414}
-  - component: {fileID: 2055828243161356722}
   m_Layer: 10
   m_Name: Character
   m_TagString: Untagged
@@ -142,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5daa1be9cc40a78a2f07cd53e5b47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 5
+  _hitPoints: 2
 --- !u!114 &3926786964091724598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _firePoint: {fileID: 3926786963072264220}
-  _bulletSystem: {fileID: 2055828243161356722}
   _bulletConfig: {fileID: 11400000, guid: 7138ae5d32d814e0ca50c616c65ea105, type: 2}
 --- !u!114 &3926786964091724597
 MonoBehaviour:
@@ -201,23 +199,8 @@ MonoBehaviour:
   _weaponComponent: {fileID: 3926786964091724598}
   _hitPointsComponent: {fileID: 3926786964091724599}
   _teamComponent: {fileID: 3926786964091724597}
---- !u!114 &2055828243161356722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809540891661548873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37bd15923a144ffbab0333dc6e74e641, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _initialCount: 50
-  _container: {fileID: 0}
-  _prefab: {fileID: 201757604187811891, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
-  _worldTransform: {fileID: 0}
-  _levelBounds: {fileID: 0}
+  _inputManager: {fileID: 0}
+  _direction: {x: 0, y: 1}
 --- !u!1 &3926786963072264211
 GameObject:
   m_ObjectHideFlags: 0
