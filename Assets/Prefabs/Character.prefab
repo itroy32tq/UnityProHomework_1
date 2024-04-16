@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52112fd3e5414bf991b1d54804cb28f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPlayer: 1
+  <IsPlayer>k__BackingField: 0
 --- !u!114 &3926786963732877808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +200,8 @@ MonoBehaviour:
   _hitPointsComponent: {fileID: 3926786964091724599}
   _teamComponent: {fileID: 3926786964091724597}
   _inputManager: {fileID: 0}
-  _direction: {x: 0, y: 1}
+  _bulletSystem: {fileID: 0}
+  _shootDirection: {x: 0, y: 1}
 --- !u!1 &3926786963072264211
 GameObject:
   m_ObjectHideFlags: 0

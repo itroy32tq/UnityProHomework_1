@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5daa1be9cc40a78a2f07cd53e5b47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 5
+  _hitPoints: 1
 --- !u!114 &2721526230145885873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +216,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _firePoint: {fileID: 3195880656587174614}
-  _bulletSystem: {fileID: 0}
   _bulletConfig: {fileID: 11400000, guid: c3334524937189d449d9863a40f92bbe, type: 2}
 --- !u!114 &7985548722874343103
 MonoBehaviour:
@@ -230,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52112fd3e5414bf991b1d54804cb28f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPlayer: 0
+  <IsPlayer>k__BackingField: 0
 --- !u!114 &3373125525858710695
 MonoBehaviour:
   m_ObjectHideFlags: 0

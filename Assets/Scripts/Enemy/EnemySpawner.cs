@@ -33,8 +33,8 @@ namespace ShootEmUp
         {
             _timer += Time.deltaTime;
 
-            if (_timer < _spawnDelay) return;
-
+            if (_timer < _spawnDelay || _enemyPool == null) return;
+          
             if (!_enemyPool.TryGet(out Enemy enemy))
             {
                 return;
