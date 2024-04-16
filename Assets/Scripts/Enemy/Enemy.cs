@@ -26,7 +26,7 @@ namespace ShootEmUp
             _enemyAttackAgent.OnFire += OnFire;
             _enemyAttackAgent.Condition?.Append(Character.IsHitPointsExists);
             _enemyAttackAgent.Condition?.Append(IsReached);
-            _enemyMoveAgent.OnMove += _moveComponent.MoveByRigidbodyVelocity;
+            _enemyMoveAgent.OnMove += _moveComponent.Move;
         }
         public bool IsReached()
         { 
@@ -49,7 +49,7 @@ namespace ShootEmUp
         {
             _hitPointsComponent.HpEmpty -= Die;
             _enemyAttackAgent.OnFire -= OnFire;
-            _enemyMoveAgent.OnMove -= _moveComponent.MoveByRigidbodyVelocity;
+            _enemyMoveAgent.OnMove -= _moveComponent.Move;
             OnEnemyDie?.Invoke(this);
         }
         public void OnFire()

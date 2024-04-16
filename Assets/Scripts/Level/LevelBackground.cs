@@ -8,6 +8,7 @@ namespace ShootEmUp
         [SerializeField] private float _startPositionY;
         [SerializeField] private float _endPositionY;
         [SerializeField] private float _movingSpeedY;
+
         private float _positionX;
         private float _positionZ;
         private Transform _myTransform;

@@ -9,7 +9,7 @@ namespace ShootEmUp
     public sealed class EnemySpawner : MonoBehaviour, IGameStartListener
     {
         private Pool<Enemy> _enemyPool;
-        private readonly HashSet<Enemy> m_activeEnemies = new();
+        private readonly List<Enemy> m_activeEnemies = new();
         private float _timer;
 
         [SerializeField] private EnemyFactory _enemyFactory; 
@@ -35,17 +35,13 @@ namespace ShootEmUp
 
             if (_timer < _spawnDelay) return;
 
-            Enemy enemy = _enemyPool?.TryGet();
-
-            if (enemy == null)
+            if (!_enemyPool.TryGet(out Enemy enemy))
             {
                 return;
             }
-
-            if (m_activeEnemies.Add(enemy))
-            {
-                enemy.OnEnemyDie += RemoveEnemy;
-            }
+            m_activeEnemies.Add(enemy);
+            enemy.OnEnemyDie += RemoveEnemy;
+         
             _timer = 0f;
         }
 

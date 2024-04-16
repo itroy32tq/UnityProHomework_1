@@ -6,13 +6,14 @@ namespace ShootEmUp
 {
     public sealed class CharacterController : MonoBehaviour, IGameStartListener, IGameFinishListener
     {
+        [SerializeField] private Character _character;
+        [SerializeField] private GameManager _gameManager;
 
-        [SerializeField] Character _character;
-        [SerializeField] GameManager _gameManager;
         private void Awake()
         {
             IGameListener.Register(this);
         }
+
         private void CharacterDeathHandler(Character _) => _gameManager.FinishGame();
 
         public void OnStartGame()
