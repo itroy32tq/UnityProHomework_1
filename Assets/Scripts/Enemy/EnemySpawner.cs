@@ -1,12 +1,12 @@
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
-using Assets.Scripts.Inventary;
+using Assets.Scripts.Interface;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemySpawner : MonoBehaviour
+    public sealed class EnemySpawner : MonoBehaviour, IGameStartListener
     {
         private Pool<Enemy> _enemyPool;
         private readonly HashSet<Enemy> m_activeEnemies = new();
@@ -18,8 +18,13 @@ namespace ShootEmUp
 
         [Header("Pool")]
         [SerializeField] private int _initialCount = 7;
-        
-        private void Start()
+
+        private void Awake()
+        {
+            IGameListener.Register(this);
+        }
+
+        public void OnStartGame()
         {
             _enemyPool = new Pool<Enemy>(_initialCount, _enemyFactory);
         }
@@ -30,13 +35,16 @@ namespace ShootEmUp
 
             if (_timer < _spawnDelay) return;
 
-            Enemy enemy = _enemyPool.TryGet();
-            if (enemy != null)
+            Enemy enemy = _enemyPool?.TryGet();
+
+            if (enemy == null)
             {
-                if (m_activeEnemies.Add(enemy))
-                {
-                    enemy.OnEnemyDie += RemoveEnemy;
-                }
+                return;
+            }
+
+            if (m_activeEnemies.Add(enemy))
+            {
+                enemy.OnEnemyDie += RemoveEnemy;
             }
             _timer = 0f;
         }
@@ -45,10 +53,9 @@ namespace ShootEmUp
         {
             if (m_activeEnemies.Remove(enemy))
             {
-                _enemyPool.Release(enemy);
+                _enemyPool?.Release(enemy);
                 enemy.OnEnemyDie -= RemoveEnemy;
             }
-
         }
     }
 }

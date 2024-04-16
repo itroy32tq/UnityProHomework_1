@@ -1,26 +1,40 @@
-﻿using System;
+﻿using Assets.Scripts.Interface;
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class Character : MonoBehaviour
+
+    public class Character : MonoBehaviour, IGameStartListener, IGameFinishListener
     {
-        [SerializeField] MoveComponent _moveComponent;
-        [SerializeField] WeaponComponent _weaponComponent;
-        [SerializeField] HitPointsComponent _hitPointsComponent;
-        [SerializeField] TeamComponent _teamComponent;
-        [SerializeField] Vector2 _direction = Vector2.up;
+        [SerializeField] private MoveComponent _moveComponent;
+        [SerializeField] private WeaponComponent _weaponComponent;
+        [SerializeField] private HitPointsComponent _hitPointsComponent;
+        [SerializeField] private TeamComponent _teamComponent;
+        [SerializeField] private InputManager _inputManager;
+        [SerializeField] private BulletSystem _bulletSystem;
+        [SerializeField] private Vector2 _shootDirection = Vector2.up;
 
         public Action<Character> OnCharacterDie;
 
-        private void OnEnable()
+        private void Awake()
+        {
+            IGameListener.Register(this);
+        }
+        
+        public void OnStartGame()
         {
             _hitPointsComponent.HpEmpty += Die;
+            _inputManager.OnMove += _moveComponent.Move;
+            _inputManager.OnShoot += Shoot;
+            _weaponComponent.SetBulletSystem(_bulletSystem);
         }
 
         private void OnDisable()
         {
             _hitPointsComponent.HpEmpty -= Die;
+            _inputManager.OnMove -= _moveComponent.Move;
+            _inputManager.OnShoot -= Shoot;
         }
 
         public void Move(Vector2 vector)
@@ -36,12 +50,19 @@ namespace ShootEmUp
 
         public void Shoot()
         {
-            _weaponComponent.Shoot(_teamComponent.IsPlayer, _direction);
+            _weaponComponent.Shoot(_teamComponent.IsPlayer, _shootDirection);
         }
 
         public bool IsHitPointsExists()
         { 
             return _hitPointsComponent.IsHitPointsExists();
+        }
+
+        public void OnFinishGame()
+        {
+            _hitPointsComponent.HpEmpty -= Die;
+            _inputManager.OnMove -= _moveComponent.Move;
+            _inputManager.OnShoot -= Shoot;
         }
     }
 }

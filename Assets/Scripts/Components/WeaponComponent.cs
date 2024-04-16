@@ -5,8 +5,8 @@ namespace ShootEmUp
     public sealed class WeaponComponent : MonoBehaviour
     {
         [SerializeField] private Transform _firePoint;
-        [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private BulletConfig _bulletConfig;
+        private BulletSystem _bulletSystem;
 
         public Vector2 Position => _firePoint.position;
         public Quaternion Rotation => _firePoint.rotation;
@@ -16,6 +16,10 @@ namespace ShootEmUp
         }
         public void Shoot(bool isPlayer, Vector2 direction)
         {
+            if (isPlayer)
+            { 
+            
+            }
             _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
             {
                 isPlayer = isPlayer,

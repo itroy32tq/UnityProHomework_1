@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Inventary;
-using ShootEmUp;
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Factory
@@ -16,7 +14,7 @@ namespace Assets.Scripts.Factory
         }
         public T Create()
         {
-            return UnityEngine.Object.Instantiate(_prefab, _container);
+            return Object.Instantiate(_prefab, _container);
         }
     }
 }
