@@ -43,7 +43,7 @@ namespace ShootEmUp
             }
         }
 
-        public void FlyBulletByArgs(Args args)
+        public void Create(Args args)
         {
             if (_bulletPool.TryGet(out Bullet bullet))
             {

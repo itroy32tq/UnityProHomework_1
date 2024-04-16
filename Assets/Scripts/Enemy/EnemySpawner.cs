@@ -39,6 +39,7 @@ namespace ShootEmUp
             {
                 return;
             }
+
             m_activeEnemies.Add(enemy);
             enemy.OnEnemyDie += RemoveEnemy;
          

@@ -20,7 +20,7 @@ namespace ShootEmUp
             { 
             
             }
-            _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
+            _bulletSystem.Create(new BulletSystem.Args
             {
                 isPlayer = isPlayer,
                 physicsLayer = (int)_bulletConfig.PhysicsLayer,

@@ -7,8 +7,9 @@ namespace ShootEmUp
     public sealed class Bullet : MonoBehaviour
     {
 
-        [NonSerialized] private bool _isPlayer;
-        [NonSerialized] private int _damage;
+        private bool _isPlayer;
+        private int _damage;
+
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
@@ -24,7 +25,6 @@ namespace ShootEmUp
             _damage = args.damage;
             _isPlayer = args.isPlayer;
             _rigidbody2D.velocity = args.velocity;
-
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

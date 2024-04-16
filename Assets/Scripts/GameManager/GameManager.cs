@@ -2,6 +2,7 @@ using Assets.Scripts;
 using Assets.Scripts.Common;
 using Assets.Scripts.Interface;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,12 +33,7 @@ namespace ShootEmUp
         public void StartGame()
         {
             var startListeners = _gameListeners?
-                .GetItemsOfType<IGameStartListener>();
-
-            foreach (var listener in startListeners) 
-            {
-                listener.OnStartGame();
-            }
+                .GetItemsOfType<IGameStartListener>().ForEach(x=> x.OnStartGame());
 
             _gameState = GameState.Start;
 
@@ -46,12 +42,7 @@ namespace ShootEmUp
         public void FinishGame()
         {
             var finishListeners = _gameListeners?
-                .GetItemsOfType<IGameFinishListener>();
-
-            foreach (var listener in finishListeners)
-            {
-                listener.OnFinishGame();
-            }
+                .GetItemsOfType<IGameFinishListener>().ForEach(x => x.OnFinishGame());
 
             _gameState = GameState.Finish;
 
@@ -63,14 +54,7 @@ namespace ShootEmUp
         public void PauseGame()
         {
             var pauseListeners = _gameListeners?
-                .GetItemsOfType<IGamePauseListener>();
-
-            foreach (var listener in pauseListeners)
-            {
-                listener.OnPauseGame();
-            }
-
-            
+                .GetItemsOfType<IGamePauseListener>().ForEach(x => x.OnPauseGame());
             _gameState = GameState.Pause;
 
         }
@@ -79,15 +63,8 @@ namespace ShootEmUp
         public void ResumeGame()
         {
             var resumeListeners = _gameListeners?
-                .GetItemsOfType<IGameResumeListener>();
-
-            foreach (var listener in resumeListeners)
-            {
-                listener.OnResumeGame();
-            }
+                .GetItemsOfType<IGameResumeListener>().ForEach(x => x.OnResumeGame());
             _gameState = GameState.Resume;
-
         }
-
     }
 }
