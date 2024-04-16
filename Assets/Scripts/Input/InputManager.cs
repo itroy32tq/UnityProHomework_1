@@ -8,7 +8,7 @@ namespace ShootEmUp
         private float _horizontalDirection;
         public float HorizontalDirection => _horizontalDirection;
 
-        [SerializeField] private Unit unit;
+        [SerializeField] private Character unit;
 
         private void Update()
         {

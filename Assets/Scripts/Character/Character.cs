@@ -1,18 +1,14 @@
-﻿using Assets.Scripts.Interface;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class Character : Unit
+    public class Character : MonoBehaviour
     {
         [SerializeField] MoveComponent _moveComponent;
-        
         [SerializeField] WeaponComponent _weaponComponent;
         [SerializeField] HitPointsComponent _hitPointsComponent;
         [SerializeField] TeamComponent _teamComponent;
-
-        //todo по умолчанию игрок стреляет только вверх
         [SerializeField] Vector2 _direction = Vector2.up;
 
         public Action<Character> OnCharacterDie;
@@ -21,19 +17,28 @@ namespace ShootEmUp
         {
             _hitPointsComponent.HpEmpty += Die;
         }
-        public override void Move(Vector2 vector)
+
+        private void OnDisable()
         {
-            _moveComponent.MoveByRigidbodyVelocity(vector);
+            _hitPointsComponent.HpEmpty -= Die;
         }
+
+        public void Move(Vector2 vector)
+        {
+            _moveComponent.Move(vector);
+        }
+
         public void Die(GameObject character)
         {
             _hitPointsComponent.HpEmpty -= Die;
             OnCharacterDie?.Invoke(this);
         }
-        public override void Shoot()
+
+        public void Shoot()
         {
             _weaponComponent.Shoot(_teamComponent.IsPlayer, _direction);
         }
+
         public bool IsHitPointsExists()
         { 
             return _hitPointsComponent.IsHitPointsExists();

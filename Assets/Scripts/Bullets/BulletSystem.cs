@@ -1,8 +1,5 @@
-using Assets.Scripts;
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
-using Assets.Scripts.Inventary;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,69 +9,48 @@ namespace ShootEmUp
     public sealed class BulletSystem : MonoBehaviour
     {
         [SerializeField] private int _initialCount = 50;
-        
-        [SerializeField] private Transform _container;
         [SerializeField] private Bullet _prefab;
+        [SerializeField] private Transform _container;
         [SerializeField] private Transform _worldTransform;
         [SerializeField] private LevelBounds _levelBounds;
 
         private Pool<Bullet> _bulletPool;
-        private Factory<Bullet> _bulletFactory;
-        private readonly HashSet<Bullet> m_activeBullets = new();
         private readonly List<Bullet> m_cache = new();
         
         private void Awake()
         {
-            _bulletFactory = new Factory<Bullet>(_prefab, _container);
-            _bulletPool = new Pool<Bullet>(_initialCount, _bulletFactory);
-
+            _bulletPool = new Pool<Bullet>(_initialCount, new Factory<Bullet>(_prefab, _container));
         }
         
         private void FixedUpdate()
         {
-            m_cache.Clear();
-            m_cache.AddRange(m_activeBullets);
-
             var notBoundsBullet = m_cache.Where(x => !_levelBounds.InBounds(x.transform.position));
-
-
             foreach (var bullet in notBoundsBullet)
             {
                 RemoveBullet(bullet);
             }
-
         }
 
         public void FlyBulletByArgs(Args args)
         {
-            try
+            if (_bulletPool.TryGet(out Bullet bullet))
             {
-                var bullet = _bulletPool.TryGet();
                 bullet.Construct(args);
-
-                if (m_activeBullets.Add(bullet))
-                {
-                    bullet.OnCollisionEntered += OnBulletCollision;
-                }
+                m_cache.Add(bullet);
+                bullet.OnDestoy += OnBulletCollision;
             }
-            catch (Exception e)
-            {
-                Debug.Log(e.Message);
-            }
-            
         }
         
         private void OnBulletCollision(Bullet bullet, Collision2D collision)
         {
-            bullet.DealDamage(collision.gameObject);
             RemoveBullet(bullet);
         }
 
         private void RemoveBullet(Bullet bullet)
         {
-            if (m_activeBullets.Remove(bullet))
+            if (m_cache.Remove(bullet))
             {
-                bullet.OnCollisionEntered -= OnBulletCollision;
+                bullet.OnDestoy -= OnBulletCollision;
                 _bulletPool.Release(bullet);
             }
         }
