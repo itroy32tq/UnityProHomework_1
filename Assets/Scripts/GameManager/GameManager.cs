@@ -10,6 +10,9 @@ namespace ShootEmUp
     public sealed class GameManager : MonoBehaviour
     {
         private readonly List<IGameListener> _gameListeners = new();
+        private readonly List<IGameUpdateListener> _gameUpdateListeners = new();
+        private readonly List<IGameFixedUpdateListener> _gameFixedUpdateListeners= new();
+
         [SerializeField, ReadOnly] private GameState _gameState;
 
         private void Awake()
