@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemySpawner : MonoBehaviour, IGameStartListener
+    public sealed class EnemySpawner : MonoBehaviour, IGameStartListener, IGameUpdateListener
     {
         private Pool<Enemy> _enemyPool;
         private readonly List<Enemy> m_activeEnemies = new();
@@ -29,23 +29,6 @@ namespace ShootEmUp
             _enemyPool = new Pool<Enemy>(_initialCount, _enemyFactory);
         }
 
-        public void Update()
-        {
-            _timer += Time.deltaTime;
-
-            if (_timer < _spawnDelay || _enemyPool == null) return;
-          
-            if (!_enemyPool.TryGet(out Enemy enemy))
-            {
-                return;
-            }
-            _enemyFactory.SetRandomPosition(enemy);
-            m_activeEnemies.Add(enemy);
-            enemy.OnEnemyDie += RemoveEnemy;
-         
-            _timer = 0f;
-        }
-
         private void RemoveEnemy(Enemy enemy)
         {
             if (m_activeEnemies.Remove(enemy))
@@ -53,6 +36,24 @@ namespace ShootEmUp
                 _enemyPool?.Release(enemy);
                 enemy.OnEnemyDie -= RemoveEnemy;
             }
+        }
+
+        public void OnUpdate(float deltaTime)
+        {
+            _timer += deltaTime;
+
+            if (_timer < _spawnDelay || _enemyPool == null) return;
+
+            if (!_enemyPool.TryGet(out Enemy enemy))
+            {
+                return;
+            }
+            _enemyFactory.SetRandomPosition(enemy);
+            _enemyFactory.SetRandomAttackPosition(enemy);
+            m_activeEnemies.Add(enemy);
+            enemy.OnEnemyDie += RemoveEnemy;
+
+            _timer = 0f;
         }
     }
 }

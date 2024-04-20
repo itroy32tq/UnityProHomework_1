@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Interface
 {
-    public interface IGameUpdateListener
+    public interface IGameUpdateListener : IGameListener
     {
-        void OnUpdate(float deltatime);
+        void OnUpdate(float deltaTime);
     }
 }

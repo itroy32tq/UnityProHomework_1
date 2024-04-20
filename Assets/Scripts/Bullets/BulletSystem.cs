@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour, IGameStartListener
+    public sealed class BulletSystem : MonoBehaviour, IGameStartListener, IGameFixedUpdateListener
     {
         [SerializeField] private int _initialCount = 50;
         [SerializeField] private Bullet _prefab;
@@ -26,21 +26,6 @@ namespace ShootEmUp
         public void OnStartGame()
         {
             _bulletPool = new Pool<Bullet>(_initialCount, new Factory<Bullet>(_prefab, _container));
-        }
-
-        private void FixedUpdate()
-        {
-            var notBoundsBullet = allBulletsList.Where(x => !_levelBounds.InBounds(x.transform.position)).ToList();
-            
-            if (!notBoundsBullet.Any())
-            {
-                return;
-            }
-
-            foreach (var bullet in notBoundsBullet)
-            {
-                RemoveBullet(bullet);
-            }
         }
 
         public void Create(Args args)
@@ -64,6 +49,21 @@ namespace ShootEmUp
             {
                 bullet.OnDestoy -= OnBulletCollision;
                 _bulletPool.Release(bullet);
+            }
+        }
+
+        public void OnFixedUpdate(float deltatime)
+        {
+            var notBoundsBullet = allBulletsList.Where(x => !_levelBounds.InBounds(x.transform.position)).ToList();
+
+            if (!notBoundsBullet.Any())
+            {
+                return;
+            }
+
+            foreach (var bullet in notBoundsBullet)
+            {
+                RemoveBullet(bullet);
             }
         }
 

@@ -18,9 +18,12 @@ namespace Assets.Scripts.Factory
             enemy.WeaponComponent.SetBulletSystem(_enemyBulletSystem);
             enemy.SetParent(_container);
             enemy.Character = _character;
-            //SetRandomPosition(enemy);
-            enemy.SetTargetDestination(_enemyPositions.RandomAttackPosition());
             return enemy;
+        }
+
+        public void SetRandomAttackPosition(Enemy enemy)
+        {
+            enemy.SetTargetDestination(_enemyPositions.RandomAttackPosition());
         }
 
         public void SetRandomPosition(Enemy enemy)

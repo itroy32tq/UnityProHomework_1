@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBackground : MonoBehaviour, IGameStartListener, IGameFinishListener
+    public sealed class LevelBackground : MonoBehaviour, IGameStartListener, IGameFinishListener, IGameFixedUpdateListener
     {
         [SerializeField] private float _startPositionY;
         [SerializeField] private float _endPositionY;
@@ -25,8 +25,12 @@ namespace ShootEmUp
             _positionZ = position.z;
         }
 
+        public void OnFinishGame()
+        {
+            _myTransform = null;
+        }
 
-        private void FixedUpdate()
+        public void OnFixedUpdate(float deltatime)
         {
             if (_myTransform == null)
             {
@@ -47,11 +51,6 @@ namespace ShootEmUp
                 _movingSpeedY * Time.fixedDeltaTime,
                 _positionZ
             );
-        }
-
-        public void OnFinishGame()
-        {
-            _myTransform = null;
         }
     }
 }

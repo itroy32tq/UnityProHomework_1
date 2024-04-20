@@ -13,7 +13,7 @@ namespace Assets.Scripts.Conditions
         }
         public bool IsTrue()
         { 
-            return _conditions.All(x => true);
+            return _conditions.All(x => x.Invoke());
         }
     }
 }

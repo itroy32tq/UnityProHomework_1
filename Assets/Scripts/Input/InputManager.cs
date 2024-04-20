@@ -1,9 +1,10 @@
+using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : MonoBehaviour
+    public sealed class InputManager : MonoBehaviour, IGameUpdateListener, IGameFixedUpdateListener
     {
         private float _horizontalDirection;
         public float HorizontalDirection => _horizontalDirection;
@@ -11,7 +12,11 @@ namespace ShootEmUp
         public event Action OnShoot;
         public event Action<Vector2> OnMove;
 
-        private void Update()
+        private void Awake()
+        {
+            IGameListener.Register(this);
+        }
+        public void OnUpdate(float deltaTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -31,10 +36,10 @@ namespace ShootEmUp
                 _horizontalDirection = 0;
             }
         }
-        
-        private void FixedUpdate()
+
+        public void OnFixedUpdate(float fixedDeltaTime)
         {
-            Vector2 direction = new Vector2(_horizontalDirection, 0) * Time.fixedDeltaTime;
+            Vector2 direction = new Vector2(_horizontalDirection, 0) * fixedDeltaTime;
             OnMove?.Invoke(direction);
         }
     }
