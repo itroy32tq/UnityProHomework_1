@@ -6,7 +6,6 @@ namespace ShootEmUp
 {
     public sealed class Bullet : MonoBehaviour
     {
-
         private bool _isPlayer;
         private int _damage;
 

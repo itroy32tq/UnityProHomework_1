@@ -16,10 +16,6 @@ namespace ShootEmUp
         }
         public void Shoot(bool isPlayer, Vector2 direction)
         {
-            if (isPlayer)
-            { 
-            
-            }
             _bulletSystem.Create(new BulletSystem.Args
             {
                 isPlayer = isPlayer,

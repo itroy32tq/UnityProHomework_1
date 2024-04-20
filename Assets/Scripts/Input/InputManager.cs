@@ -8,8 +8,6 @@ namespace ShootEmUp
         private float _horizontalDirection;
         public float HorizontalDirection => _horizontalDirection;
 
-        [SerializeField] private Character unit;
-
         public event Action OnShoot;
         public event Action<Vector2> OnMove;
 

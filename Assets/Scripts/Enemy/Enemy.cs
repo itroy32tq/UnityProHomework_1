@@ -50,6 +50,7 @@ namespace ShootEmUp
             _hitPointsComponent.HpEmpty -= Die;
             _enemyAttackAgent.OnFire -= OnFire;
             _enemyMoveAgent.OnMove -= _moveComponent.Move;
+            //enemy.gameObject.transform.SetParent();
             OnEnemyDie?.Invoke(this);
         }
         public void OnFire()

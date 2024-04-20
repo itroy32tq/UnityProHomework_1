@@ -39,7 +39,7 @@ namespace ShootEmUp
             {
                 return;
             }
-
+            _enemyFactory.SetRandomPosition(enemy);
             m_activeEnemies.Add(enemy);
             enemy.OnEnemyDie += RemoveEnemy;
          

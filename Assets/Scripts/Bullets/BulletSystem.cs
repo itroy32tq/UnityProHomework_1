@@ -16,7 +16,7 @@ namespace ShootEmUp
         [SerializeField] private LevelBounds _levelBounds;
 
         private Pool<Bullet> _bulletPool;
-        private readonly List<Bullet> m_cache = new();
+        private readonly List<Bullet> allBulletsList = new();
 
         private void Awake()
         {
@@ -30,7 +30,7 @@ namespace ShootEmUp
 
         private void FixedUpdate()
         {
-            var notBoundsBullet = m_cache.Where(x => !_levelBounds.InBounds(x.transform.position));
+            var notBoundsBullet = allBulletsList.Where(x => !_levelBounds.InBounds(x.transform.position)).ToList();
             
             if (!notBoundsBullet.Any())
             {
@@ -48,7 +48,7 @@ namespace ShootEmUp
             if (_bulletPool.TryGet(out Bullet bullet))
             {
                 bullet.Construct(args);
-                m_cache.Add(bullet);
+                allBulletsList.Add(bullet);
                 bullet.OnDestoy += OnBulletCollision;
             }
         }
@@ -60,12 +60,10 @@ namespace ShootEmUp
 
         private void RemoveBullet(Bullet bullet)
         {
-            if (m_cache.Remove(bullet))
+            if (allBulletsList.Remove(bullet))
             {
                 bullet.OnDestoy -= OnBulletCollision;
                 _bulletPool.Release(bullet);
-                bullet.OnDestoy -= OnBulletCollision;
-                _bulletPool?.Release(bullet);
             }
         }
 

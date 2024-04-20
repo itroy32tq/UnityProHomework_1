@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52112fd3e5414bf991b1d54804cb28f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsPlayer>k__BackingField: 0
+  <IsPlayer>k__BackingField: 1
 --- !u!114 &3926786963732877808
 MonoBehaviour:
   m_ObjectHideFlags: 0

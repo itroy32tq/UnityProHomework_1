@@ -4,6 +4,7 @@ using Assets.Scripts.Interface;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -33,7 +34,7 @@ namespace ShootEmUp
         public void StartGame()
         {
             var startListeners = _gameListeners?
-                .GetItemsOfType<IGameStartListener>().ForEach(x=> x.OnStartGame());
+                .OfType<IGameStartListener>().ForEach(x=> x.OnStartGame());
 
             _gameState = GameState.Start;
 
@@ -42,7 +43,7 @@ namespace ShootEmUp
         public void FinishGame()
         {
             var finishListeners = _gameListeners?
-                .GetItemsOfType<IGameFinishListener>().ForEach(x => x.OnFinishGame());
+                .OfType<IGameFinishListener>().ForEach(x => x.OnFinishGame());
 
             _gameState = GameState.Finish;
 
@@ -54,7 +55,7 @@ namespace ShootEmUp
         public void PauseGame()
         {
             var pauseListeners = _gameListeners?
-                .GetItemsOfType<IGamePauseListener>().ForEach(x => x.OnPauseGame());
+                .OfType<IGamePauseListener>().ForEach(x => x.OnPauseGame());
             _gameState = GameState.Pause;
 
         }
@@ -63,7 +64,7 @@ namespace ShootEmUp
         public void ResumeGame()
         {
             var resumeListeners = _gameListeners?
-                .GetItemsOfType<IGameResumeListener>().ForEach(x => x.OnResumeGame());
+                .OfType<IGameResumeListener>().ForEach(x => x.OnResumeGame());
             _gameState = GameState.Resume;
         }
     }
