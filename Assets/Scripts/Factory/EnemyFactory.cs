@@ -20,7 +20,10 @@ namespace Assets.Scripts.Factory
             enemy.Character = _character;
             return enemy;
         }
-
+        private void Construct(Transform container, Character character, EnemyPositions enemyPositions, BulletSystem bulletSystem)
+        { 
+            _container = container; _character = character; _enemyPositions = enemyPositions; _enemyBulletSystem = bulletSystem;
+        }
         public void SetRandomAttackPosition(Enemy enemy)
         {
             enemy.SetTargetDestination(_enemyPositions.RandomAttackPosition());

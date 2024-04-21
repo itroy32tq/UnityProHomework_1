@@ -10,7 +10,7 @@ namespace ShootEmUp
     public sealed class BulletSystem : MonoBehaviour, IGameStartListener, IGameFixedUpdateListener
     {
         [SerializeField] private int _initialCount = 50;
-        [SerializeField] private Bullet _prefab;
+        [SerializeField] private Bullet _bullet;
         [SerializeField] private Transform _container;
         [SerializeField] private Transform _worldTransform;
         [SerializeField] private LevelBounds _levelBounds;
@@ -22,17 +22,20 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
-
+        private void Construct(Bullet bullet, Transform container, Transform worldTransform, LevelBounds levelBounds)
+        {
+            _bullet = bullet; _container = container; _worldTransform = worldTransform; _levelBounds = levelBounds;
+        }
         public void OnStartGame()
         {
-            _bulletPool = new Pool<Bullet>(_initialCount, new Factory<Bullet>(_prefab, _container));
+            _bulletPool = new Pool<Bullet>(_initialCount, new Factory<Bullet>(_bullet, _container));
         }
 
         public void Create(Args args)
         {
             if (_bulletPool.TryGet(out Bullet bullet))
             {
-                bullet.Construct(args);
+                bullet.SetArgsToBullet(args);
                 allBulletsList.Add(bullet);
                 bullet.OnDestoy += OnBulletCollision;
             }

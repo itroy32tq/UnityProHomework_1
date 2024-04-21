@@ -13,7 +13,7 @@ namespace ShootEmUp
         private float _timer;
 
         [SerializeField] private EnemyFactory _enemyFactory; 
-        [SerializeField] private Enemy _prefab;
+        [SerializeField] private Enemy _enemy;
         [SerializeField] private float _spawnDelay = 1f;
 
         [Header("Pool")]
@@ -22,6 +22,11 @@ namespace ShootEmUp
         private void Awake()
         {
             IGameListener.Register(this);
+        }
+
+        private void Construct(EnemyFactory enemyFactory, Enemy enemy, float spawnDelay, int initialCount)
+        { 
+            _enemyFactory = enemyFactory; _enemy = enemy; _spawnDelay = spawnDelay; _initialCount = initialCount;
         }
 
         public void OnStartGame()

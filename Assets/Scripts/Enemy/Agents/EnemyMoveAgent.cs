@@ -7,7 +7,6 @@ namespace ShootEmUp
     public sealed class EnemyMoveAgent : MonoBehaviour, IGameFixedUpdateListener
     {
         private Vector2 _destination;
-        
         public bool IsReached { get; private set; }
         public Vector2 Direction { get; private set; }
 
@@ -16,7 +15,10 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
-
+        private void Construct(Vector2 destination)
+        { 
+            _destination = destination;
+        }
         public void OnFixedUpdate(float fixedDeltaTime)
         {
             if (IsReached)

@@ -21,7 +21,12 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
-        
+        private void Construct(MoveComponent moveComponent, WeaponComponent weaponComponent, 
+            HitPointsComponent hitPointsComponent, TeamComponent teamComponent, InputManager inputManager, BulletSystem bulletSystem)
+        {
+            _moveComponent = moveComponent; _weaponComponent = weaponComponent; _hitPointsComponent = hitPointsComponent;
+            _teamComponent = teamComponent; _inputManager = inputManager; _bulletSystem = bulletSystem;
+        }
         public void OnStartGame()
         {
             _hitPointsComponent.HpEmpty += Die;

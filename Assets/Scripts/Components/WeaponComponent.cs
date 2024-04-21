@@ -14,6 +14,12 @@ namespace ShootEmUp
         { 
             _bulletSystem = bulletSystem;
         }
+
+        private void Construct(Transform firePoint, BulletConfig bulletConfig, BulletSystem bulletSystem)
+        { 
+            _firePoint = firePoint; _bulletConfig = bulletConfig; _bulletSystem = bulletSystem;
+        }
+
         public void Shoot(bool isPlayer, Vector2 direction)
         {
             _bulletSystem.Create(new BulletSystem.Args

@@ -12,7 +12,10 @@ namespace ShootEmUp
         {
             return RandomTransform(_spawnPositions);
         }
-
+        private void Construct(Transform[] spawnPositions, Transform[] attackPositions)
+        { 
+            _attackPositions = attackPositions; _spawnPositions = spawnPositions;
+        }
         public Transform RandomAttackPosition()
         {
             return RandomTransform(_attackPositions);

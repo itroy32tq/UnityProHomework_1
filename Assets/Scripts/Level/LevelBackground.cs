@@ -17,6 +17,10 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
+        private void Construct(Transform transform)
+        {
+            _myTransform = transform;
+        }
         public void OnStartGame()
         {
             _myTransform = transform;

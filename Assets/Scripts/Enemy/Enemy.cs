@@ -19,7 +19,14 @@ namespace ShootEmUp
 
         public Action<Enemy> OnEnemyDie;
         public Action<Enemy> OnEnemyFire;
-      
+
+        private void Construct(GameObject prefab, HitPointsComponent hitPointsComponent, EnemyMoveAgent enemyMoveAgent, 
+            EnemyAttackAgent enemyAttackAgent, WeaponComponent weaponComponent, TeamComponent teamComponent, MoveComponent moveComponent)
+        { 
+            _prefab = prefab; _hitPointsComponent = hitPointsComponent; _enemyMoveAgent = enemyMoveAgent; _enemyAttackAgent = enemyAttackAgent;
+            _weaponComponent = weaponComponent; _teamComponent = teamComponent; _moveComponent = moveComponent;
+        }
+
         private void Start()
         {
             _hitPointsComponent.HpEmpty += Die;

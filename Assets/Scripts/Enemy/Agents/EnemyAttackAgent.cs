@@ -25,6 +25,10 @@ namespace ShootEmUp
             _currentTime = _countdown;
         }
 
+        private void Construct(float countdown)
+        {
+            _countdown = countdown;
+        }
         private void Fire()
         {
             OnFire?.Invoke();

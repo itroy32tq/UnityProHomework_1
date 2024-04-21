@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using System;
 using UnityEngine;
 using static ShootEmUp.BulletSystem;
@@ -15,8 +16,14 @@ namespace ShootEmUp
         public event Action<Bullet, Collision2D> OnDestoy;
 
         public bool IsPlayer => _isPlayer;
+        
+        [Inject]
+        public void Construct(Rigidbody2D rigidbody2D, SpriteRenderer spriteRenderer)
+        { 
+            _rigidbody2D = rigidbody2D; _spriteRenderer = spriteRenderer;
+        }
 
-        public void Construct(Args args)
+        public void SetArgsToBullet(Args args)
         { 
             transform.position = args.position;
             _spriteRenderer.color = args.color;

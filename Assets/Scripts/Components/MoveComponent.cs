@@ -13,5 +13,9 @@ namespace ShootEmUp
             var nextPosition = _rigidbody2D.position + vector * _speed;
             _rigidbody2D.MovePosition(nextPosition);
         }
+        private void Construct(Rigidbody2D rigidbody2D, float speed)
+        { 
+            _rigidbody2D = rigidbody2D; _speed = speed;
+        }
     }
 }
