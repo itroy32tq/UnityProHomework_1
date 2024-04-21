@@ -2083,7 +2083,7 @@ MonoBehaviour:
   _gameState: 0
   _startButton: {fileID: 1306316533}
   _pauseButton: {fileID: 1347411862}
-  _Text: {fileID: 589946494}
+  _text: {fileID: 589946494}
 --- !u!212 &4162873433806880330
 SpriteRenderer:
   m_ObjectHideFlags: 0
