@@ -9,13 +9,11 @@ namespace ShootEmUp
     public sealed class EnemySpawner : MonoBehaviour, IGameStartListener, IGameUpdateListener
     {
         private Pool<Enemy> _enemyPool;
-        private readonly List<Enemy> m_activeEnemies = new();
+        private readonly List<Enemy> _activeEnemies = new();
         private float _timer;
 
         [SerializeField] private EnemyFactory _enemyFactory; 
-        [SerializeField] private Enemy _prefab;
         [SerializeField] private float _spawnDelay = 1f;
-
         [Header("Pool")]
         [SerializeField] private int _initialCount = 7;
 
@@ -31,10 +29,10 @@ namespace ShootEmUp
 
         private void RemoveEnemy(Enemy enemy)
         {
-            if (m_activeEnemies.Remove(enemy))
+            if (_activeEnemies.Remove(enemy))
             {
                 _enemyPool?.Release(enemy);
-                enemy.OnEnemyDie -= RemoveEnemy;
+                enemy.OnEnemyDieingHandler -= RemoveEnemy;
             }
         }
 
@@ -48,10 +46,11 @@ namespace ShootEmUp
             {
                 return;
             }
+
             _enemyFactory.SetRandomPosition(enemy);
             _enemyFactory.SetRandomAttackPosition(enemy);
-            m_activeEnemies.Add(enemy);
-            enemy.OnEnemyDie += RemoveEnemy;
+            _activeEnemies.Add(enemy);
+            enemy.OnEnemyDieingHandler += RemoveEnemy;
 
             _timer = 0f;
         }

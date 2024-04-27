@@ -1,20 +1,25 @@
+using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
 using static ShootEmUp.BulletSystem;
 
 namespace ShootEmUp
 {
-    public sealed class Bullet : MonoBehaviour
+    public sealed class Bullet : MonoBehaviour, IGamePauseListener, IGameResumeListener
     {
         private bool _isPlayer;
         private int _damage;
+        private Vector2 _cashedvelocity;
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
-        public event Action<Bullet, Collision2D> OnDestoy;
+        public event Action<Bullet, Collision2D> OnDesrtoyHandler;
 
-        public bool IsPlayer => _isPlayer;
+        private void Awake()
+        {
+            IGameListener.Register(this);
+        }
 
         public void Construct(Args args)
         { 
@@ -26,6 +31,17 @@ namespace ShootEmUp
             _rigidbody2D.velocity = args.velocity;
         }
 
+        public void OnPauseGame()
+        {
+            _cashedvelocity = _rigidbody2D.velocity;
+            _rigidbody2D.velocity = Vector2.zero;
+        }
+
+        public void OnResumeGame()
+        {
+            _rigidbody2D.velocity = _cashedvelocity;
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!collision.gameObject.TryGetComponent(out TeamComponent team))
@@ -33,7 +49,7 @@ namespace ShootEmUp
                 return;
             }
 
-            if (IsPlayer == team.IsPlayer)
+            if (_isPlayer == team.IsPlayer)
             {
                 return;
             }
@@ -43,7 +59,7 @@ namespace ShootEmUp
                 hitPoints.TakeDamage(_damage);
             }
 
-            OnDestoy?.Invoke(this, collision);
+            OnDesrtoyHandler?.Invoke(this, collision);
         }
     }
 }

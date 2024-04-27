@@ -7,20 +7,20 @@ namespace ShootEmUp
     public sealed class InputManager : MonoBehaviour, IGameUpdateListener, IGameFixedUpdateListener
     {
         private float _horizontalDirection;
-        public float HorizontalDirection => _horizontalDirection;
 
-        public event Action OnShoot;
-        public event Action<Vector2> OnMove;
+        public event Action OnInputShootingHandler;
+        public event Action<Vector2> OnInputMovingHandler;
 
         private void Awake()
         {
             IGameListener.Register(this);
         }
+
         public void OnUpdate(float deltaTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                OnShoot?.Invoke();
+                OnInputShootingHandler?.Invoke();
             }
 
             if (Input.GetKey(KeyCode.LeftArrow))
@@ -40,7 +40,7 @@ namespace ShootEmUp
         public void OnFixedUpdate(float fixedDeltaTime)
         {
             Vector2 direction = new Vector2(_horizontalDirection, 0) * fixedDeltaTime;
-            OnMove?.Invoke(direction);
+            OnInputMovingHandler?.Invoke(direction);
         }
     }
 }

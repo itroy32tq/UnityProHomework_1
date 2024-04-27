@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Factory
 {
-    public class EnemyFactory : MonoBehaviour, IFactory<Enemy>
+    public sealed class EnemyFactory : MonoBehaviour, IFactory<Enemy>
     {
         [SerializeField] private Transform _container;
         [SerializeField] private Character _character;
