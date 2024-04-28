@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialCount: 50
-  _prefab: {fileID: 201757604187811891, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
+  _bullet: {fileID: 0}
   _container: {fileID: 363245576}
   _worldTransform: {fileID: 1683128698}
   _levelBounds: {fileID: 2572952653776768186}
@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyFactory: {fileID: 562298207}
-  _prefab: {fileID: 8420858068295482688, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
+  _enemy: {fileID: 0}
   _spawnDelay: 3
   _initialCount: 4
 --- !u!114 &562298207
@@ -2041,6 +2041,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3951702117947426122}
   - component: {fileID: 3951702117947426123}
+  - component: {fileID: 3951702117947426124}
   m_Layer: 0
   m_Name: '[GAME_SYSTEM]'
   m_TagString: Untagged
@@ -2084,6 +2085,21 @@ MonoBehaviour:
   _startButton: {fileID: 1306316533}
   _pauseButton: {fileID: 1347411862}
   _text: {fileID: 589946494}
+--- !u!114 &3951702117947426124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951702117947426121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b155879587c544cbdeede9b7e78534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _installOnAwake: 0
+  _resolveOnStart: 0
+  _installers: []
 --- !u!212 &4162873433806880330
 SpriteRenderer:
   m_ObjectHideFlags: 0
