@@ -2,10 +2,10 @@
 {
     public enum GameState
     {
-        Start,
-        Finish,
-        Pause,
-        Resume,
-        Off
+        Start = 0,
+        Finish = 1,
+        Pause = 2,
+        Resume = 3,
+        Off = 4,
     }
 }

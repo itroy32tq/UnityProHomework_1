@@ -12,11 +12,10 @@ namespace ShootEmUp
         [SerializeField] private int _initialCount = 50;
         [SerializeField] private Bullet _bullet;
         [SerializeField] private Transform _container;
-        [SerializeField] private Transform _worldTransform;
         [SerializeField] private LevelBounds _levelBounds;
 
         private Pool<Bullet> _bulletPool;
-        private readonly List<Bullet> allBulletsList = new();
+        private readonly List<Bullet> _allBulletsList = new();
 
         private void Awake()
         {
@@ -35,9 +34,10 @@ namespace ShootEmUp
         {
             if (_bulletPool.TryGet(out Bullet bullet))
             {
-                bullet.SetArgsToBullet(args);
-                allBulletsList.Add(bullet);
-                bullet.OnDestoy += OnBulletCollision;
+
+                bullet.Construct(args);
+                _allBulletsList.Add(bullet);
+                bullet.OnDesrtoyHandler += OnBulletCollision;
             }
         }
         
@@ -48,25 +48,32 @@ namespace ShootEmUp
 
         private void RemoveBullet(Bullet bullet)
         {
-            if (allBulletsList.Remove(bullet))
+            if (_allBulletsList.Remove(bullet))
             {
-                bullet.OnDestoy -= OnBulletCollision;
+                bullet.OnDesrtoyHandler -= OnBulletCollision;
                 _bulletPool.Release(bullet);
             }
         }
 
-        public void OnFixedUpdate(float deltatime)
+        public void OnFixedUpdate(float deltaTime)
         {
-            var notBoundsBullet = allBulletsList.Where(x => !_levelBounds.InBounds(x.transform.position)).ToList();
+            List<Bullet> notBoundsBullet = new();
+            for (int i = 0; i < _allBulletsList.Count; i++)
+            {
+                if (!_levelBounds.InBounds(_allBulletsList[i].transform.position))
+                {
+                    notBoundsBullet.Add(_allBulletsList[i]);
+                }
+            }
 
-            if (!notBoundsBullet.Any())
+            if (notBoundsBullet.Count() == 0)
             {
                 return;
             }
 
-            foreach (var bullet in notBoundsBullet)
+            for (int i = 0; i < notBoundsBullet.Count; i++)
             {
-                RemoveBullet(bullet);
+                RemoveBullet(notBoundsBullet[i]);
             }
         }
 

@@ -13,8 +13,6 @@ namespace Assets.Scripts.Interface
             {
                 OnRegister?.Invoke(listener);
             }
-            
-
         }
     }
 }

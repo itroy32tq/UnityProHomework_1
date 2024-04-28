@@ -8,8 +8,6 @@ namespace ShootEmUp
         [SerializeField] private BulletConfig _bulletConfig;
         private BulletSystem _bulletSystem;
 
-        public Vector2 Position => _firePoint.position;
-        public Quaternion Rotation => _firePoint.rotation;
         public void SetBulletSystem(BulletSystem bulletSystem)
         { 
             _bulletSystem = bulletSystem;
@@ -28,8 +26,8 @@ namespace ShootEmUp
                 physicsLayer = (int)_bulletConfig.PhysicsLayer,
                 color = _bulletConfig.Color,
                 damage = _bulletConfig.Damage,
-                position = Position,
-                velocity = Rotation * direction * _bulletConfig.Speed
+                position = _firePoint.position,
+                velocity = _firePoint.rotation * direction * _bulletConfig.Speed
             });
         }
     }

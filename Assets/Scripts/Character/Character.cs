@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-
-    public class Character : MonoBehaviour, IGameStartListener, IGameFinishListener
+    public sealed class Character : MonoBehaviour, IGameStartListener, IGameFinishListener
     {
         [SerializeField] private MoveComponent _moveComponent;
         [SerializeField] private WeaponComponent _weaponComponent;
@@ -15,7 +14,7 @@ namespace ShootEmUp
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private Vector2 _shootDirection = Vector2.up;
 
-        public Action<Character> OnCharacterDie;
+        public Action<Character> OnCharacterDieingHandler;
 
         private void Awake()
         {
@@ -29,31 +28,25 @@ namespace ShootEmUp
         }
         public void OnStartGame()
         {
-            _hitPointsComponent.HpEmpty += Die;
-            _inputManager.OnMove += _moveComponent.Move;
-            _inputManager.OnShoot += Shoot;
+            _hitPointsComponent.OnHitPointsEnding += Die;
+            _inputManager.OnInputMovingHandler += _moveComponent.Move;
+            _inputManager.OnInputShootingHandler += Shoot;
             _weaponComponent.SetBulletSystem(_bulletSystem);
         }
 
         private void OnDisable()
         {
-            _hitPointsComponent.HpEmpty -= Die;
-            _inputManager.OnMove -= _moveComponent.Move;
-            _inputManager.OnShoot -= Shoot;
+            _hitPointsComponent.OnHitPointsEnding -= Die;
+            _inputManager.OnInputMovingHandler -= _moveComponent.Move;
+            _inputManager.OnInputShootingHandler -= Shoot;
         }
 
-        public void Move(Vector2 vector)
+        private void Die(GameObject character)
         {
-            _moveComponent.Move(vector);
+            OnCharacterDieingHandler?.Invoke(this);
         }
 
-        public void Die(GameObject character)
-        {
-            _hitPointsComponent.HpEmpty -= Die;
-            OnCharacterDie?.Invoke(this);
-        }
-
-        public void Shoot()
+        private void Shoot()
         {
             _weaponComponent.Shoot(_teamComponent.IsPlayer, _shootDirection);
         }
@@ -65,9 +58,9 @@ namespace ShootEmUp
 
         public void OnFinishGame()
         {
-            _hitPointsComponent.HpEmpty -= Die;
-            _inputManager.OnMove -= _moveComponent.Move;
-            _inputManager.OnShoot -= Shoot;
+            _hitPointsComponent.OnHitPointsEnding -= Die;
+            _inputManager.OnInputMovingHandler -= _moveComponent.Move;
+            _inputManager.OnInputShootingHandler -= Shoot;
         }
     }
 }

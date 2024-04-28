@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.GenericPool
 {
-    public class Pool<T> where T : MonoBehaviour
+    public sealed class Pool<T> where T : MonoBehaviour
     {
         private readonly Queue<T> _items;
         private readonly IFactory<T> _factory;

@@ -1,20 +1,18 @@
 using Assets.Scripts.Conditions;
 using Assets.Scripts.Interface;
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
     public sealed class EnemyAttackAgent : MonoBehaviour, IGameFixedUpdateListener
     {
-        public CompositeCondition Condition = new();
-
-        public delegate void FireHandler();
-
-        public event FireHandler OnFire;
-        
         [SerializeField] private float _countdown;
-
         private float _currentTime;
+
+        public readonly AndCondition AttackAgentCondition = new();
+        public event Action OnEnemyFireingHandler;
+        
         private void Awake()
         {
             IGameListener.Register(this);
@@ -31,12 +29,12 @@ namespace ShootEmUp
         }
         private void Fire()
         {
-            OnFire?.Invoke();
+            OnEnemyFireingHandler?.Invoke();
         }
 
         public void OnFixedUpdate(float fixedDeltaTime)
         {
-            if (!Condition.IsTrue())
+            if (!AttackAgentCondition.IsTrue())
             {
                 return;
             }

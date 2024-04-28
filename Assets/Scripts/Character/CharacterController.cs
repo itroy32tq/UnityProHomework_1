@@ -1,5 +1,4 @@
 using Assets.Scripts.Interface;
-using System;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -17,16 +16,20 @@ namespace ShootEmUp
         { 
             _character = character; _gameManager = gameManager;
         }
-        private void CharacterDeathHandler(Character _) => _gameManager.FinishGame();
+
+        private void CharacterDeathHandler(Character _)
+        {
+            _gameManager.FinishGame();
+        }
 
         public void OnStartGame()
         {
-            _character.OnCharacterDie += CharacterDeathHandler;
+            _character.OnCharacterDieingHandler += CharacterDeathHandler;
         }
 
         public void OnFinishGame()
         {
-            _character.OnCharacterDie -= CharacterDeathHandler;
+            _character.OnCharacterDieingHandler -= CharacterDeathHandler;
         }
     }
 }
