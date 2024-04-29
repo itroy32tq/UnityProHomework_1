@@ -1,6 +1,5 @@
 using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
-
 using System;
 using UnityEngine;
 using static ShootEmUp.BulletSystem;
@@ -11,17 +10,18 @@ namespace ShootEmUp
     {
         private bool _isPlayer;
         private int _damage;
-        private Vector2 _cashedvelocity;
+        private Vector2 _cashedVelocity;
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
-        public event Action<Bullet, Collision2D> OnDesrtoyHandler;
+        public event Action<Bullet, Collision2D> OnBulletDestroyHandler;
 
         [Inject]
         public void Construct(Rigidbody2D rigidbody2D, SpriteRenderer spriteRenderer)
-        { 
+        {
             _rigidbody2D = rigidbody2D; _spriteRenderer = spriteRenderer;
+        }
 
         private void Awake()
         {
@@ -40,13 +40,13 @@ namespace ShootEmUp
 
         public void OnPauseGame()
         {
-            _cashedvelocity = _rigidbody2D.velocity;
+            _cashedVelocity = _rigidbody2D.velocity;
             _rigidbody2D.velocity = Vector2.zero;
         }
 
         public void OnResumeGame()
         {
-            _rigidbody2D.velocity = _cashedvelocity;
+            _rigidbody2D.velocity = _cashedVelocity;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -66,7 +66,7 @@ namespace ShootEmUp
                 hitPoints.TakeDamage(_damage);
             }
 
-            OnDesrtoyHandler?.Invoke(this, collision);
+            OnBulletDestroyHandler?.Invoke(this, collision);
         }
     }
 }

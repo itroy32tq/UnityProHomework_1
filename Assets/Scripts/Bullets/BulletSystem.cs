@@ -1,5 +1,6 @@
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,13 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
-        private void Construct(Bullet bullet, Transform container, Transform worldTransform, LevelBounds levelBounds)
+
+        [Inject]
+        public void Construct(Bullet bullet, Transform container, LevelBounds levelBounds)
         {
-            _bullet = bullet; _container = container; _worldTransform = worldTransform; _levelBounds = levelBounds;
+            _bullet = bullet; _container = container; _levelBounds = levelBounds;
         }
+
         public void OnStartGame()
         {
             _bulletPool = new Pool<Bullet>(_initialCount, new Factory<Bullet>(_bullet, _container));
@@ -35,9 +39,9 @@ namespace ShootEmUp
             if (_bulletPool.TryGet(out Bullet bullet))
             {
 
-                bullet.Construct(args);
+                bullet.SetArgsToBullet(args);
                 _allBulletsList.Add(bullet);
-                bullet.OnDesrtoyHandler += OnBulletCollision;
+                bullet.OnBulletDestroyHandler += OnBulletCollision;
             }
         }
         
@@ -50,7 +54,7 @@ namespace ShootEmUp
         {
             if (_allBulletsList.Remove(bullet))
             {
-                bullet.OnDesrtoyHandler -= OnBulletCollision;
+                bullet.OnBulletDestroyHandler -= OnBulletCollision;
                 _bulletPool.Release(bullet);
             }
         }

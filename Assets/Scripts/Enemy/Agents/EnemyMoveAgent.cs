@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
@@ -15,10 +16,13 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
+
+        [Inject]
         private void Construct(Vector2 destination)
         { 
             _destination = destination;
         }
+
         public void OnFixedUpdate(float fixedDeltaTime)
         {
             if (IsReached)

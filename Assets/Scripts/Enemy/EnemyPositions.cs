@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -11,7 +12,9 @@ namespace ShootEmUp
         {
             return RandomTransform(_spawnPositions);
         }
-        private void Construct(Transform[] spawnPositions, Transform[] attackPositions)
+
+        [Inject]
+        public void Construct(Transform[] spawnPositions, Transform[] attackPositions)
         { 
             _attackPositions = attackPositions; _spawnPositions = spawnPositions;
         }

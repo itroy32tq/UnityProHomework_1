@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using UnityEngine;
 
@@ -17,7 +18,9 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
-        private void Construct(Transform transform)
+
+        [Inject]
+        public void Construct(Transform transform)
         {
             _myTransform = transform;
         }

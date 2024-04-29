@@ -1,5 +1,6 @@
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,6 @@ namespace ShootEmUp
         private float _timer;
 
         [SerializeField] private EnemyFactory _enemyFactory; 
-        [SerializeField] private Enemy _enemy;
         [SerializeField] private float _spawnDelay = 1f;
         [Header("Pool")]
         [SerializeField] private int _initialCount = 7;
@@ -23,9 +23,10 @@ namespace ShootEmUp
             IGameListener.Register(this);
         }
 
-        private void Construct(EnemyFactory enemyFactory, Enemy enemy, float spawnDelay, int initialCount)
+        [Inject]
+        public void Construct(EnemyFactory enemyFactory, float spawnDelay, int initialCount)
         { 
-            _enemyFactory = enemyFactory; _enemy = enemy; _spawnDelay = spawnDelay; _initialCount = initialCount;
+            _enemyFactory = enemyFactory; _spawnDelay = spawnDelay; _initialCount = initialCount;
         }
 
         public void OnStartGame()

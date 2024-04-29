@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Interface;
+﻿using Assets.Scripts.InfroStructure;
+using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
 
@@ -14,13 +15,15 @@ namespace ShootEmUp
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private Vector2 _shootDirection = Vector2.up;
 
-        public Action<Character> OnCharacterDieingHandler;
+        public Action OnCharacterDieingHandler;
 
         private void Awake()
         {
             IGameListener.Register(this);
         }
-        private void Construct(MoveComponent moveComponent, WeaponComponent weaponComponent, 
+
+        [Inject]
+        public void Construct(MoveComponent moveComponent, WeaponComponent weaponComponent, 
             HitPointsComponent hitPointsComponent, TeamComponent teamComponent, InputManager inputManager, BulletSystem bulletSystem)
         {
             _moveComponent = moveComponent; _weaponComponent = weaponComponent; _hitPointsComponent = hitPointsComponent;

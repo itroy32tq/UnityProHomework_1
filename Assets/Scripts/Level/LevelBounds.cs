@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -8,7 +9,13 @@ namespace ShootEmUp
         [SerializeField] private Transform _rightBorder;
         [SerializeField] private Transform _downBorder;
         [SerializeField] private Transform _topBorder;
-        
+
+        [Inject]
+        public void Construct(Transform transform)
+        {
+            //
+        }
+
         public bool InBounds(Vector3 position)
         {
             var positionX = position.x;

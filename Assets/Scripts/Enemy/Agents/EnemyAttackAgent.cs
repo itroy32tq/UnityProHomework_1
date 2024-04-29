@@ -1,4 +1,5 @@
 using Assets.Scripts.Conditions;
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
@@ -23,10 +24,12 @@ namespace ShootEmUp
             _currentTime = _countdown;
         }
 
-        private void Construct(float countdown)
+        [Inject]
+        public void Construct(float countdown)
         {
             _countdown = countdown;
         }
+
         private void Fire()
         {
             OnEnemyFireingHandler?.Invoke();

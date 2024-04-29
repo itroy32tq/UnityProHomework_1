@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using System;
 using UnityEngine;
 
@@ -13,7 +14,9 @@ namespace ShootEmUp
         {
             return _hitPoints > 0;
         }
-        private void Construct(int hitPoints)
+
+        [Inject]
+        public void Construct(int hitPoints)
         { 
             _hitPoints = hitPoints;
         }

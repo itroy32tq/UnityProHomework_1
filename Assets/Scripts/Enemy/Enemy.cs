@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.InfroStructure;
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -16,11 +17,12 @@ namespace ShootEmUp
         public Character Character { get; set; }
         public Action<Enemy> OnEnemyDieingHandler;
         public Action<Enemy> OnEnemyFiringHandler;
-        
-        private void Construct(GameObject prefab, HitPointsComponent hitPointsComponent, EnemyMoveAgent enemyMoveAgent, 
+
+        [Inject]
+        public void Construct(HitPointsComponent hitPointsComponent, EnemyMoveAgent enemyMoveAgent, 
             EnemyAttackAgent enemyAttackAgent, WeaponComponent weaponComponent, TeamComponent teamComponent, MoveComponent moveComponent)
         { 
-            _prefab = prefab; _hitPointsComponent = hitPointsComponent; _enemyMoveAgent = enemyMoveAgent; _enemyAttackAgent = enemyAttackAgent;
+            _hitPointsComponent = hitPointsComponent; _enemyMoveAgent = enemyMoveAgent; _enemyAttackAgent = enemyAttackAgent;
             _weaponComponent = weaponComponent; _teamComponent = teamComponent; _moveComponent = moveComponent;
         }
       

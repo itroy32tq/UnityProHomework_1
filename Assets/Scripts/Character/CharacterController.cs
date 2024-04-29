@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using UnityEngine;
 
@@ -12,12 +13,14 @@ namespace ShootEmUp
         {
             IGameListener.Register(this);
         }
-        private void Construct(Character character, GameManager gameManager)
+
+        [Inject]
+        public void Construct(Character character, GameManager gameManager)
         { 
             _character = character; _gameManager = gameManager;
         }
 
-        private void CharacterDeathHandler(Character _)
+        private void CharacterDeathHandler()
         {
             _gameManager.FinishGame();
         }
