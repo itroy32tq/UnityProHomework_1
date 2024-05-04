@@ -1,3 +1,4 @@
+using Assets.Scripts.Bullets;
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
 using Assets.Scripts.InfroStructure;
@@ -8,25 +9,23 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour, IGameStartListener, IGameFixedUpdateListener
+    public sealed class BulletSystem : IGameStartListener, IGameFixedUpdateListener
     {
-        [SerializeField] private int _initialCount = 50;
-        [SerializeField] private Bullet _bullet;
-        [SerializeField] private Transform _container;
-        [SerializeField] private LevelBounds _levelBounds;
+        private int _initialCount;
+        private Bullet _bullet;
+        private LevelBounds _levelBounds;
+        private Transform _container;
 
         private Pool<Bullet> _bulletPool;
         private readonly List<Bullet> _allBulletsList = new();
 
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
-
         [Inject]
-        public void Construct(Bullet bullet, Transform container, LevelBounds levelBounds)
+        public void Construct(BulletSystemConfig config, LevelBounds levelBounds)
         {
-            _bullet = bullet; _container = container; _levelBounds = levelBounds;
+            _bullet = config.Bullet;
+            _initialCount = config.InitialCount;
+            _container = config.Container;
+            _levelBounds = levelBounds;
         }
 
         public void OnStartGame()
@@ -83,12 +82,12 @@ namespace ShootEmUp
 
         public struct Args
         {
-            public Vector2 position;
-            public Vector2 velocity;
-            public Color color;
-            public int physicsLayer;
-            public int damage;
-            public bool isPlayer;
+            public Vector2 Position;
+            public Vector2 Velocity;
+            public Color Color;
+            public int PhysicsLayer;
+            public int Damage;
+            public bool IsPlayer;
         }
     }
 }

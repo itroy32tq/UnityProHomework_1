@@ -3,33 +3,28 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class WeaponComponent : MonoBehaviour
+    public sealed class WeaponComponent
     {
-        [SerializeField] private Transform _firePoint;
-        [SerializeField] private BulletConfig _bulletConfig;
+        private Transform _firePoint;
+        private BulletConfig _bulletConfig;
         private BulletSystem _bulletSystem;
 
-        public void SetBulletSystem(BulletSystem bulletSystem)
-        { 
-            _bulletSystem = bulletSystem;
-        }
-
         [Inject]
-        public void Construct(Transform firePoint, BulletConfig bulletConfig, BulletSystem bulletSystem)
+        public void Construct(CharacterConfig config, BulletConfig bulletConfig, BulletSystem bulletSystem)
         { 
-            _firePoint = firePoint; _bulletConfig = bulletConfig; _bulletSystem = bulletSystem;
+            _firePoint = config.FirePoint; _bulletConfig = bulletConfig; _bulletSystem = bulletSystem;
         }
 
         public void Shoot(bool isPlayer, Vector2 direction)
         {
             _bulletSystem.Create(new BulletSystem.Args
             {
-                isPlayer = isPlayer,
-                physicsLayer = (int)_bulletConfig.PhysicsLayer,
-                color = _bulletConfig.Color,
-                damage = _bulletConfig.Damage,
-                position = _firePoint.position,
-                velocity = _firePoint.rotation * direction * _bulletConfig.Speed
+                IsPlayer = isPlayer,
+                PhysicsLayer = (int)_bulletConfig.PhysicsLayer,
+                Color = _bulletConfig.Color,
+                Damage = _bulletConfig.Damage,
+                Position = _firePoint.position,
+                Velocity = _firePoint.rotation * direction * _bulletConfig.Speed
             });
         }
     }

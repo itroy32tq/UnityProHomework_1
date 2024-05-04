@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPositions : MonoBehaviour
+    public sealed class EnemyPositions
     {
-        [SerializeField] private Transform[] _spawnPositions;
-        [SerializeField] private Transform[] _attackPositions;
+        private Transform[] _spawnPositions;
+        private Transform[] _attackPositions;
 
         public Transform RandomSpawnPosition()
         {
@@ -14,9 +14,10 @@ namespace ShootEmUp
         }
 
         [Inject]
-        public void Construct(Transform[] spawnPositions, Transform[] attackPositions)
+        public void Construct(EnemyConfig enemyConfig)
         { 
-            _attackPositions = attackPositions; _spawnPositions = spawnPositions;
+            _attackPositions = enemyConfig.AttackPositions; 
+            _spawnPositions = enemyConfig.SpawnPositions;
         }
         public Transform RandomAttackPosition()
         {

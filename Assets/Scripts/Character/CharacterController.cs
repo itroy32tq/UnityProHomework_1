@@ -4,15 +4,10 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : MonoBehaviour, IGameStartListener, IGameFinishListener
+    public sealed class CharacterController : IGameStartListener, IGameFinishListener
     {
         [SerializeField] private Character _character;
         [SerializeField] private GameManager _gameManager;
-
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
 
         [Inject]
         public void Construct(Character character, GameManager gameManager)

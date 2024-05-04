@@ -1,6 +1,8 @@
+using Assets.Scripts;
 using Assets.Scripts.Common;
 using Assets.Scripts.Interface;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +22,13 @@ namespace ShootEmUp
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TMP_Text _text;
+        [SerializeField] private DiContainer _diContainer;
         private void Awake()
         {
             _gameState = GameState.Off;
+            _gameListeners.AddRange(_diContainer.GameListeners);
+            //IGameListener.OnRegister += AddListener;
 
-            IGameListener.OnRegister += AddListener;
             _startButton.onClick.AddListener(OnStartButtonClick);
             _pauseButton.onClick.AddListener(PauseGame);
             
@@ -32,13 +36,9 @@ namespace ShootEmUp
         private void OnDestroy()
         {
             _gameState = GameState.Finish;
-            IGameListener.OnRegister -= AddListener;
-        }
-        private void AddListener(IGameListener listener)
-        {
-            _gameListeners.Add(listener);
         }
 
+      
         [Button]
         public void StartGame()
         {

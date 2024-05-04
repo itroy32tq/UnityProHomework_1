@@ -1,4 +1,3 @@
-using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
@@ -17,12 +16,6 @@ namespace ShootEmUp
 
         public event Action<Bullet, Collision2D> OnBulletDestroyHandler;
 
-        [Inject]
-        public void Construct(Rigidbody2D rigidbody2D, SpriteRenderer spriteRenderer)
-        {
-            _rigidbody2D = rigidbody2D; _spriteRenderer = spriteRenderer;
-        }
-
         private void Awake()
         {
             IGameListener.Register(this);
@@ -30,12 +23,12 @@ namespace ShootEmUp
 
         public void SetArgsToBullet(Args args)
         { 
-            transform.position = args.position;
-            _spriteRenderer.color = args.color;
-            gameObject.layer = args.physicsLayer;
-            _damage = args.damage;
-            _isPlayer = args.isPlayer;
-            _rigidbody2D.velocity = args.velocity;
+            transform.position = args.Position;
+            _spriteRenderer.color = args.Color;
+            gameObject.layer = args.PhysicsLayer;
+            _damage = args.Damage;
+            _isPlayer = args.IsPlayer;
+            _rigidbody2D.velocity = args.Velocity;
         }
 
         public void OnPauseGame()

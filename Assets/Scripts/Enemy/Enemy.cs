@@ -6,31 +6,34 @@ namespace ShootEmUp
 {
     public sealed class Enemy : MonoBehaviour
     {
-        [SerializeField] private HitPointsComponent _hitPointsComponent;
-        [SerializeField] private EnemyMoveAgent _enemyMoveAgent;
-        [SerializeField] private EnemyAttackAgent _enemyAttackAgent;
-        [SerializeField] private WeaponComponent _weaponComponent;
-        [SerializeField] private TeamComponent _teamComponent;
-        [SerializeField] private MoveComponent _moveComponent;
+        private HitPointsComponent _hitPointsComponent;
+        private EnemyMoveAgent _enemyMoveAgent;
+        private EnemyAttackAgent _enemyAttackAgent;
+        private WeaponComponent _weaponComponent;
+        private TeamComponent _teamComponent;
+        private MoveComponent _moveComponent;
+        private Character _character;
 
         public WeaponComponent WeaponComponent => _weaponComponent;
-        public Character Character { get; set; }
+        
+
         public Action<Enemy> OnEnemyDieingHandler;
         public Action<Enemy> OnEnemyFiringHandler;
 
         [Inject]
-        public void Construct(HitPointsComponent hitPointsComponent, EnemyMoveAgent enemyMoveAgent, 
+        public void Construct(Character character, HitPointsComponent hitPointsComponent, EnemyMoveAgent enemyMoveAgent, 
             EnemyAttackAgent enemyAttackAgent, WeaponComponent weaponComponent, TeamComponent teamComponent, MoveComponent moveComponent)
         { 
             _hitPointsComponent = hitPointsComponent; _enemyMoveAgent = enemyMoveAgent; _enemyAttackAgent = enemyAttackAgent;
             _weaponComponent = weaponComponent; _teamComponent = teamComponent; _moveComponent = moveComponent;
+            _character = character;
         }
       
         private void Start()
         {
             _hitPointsComponent.OnHitPointsEnding += Die;
             _enemyAttackAgent.OnEnemyFireingHandler += OnFire;
-            _enemyAttackAgent.AttackAgentCondition.Append(Character.IsHitPointsExists);
+            _enemyAttackAgent.AttackAgentCondition.Append(_character.IsHitPointsExists);
             _enemyAttackAgent.AttackAgentCondition.Append(IsReached);
             _enemyMoveAgent.OnMove += _moveComponent.Move;
         }
@@ -55,7 +58,7 @@ namespace ShootEmUp
             _enemyMoveAgent.SetDestination(tr.position);
         }
         
-        private void Die(GameObject enemy)
+        private void Die()
         {
             _hitPointsComponent.OnHitPointsEnding -= Die;
             _enemyAttackAgent.OnEnemyFireingHandler -= OnFire;

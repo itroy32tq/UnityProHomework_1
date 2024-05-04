@@ -299,8 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialCount: 50
-  _bullet: {fileID: 0}
-  _container: {fileID: 363245576}
+  _bullet: {fileID: 201757604187811891, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
   _levelBounds: {fileID: 2572952653776768186}
 --- !u!1 &519420028
 GameObject:
@@ -432,7 +431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyFactory: {fileID: 562298207}
-  _enemy: {fileID: 0}
   _spawnDelay: 3
   _initialCount: 4
 --- !u!114 &562298207
@@ -448,10 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 562298204}
-  _character: {fileID: 3926786964592264469}
-  _enemyPositions: {fileID: 7166351703523243261}
   _prefab: {fileID: 8420858068295482688, guid: 87fe189881a524806800482ac8eaaa83, type: 3}
-  _enemyBulletSystem: {fileID: 363245577}
 --- !u!1 &589946492
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,6 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55e0c0d37f64d1f835fe367d4939922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _horizontalDirection: 0
 --- !u!850595691 &1263964384
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1510,7 +1506,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1879759789}
-  - component: {fileID: 1879759790}
   m_Layer: 0
   m_Name: CharacterController
   m_TagString: Untagged
@@ -1533,20 +1528,6 @@ Transform:
   m_Father: {fileID: 3951702117947426122}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1879759790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879759788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c57ed31af8d94ec3b11df7e2b588d40f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _character: {fileID: 3926786964592264469}
-  _gameManager: {fileID: 3951702117947426123}
 --- !u!1 &61006797492197339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,7 +1701,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7166351703523243260}
-  - component: {fileID: 7166351703523243261}
   m_Layer: 0
   m_Name: '[ENEMY_POSITIONS]'
   m_TagString: Untagged
@@ -2018,18 +1998,6 @@ PrefabInstance:
       objectReference: {fileID: 6200000, guid: 2a54dc216f6924766b4c82fdcf077707, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9699e7e809fd44b2bbf3d30c951ecbd2, type: 3}
---- !u!114 &3926786964592264469 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2609238919329682414, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
-    type: 3}
-  m_PrefabInstance: {fileID: 3926786964592264468}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3571b0a291089484db5ea0a4f2a24eab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3951702117947426121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2041,6 +2009,7 @@ GameObject:
   - component: {fileID: 3951702117947426122}
   - component: {fileID: 3951702117947426123}
   - component: {fileID: 3951702117947426124}
+  - component: {fileID: 3951702117947426125}
   m_Layer: 0
   m_Name: '[GAME_SYSTEM]'
   m_TagString: Untagged
@@ -2084,6 +2053,7 @@ MonoBehaviour:
   _startButton: {fileID: 1306316533}
   _pauseButton: {fileID: 1347411862}
   _text: {fileID: 589946494}
+  _diContainer: {fileID: 0}
 --- !u!114 &3951702117947426124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2096,9 +2066,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b155879587c544cbdeede9b7e78534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _installOnAwake: 0
-  _resolveOnStart: 0
-  _installers: []
+  _installOnAwake: 1
+  _resolveOnStart: 1
+  _installers:
+  - {fileID: 0}
+--- !u!114 &3951702117947426125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951702117947426121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1497b368a60d3d448b98d3d26a1e63ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 4f7be43e86410fe49b8dadc3649a1847, type: 2}
+  _levelBounds: {fileID: 2572952653776768186}
 --- !u!212 &4162873433806880330
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2407,37 +2392,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7166351703523243261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2436077409588089344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94380673bed40d7aff42c7cee30b556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnPositions:
-  - {fileID: 5098186055898699330}
-  - {fileID: 3822857799868723767}
-  - {fileID: 6359635304368030436}
-  - {fileID: 2272249728968689581}
-  - {fileID: 5689270860486713316}
-  - {fileID: 106235378999874491}
-  _attackPositions:
-  - {fileID: 8569045085939387605}
-  - {fileID: 9088267052445128325}
-  - {fileID: 713232402740842374}
-  - {fileID: 8300918414904818790}
-  - {fileID: 7532812219450273526}
-  - {fileID: 1536551911}
-  - {fileID: 196756141}
-  - {fileID: 1049219808}
-  - {fileID: 1549378007}
-  - {fileID: 78117031}
-  - {fileID: 883274640}
 --- !u!1 &7380933980450283534
 GameObject:
   m_ObjectHideFlags: 0

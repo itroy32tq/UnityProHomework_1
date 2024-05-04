@@ -18,7 +18,7 @@ namespace ShootEmUp
         }
 
         [Inject]
-        private void Construct(Vector2 destination)
+        public void Construct(Vector2 destination)
         { 
             _destination = destination;
         }

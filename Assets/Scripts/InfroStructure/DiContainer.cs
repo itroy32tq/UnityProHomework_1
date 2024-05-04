@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.InfroStructure;
+using Assets.Scripts.Interface;
 using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,22 +15,42 @@ namespace Assets.Scripts
         [field: SerializeField] private bool _installOnAwake;
         [field: SerializeField] private bool _resolveOnStart;
         [field: SerializeField] private Installer[] _installers;
-
-        public void Install()
-        {
-            _installers.ForEach(x => x.Install(this));
-        }
-
-        public void Resolve()
-        {
-            var rootGameObjects = gameObject.scene.GetRootGameObjects()?.ForEach(x => InjectGameObject(x.transform));
-        }
+        public List<IGameListener> GameListeners { get; private set; }
 
         private void Awake()
         {
             if (_installOnAwake)
             {
+                FindGameListeners();
                 Install();
+            }
+        }
+
+        private void FindGameListeners()
+        {
+            foreach (var installer in _installers)
+            {
+                FindGameListener(installer);
+            }
+        }
+
+        private void FindGameListener(Installer installer)
+        {
+
+            Type type = installer.GetType();
+            FieldInfo[] fields = type.GetType().GetFields(
+                BindingFlags.Instance |
+                BindingFlags.Public |
+                BindingFlags.NonPublic |
+                BindingFlags.DeclaredOnly
+            );
+
+            foreach (var field in fields)
+            {
+                if (field.IsDefined(typeof(ListenerAttribute)) && field.GetValue(installer) is IGameListener gameListener)
+                {
+                    GameListeners.Add(gameListener);
+                }
             }
         }
 
@@ -39,6 +60,34 @@ namespace Assets.Scripts
             {
                 Resolve();
             }
+        }
+
+        public void Install()
+        {
+            _installers.ForEach(x => x.Install(this));
+        }
+
+        public void Resolve()
+        {
+            //инжект в поля инсталлеров
+            foreach (var module in _installers)
+            {
+                FieldInfo[] fields = this.GetType().GetFields(
+                BindingFlags.Instance |
+                BindingFlags.Public |
+                BindingFlags.NonPublic |
+                BindingFlags.DeclaredOnly
+                );
+
+                foreach (var field in fields)
+                {
+                    var target = field.GetValue(this);
+                    Inject(target);
+                }
+            }
+            //инжект в объекты на сцене
+            var rootGameObjects = gameObject.scene.GetRootGameObjects()
+                .ForEach(x => InjectGameObject(x.transform));
         }
 
         public object GetService(Type contractType)
@@ -76,7 +125,7 @@ namespace Assets.Scripts
             }
         }
 
-        private void Inject(MonoBehaviour component)
+        private void Inject(object component)
         {
             Type type = component.GetType();
             MethodInfo[] methods = type.GetMethods

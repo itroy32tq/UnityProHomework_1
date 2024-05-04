@@ -1,12 +1,11 @@
-using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class MoveComponent : MonoBehaviour
+    public sealed class MoveComponent
     {
-        [SerializeField] private Rigidbody2D _rigidbody2D;
-        [SerializeField] private float _speed = 5.0f;
+        private Rigidbody2D _rigidbody2D;
+        private float _speed;
         
         public void Move(Vector2 vector)
         {
@@ -14,7 +13,6 @@ namespace ShootEmUp
             _rigidbody2D.MovePosition(nextPosition);
         }
 
-        [Inject]
         public void Construct(Rigidbody2D rigidbody2D, float speed)
         { 
             _rigidbody2D = rigidbody2D; _speed = speed;

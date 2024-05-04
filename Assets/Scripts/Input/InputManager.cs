@@ -4,17 +4,12 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : MonoBehaviour, IGameUpdateListener, IGameFixedUpdateListener
+    public sealed class InputManager : IGameUpdateListener, IGameFixedUpdateListener
     {
         private float _horizontalDirection;
 
         public event Action OnInputShootingHandler;
         public event Action<Vector2> OnInputMovingHandler;
-
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
 
         public void OnUpdate(float deltaTime)
         {
