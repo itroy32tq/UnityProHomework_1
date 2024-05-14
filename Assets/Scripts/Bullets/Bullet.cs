@@ -16,11 +16,6 @@ namespace ShootEmUp
 
         public event Action<Bullet, Collision2D> OnBulletDestroyHandler;
 
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
-
         public void SetArgsToBullet(Args args)
         { 
             transform.position = args.Position;

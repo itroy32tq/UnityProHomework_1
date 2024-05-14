@@ -7,5 +7,6 @@ namespace Assets.Scripts.InfroStructure
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class ListenerAttribute : Attribute
     {
+
     }
 }

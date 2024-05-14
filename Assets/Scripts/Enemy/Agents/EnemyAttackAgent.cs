@@ -43,6 +43,7 @@ namespace ShootEmUp
             }
 
             _currentTime -= fixedDeltaTime;
+
             if (_currentTime <= 0)
             {
                 Fire();

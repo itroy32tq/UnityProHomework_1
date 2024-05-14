@@ -13,11 +13,11 @@ namespace ShootEmUp
             return _hitPoints > 0;
         }
 
-        
         public void Construct(int hitPoints)
         { 
             _hitPoints = hitPoints;
         }
+
         public void TakeDamage(int damage)
         {
             _hitPoints -= damage;

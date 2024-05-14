@@ -1,3 +1,4 @@
+using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp
@@ -13,6 +14,7 @@ namespace ShootEmUp
             _rigidbody2D.MovePosition(nextPosition);
         }
 
+        [Inject]
         public void Construct(Rigidbody2D rigidbody2D, float speed)
         { 
             _rigidbody2D = rigidbody2D; _speed = speed;

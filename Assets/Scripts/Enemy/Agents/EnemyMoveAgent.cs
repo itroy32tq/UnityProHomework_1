@@ -10,6 +10,7 @@ namespace ShootEmUp
         private Vector2 _destination;
         public bool IsReached { get; private set; }
         public Vector2 Direction { get; private set; }
+
         public event Action<Vector2> OnMove;
 
         private void Awake()

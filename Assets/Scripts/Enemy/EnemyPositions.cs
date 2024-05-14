@@ -19,6 +19,7 @@ namespace ShootEmUp
             _attackPositions = enemyConfig.AttackPositions; 
             _spawnPositions = enemyConfig.SpawnPositions;
         }
+
         public Transform RandomAttackPosition()
         {
             return RandomTransform(_attackPositions);

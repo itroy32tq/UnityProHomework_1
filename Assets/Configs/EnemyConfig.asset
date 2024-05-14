@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4d59c9f2304e5479bbdfd66e84ae36, type: 3}
+  m_Name: EnemyConfig
+  m_EditorClassIdentifier: 
+  <Prefab>k__BackingField: {fileID: 0}
+  <HitPoints>k__BackingField: 0
+  <Speed>k__BackingField: 0
+  <IsPlayer>k__BackingField: 0
+  <FirePoint>k__BackingField: {fileID: 0}
+  <SpawnPositions>k__BackingField: []
+  <AttackPositions>k__BackingField: []
+  <SpawnDelay>k__BackingField: 0
+  <InitialCount>k__BackingField: 0

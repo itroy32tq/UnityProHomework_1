@@ -72,7 +72,7 @@ namespace Assets.Scripts
             //инжект в поля инсталлеров
             foreach (var module in _installers)
             {
-                FieldInfo[] fields = this.GetType().GetFields(
+                FieldInfo[] fields = module.GetType().GetFields(
                 BindingFlags.Instance |
                 BindingFlags.Public |
                 BindingFlags.NonPublic |

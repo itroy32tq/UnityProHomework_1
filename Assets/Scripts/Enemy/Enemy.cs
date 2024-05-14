@@ -15,7 +15,6 @@ namespace ShootEmUp
         private Character _character;
 
         public WeaponComponent WeaponComponent => _weaponComponent;
-        
 
         public Action<Enemy> OnEnemyDieingHandler;
         public Action<Enemy> OnEnemyFiringHandler;

@@ -12,7 +12,6 @@ namespace ShootEmUp
         private HitPointsComponent _hitPointsComponent;
         private TeamComponent _teamComponent;
         private InputManager _inputManager;
-        private BulletSystem _bulletSystem;
 
         private Vector2 _shootDirection = Vector2.up;
 
@@ -21,10 +20,10 @@ namespace ShootEmUp
         
         [Inject]
         public void Construct(CharacterConfig config, MoveComponent moveComponent, WeaponComponent weaponComponent,
-            HitPointsComponent hitPointsComponent, TeamComponent teamComponent, InputManager inputManager, BulletSystem bulletSystem)
+            HitPointsComponent hitPointsComponent, TeamComponent teamComponent, InputManager inputManager)
         {
             _moveComponent = moveComponent; _weaponComponent = weaponComponent; _hitPointsComponent = hitPointsComponent;
-            _teamComponent = teamComponent; _inputManager = inputManager; _bulletSystem = bulletSystem;
+            _teamComponent = teamComponent; _inputManager = inputManager;
 
             _moveComponent.Construct(config.Prefab.GetComponent<Rigidbody2D>(), config.Speed);
             _hitPointsComponent.Construct(config.HitPoints);

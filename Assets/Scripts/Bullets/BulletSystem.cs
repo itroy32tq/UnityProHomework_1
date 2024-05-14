@@ -3,6 +3,7 @@ using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
 using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
+using Assets.Scripts.Inventary;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,9 +21,9 @@ namespace ShootEmUp
         private readonly List<Bullet> _allBulletsList = new();
 
         [Inject]
-        public void Construct(BulletSystemConfig config, LevelBounds levelBounds)
+        public void Construct(Bullet bullet, BulletSystemConfig config, LevelBounds levelBounds)
         {
-            _bullet = config.Bullet;
+            _bullet = bullet;
             _initialCount = config.InitialCount;
             _container = config.Container;
             _levelBounds = levelBounds;
@@ -30,7 +31,8 @@ namespace ShootEmUp
 
         public void OnStartGame()
         {
-            _bulletPool = new Pool<Bullet>(_initialCount, new Factory<Bullet>(_bullet, _container));
+            IFactory<Bullet> factory = new Factory<Bullet>(_bullet, _container);
+            _bulletPool = new Pool<Bullet>(_initialCount, factory);
         }
 
         public void Create(Args args)

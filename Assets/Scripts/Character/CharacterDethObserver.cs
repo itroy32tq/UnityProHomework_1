@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : IGameStartListener, IGameFinishListener
+    public sealed class CharacterDethObserver : IGameStartListener, IGameFinishListener
     {
         [SerializeField] private Character _character;
         [SerializeField] private GameManager _gameManager;
