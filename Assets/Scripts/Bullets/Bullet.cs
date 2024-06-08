@@ -15,6 +15,7 @@ namespace ShootEmUp
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
         public event Action<Bullet, Collision2D> OnBulletDestroyHandler;
+        public event Action<GameObject, bool, int> OnBulletCollisionHandler;
 
         public void SetArgsToBullet(Args args)
         { 
@@ -39,21 +40,7 @@ namespace ShootEmUp
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!collision.gameObject.TryGetComponent(out TeamComponent team))
-            {
-                return;
-            }
-
-            if (_isPlayer == team.IsPlayer)
-            {
-                return;
-            }
-
-            if (collision.gameObject.TryGetComponent(out HitPointsComponent hitPoints))
-            {
-                hitPoints.TakeDamage(_damage);
-            }
-
+            OnBulletCollisionHandler(collision.gameObject, _isPlayer, _damage);
             OnBulletDestroyHandler?.Invoke(this, collision);
         }
     }

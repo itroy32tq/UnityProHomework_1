@@ -1,11 +1,9 @@
-using Assets.Scripts.InfroStructure;
-using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyMoveAgent : MonoBehaviour, IGameFixedUpdateListener
+    public sealed class EnemyMoveAgent
     {
         private Vector2 _destination;
         public bool IsReached { get; private set; }
@@ -13,25 +11,14 @@ namespace ShootEmUp
 
         public event Action<Vector2> OnMove;
 
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
-
-        [Inject]
-        public void Construct(Vector2 destination)
-        { 
-            _destination = destination;
-        }
-
-        public void OnFixedUpdate(float fixedDeltaTime)
+        public void Tick(float fixedDeltaTime, Vector2 unitPosition)
         {
             if (IsReached)
             {
                 return;
             }
 
-            var vector = _destination - (Vector2)transform.position;
+            var vector = _destination - unitPosition;
             if (vector.magnitude <= 0.25f)
             {
                 IsReached = true;

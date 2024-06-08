@@ -12,7 +12,8 @@ namespace ShootEmUp
         [Inject]
         public void Construct(Character character, GameManager gameManager)
         { 
-            _character = character; _gameManager = gameManager;
+            _character = character; 
+            _gameManager = gameManager;
         }
 
         private void CharacterDeathHandler()

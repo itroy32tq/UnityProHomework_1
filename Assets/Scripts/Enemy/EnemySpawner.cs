@@ -1,53 +1,42 @@
-using Assets.Scripts.Factory;
-using Assets.Scripts.GenericPool;
 using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
-using Assets.Scripts.Inventary;
+using Assets.Scripts.Pools;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemySpawner : IGameStartListener, IGameUpdateListener
+    public sealed class EnemySpawner : IGameUpdateListener
     {
-        private Pool<Enemy> _enemyPool;
+        private PrefablePool<Enemy> _enemyPool;
         private readonly List<Enemy> _activeEnemies = new();
         private float _timer;
+        private EnemySpawnerPositions _enemyPositions;
+        private float _spawnDelay;
 
-        private EnemyPositions _enemyPositions;
-        private Enemy _prefab;
-
-        private Transform _container;
-
-        private IFactory<Enemy> _enemyFactory; 
-
-        private float _spawnDelay = 1f;
-        private int _initialCount = 7;
-
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
 
         [Inject]
-        public void Construct(EnemyConfig enemyConfig)
+        public void Construct(EnemySpawnerConfig config, PrefablePool<Enemy> pool, Bullet bullet, EnemySpawnerPositions enemyPositions)
         {
-            _prefab = enemyConfig.Prefab;
-            _spawnDelay = enemyConfig.SpawnDelay; 
-            _initialCount = enemyConfig.InitialCount;
+            _spawnDelay = config.SpawnDelay; 
+            _enemyPool = pool;  
+            bullet.OnBulletCollisionHandler += BulletCollision;
+            _enemyPositions = enemyPositions;
         }
 
-        public void OnStartGame()
+        private void BulletCollision(GameObject collisionObject, bool isPlayer, int damage)
         {
-            _enemyFactory = new Factory<Enemy>(_prefab, _container);
-            _enemyPool = new Pool<Enemy>(_initialCount, _enemyFactory);
+            var target = _activeEnemies.FirstOrDefault(x => x.Prefab == collisionObject && x.GetTeam() != isPlayer);
+           
+            target.CollisionHandler(damage);
         }
 
         private void RemoveEnemy(Enemy enemy)
         {
             if (_activeEnemies.Remove(enemy))
             {
-                _enemyPool?.Release(enemy);
+                _enemyPool.Release(enemy);
                 enemy.OnEnemyDieingHandler -= RemoveEnemy;
             }
         }
@@ -66,7 +55,10 @@ namespace ShootEmUp
         {
             _timer += deltaTime;
 
-            if (_timer < _spawnDelay || _enemyPool == null) return;
+            if (_timer < _spawnDelay || _enemyPool == null)
+            {
+                return;
+            }
 
             if (!_enemyPool.TryGet(out Enemy enemy))
             {

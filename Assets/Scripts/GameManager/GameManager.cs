@@ -22,12 +22,19 @@ namespace ShootEmUp
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _pauseButton;
         [SerializeField] private TMP_Text _text;
-        [SerializeField] private DiContainer _diContainer;
+        [SerializeField] private DiContainer[] _diContainers;
+
         private void Awake()
         {
             _gameState = GameState.Off;
-            _gameListeners.AddRange(_diContainer.GameListeners);
-            //IGameListener.OnRegister += AddListener;
+
+            foreach (var container in _diContainers)
+            {
+                foreach (var listner in container.GameListeners)
+                {
+                    AddListner(listner);
+                }
+            }
 
             _startButton.onClick.AddListener(OnStartButtonClick);
             _pauseButton.onClick.AddListener(PauseGame);
@@ -38,31 +45,33 @@ namespace ShootEmUp
             _gameState = GameState.Finish;
         }
 
+        public void AddListner(IGameListener listener)
+        {
+            if (listener is IGameStartListener startListener)
+            {
+                _gameListeners.Add(startListener);
+            }
+
+            if (listener is IGameUpdateListener updateListener)
+            {
+                _gameUpdateListeners.Add(updateListener);
+            }
+
+            if (listener is IGameFixedUpdateListener fixedUpdateListener)
+            {
+                _gameFixedUpdateListeners.Add(fixedUpdateListener);
+            }
+        }
       
         [Button]
         public void StartGame()
         {
 
-            foreach (var listener in _gameListeners.ToList())
+            foreach (IGameStartListener listener in _gameListeners)
             {
-                if (listener is IGameStartListener startListener)
-                { 
-                    startListener.OnStartGame();
-                }
+                listener.OnStartGame();
             }
 
-            foreach (var listener in _gameListeners)
-            {
-                if (listener is IGameUpdateListener updateListener)
-                {
-                    _gameUpdateListeners.Add(updateListener);
-                }
-
-                if (listener is IGameFixedUpdateListener fixedUpdateListener)
-                {
-                    _gameFixedUpdateListeners.Add(fixedUpdateListener);
-                }
-            }
 
             _gameState = GameState.Start;
         }

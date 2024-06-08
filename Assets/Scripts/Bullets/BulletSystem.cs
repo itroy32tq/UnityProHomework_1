@@ -4,6 +4,7 @@ using Assets.Scripts.GenericPool;
 using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using Assets.Scripts.Inventary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace ShootEmUp
 
         private Pool<Bullet> _bulletPool;
         private readonly List<Bullet> _allBulletsList = new();
+        public Action<IGameListener> OnCreateListener;
 
         [Inject]
         public void Construct(Bullet bullet, BulletSystemConfig config, LevelBounds levelBounds)
@@ -39,10 +41,10 @@ namespace ShootEmUp
         {
             if (_bulletPool.TryGet(out Bullet bullet))
             {
-
                 bullet.SetArgsToBullet(args);
                 _allBulletsList.Add(bullet);
                 bullet.OnBulletDestroyHandler += OnBulletCollision;
+                OnCreateListener.Invoke(bullet);
             }
         }
         

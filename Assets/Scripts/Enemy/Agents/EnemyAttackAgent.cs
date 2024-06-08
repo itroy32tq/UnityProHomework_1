@@ -1,33 +1,26 @@
 using Assets.Scripts.Conditions;
 using Assets.Scripts.InfroStructure;
-using Assets.Scripts.Interface;
 using System;
-using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyAttackAgent : MonoBehaviour, IGameFixedUpdateListener
+    public sealed class EnemyAttackAgent
     {
-        [SerializeField] private float _countdown;
+        private float _countdown;
         private float _currentTime;
 
-        public readonly AndCondition AttackAgentCondition = new();
+        
         public event Action OnEnemyFireingHandler;
         
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
-
         public void Reset()
         {
             _currentTime = _countdown;
         }
 
         [Inject]
-        public void Construct(float countdown)
+        public void Construct(EnemyAgentsConfig config)
         {
-            _countdown = countdown;
+            _countdown = config.Countdown;
         }
 
         private void Fire()
@@ -35,9 +28,9 @@ namespace ShootEmUp
             OnEnemyFireingHandler?.Invoke();
         }
 
-        public void OnFixedUpdate(float fixedDeltaTime)
+        public void Tick(float fixedDeltaTime, AndCondition condition)
         {
-            if (!AttackAgentCondition.IsTrue())
+            if (!condition.IsTrue())
             {
                 return;
             }

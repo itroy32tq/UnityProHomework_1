@@ -15,14 +15,15 @@ namespace Assets.Scripts
         [field: SerializeField] private bool _installOnAwake;
         [field: SerializeField] private bool _resolveOnStart;
         [field: SerializeField] private Installer[] _installers;
-        public List<IGameListener> GameListeners { get; private set; }
+        public List<IGameListener> GameListeners { get; private set; } = new List<IGameListener>();
 
         private void Awake()
         {
             if (_installOnAwake)
             {
-                FindGameListeners();
+                
                 Install();
+                FindGameListeners();
             }
         }
 
@@ -38,7 +39,7 @@ namespace Assets.Scripts
         {
 
             Type type = installer.GetType();
-            FieldInfo[] fields = type.GetType().GetFields(
+            FieldInfo[] fields = type.GetFields(
                 BindingFlags.Instance |
                 BindingFlags.Public |
                 BindingFlags.NonPublic |
@@ -81,7 +82,7 @@ namespace Assets.Scripts
 
                 foreach (var field in fields)
                 {
-                    var target = field.GetValue(this);
+                    var target = field.GetValue(module);
                     Inject(target);
                 }
             }
@@ -93,6 +94,15 @@ namespace Assets.Scripts
         public object GetService(Type contractType)
         {
             return _services[contractType];
+        }
+
+        public bool TryGetService(Type contractType, out object service)
+        {
+            if (_services.TryGetValue(contractType, out service))
+            {
+                return true;
+            }
+            return service == null;
         }
 
         public T GetService<T>() where T : class
@@ -148,10 +158,29 @@ namespace Assets.Scripts
 
                 for (int i = 0; i < parametrs.Length; i++)
                 {
-                    ParameterInfo parametersInfo = parametrs[i]; 
-                    var parameterType = parametersInfo.ParameterType;
-                    object service = _services[parameterType];
-                    args[i] = service;
+                    ParameterInfo parametersInfo = parametrs[i];
+                    Type parameterType = parametersInfo.ParameterType;
+
+                    if (TryGetService(parameterType, out object result))
+                    {
+                        args[i] = result;
+                        continue;
+                    }
+                    else
+                    {
+                        var parent = gameObject.GetComponentInParent<DiContainer>();
+                        if (parent != null)
+                        {
+                            if (parent.TryGetService(parameterType, out result))
+                            {
+                                args[i] = result;
+                                continue;
+                            }
+                        }
+
+                        throw new Exception($"failed to find a dependency for the type {nameof(parameterType)} ");
+                    }
+                    
                 }
 
                 method.Invoke(component, args);

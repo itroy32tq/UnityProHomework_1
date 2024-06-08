@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPositions
+    public sealed class EnemySpawnerPositions
     {
         private Transform[] _spawnPositions;
         private Transform[] _attackPositions;
@@ -14,10 +14,10 @@ namespace ShootEmUp
         }
 
         [Inject]
-        public void Construct(EnemyConfig enemyConfig)
+        public void Construct(EnemySpawnerConfig config)
         { 
-            _attackPositions = enemyConfig.AttackPositions; 
-            _spawnPositions = enemyConfig.SpawnPositions;
+            _attackPositions = config.AttackPositions; 
+            _spawnPositions = config.SpawnPositions;
         }
 
         public Transform RandomAttackPosition()

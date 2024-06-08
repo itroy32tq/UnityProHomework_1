@@ -5,19 +5,12 @@ namespace ShootEmUp
 {
     public sealed class MoveComponent
     {
-        private Rigidbody2D _rigidbody2D;
-        private float _speed;
         
-        public void Move(Vector2 vector)
+        public void Move(Rigidbody2D rigidbody, Vector2 vector, float speed)
         {
-            var nextPosition = _rigidbody2D.position + vector * _speed;
-            _rigidbody2D.MovePosition(nextPosition);
+            var nextPosition = rigidbody.position + vector * speed;
+            rigidbody.MovePosition(nextPosition);
         }
 
-        [Inject]
-        public void Construct(Rigidbody2D rigidbody2D, float speed)
-        { 
-            _rigidbody2D = rigidbody2D; _speed = speed;
-        }
     }
 }

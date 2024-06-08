@@ -5,26 +5,25 @@ namespace ShootEmUp
 {
     public sealed class WeaponComponent
     {
-        private Transform _firePoint;
-        private BulletConfig _bulletConfig;
+
         private BulletSystem _bulletSystem;
 
         [Inject]
-        public void Construct(CharacterConfig config, BulletConfig bulletConfig, BulletSystem bulletSystem)
+        public void Construct(BulletSystem bulletSystem)
         { 
-            _firePoint = config.FirePoint; _bulletConfig = bulletConfig; _bulletSystem = bulletSystem;
+            _bulletSystem = bulletSystem;
         }
 
-        public void Shoot(bool isPlayer, Vector2 direction)
+        public void Shoot(bool isPlayer, Vector2 direction, BulletConfig bulletConfig, Transform firePoint)
         {
             _bulletSystem.Create(new BulletSystem.Args
             {
                 IsPlayer = isPlayer,
-                PhysicsLayer = (int)_bulletConfig.PhysicsLayer,
-                Color = _bulletConfig.Color,
-                Damage = _bulletConfig.Damage,
-                Position = _firePoint.position,
-                Velocity = _firePoint.rotation * direction * _bulletConfig.Speed
+                PhysicsLayer = (int)bulletConfig.PhysicsLayer,
+                Color = bulletConfig.Color,
+                Damage = bulletConfig.Damage,
+                Position = firePoint.position,
+                Velocity = firePoint.rotation * direction * bulletConfig.Speed
             });
         }
     }
