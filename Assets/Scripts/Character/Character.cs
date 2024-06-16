@@ -51,7 +51,6 @@ namespace ShootEmUp
             _hitPointsComponent.OnHitPointsEnding += Die;
             _inputManager.OnInputMovingHandler += Move;
             _inputManager.OnInputShootingHandler += Shoot;
-            _bullet.OnBulletCollisionHandler += OnBulletCollision;
         }
 
         public bool GetTeam()
@@ -69,7 +68,7 @@ namespace ShootEmUp
             OnCharacterDieingHandler?.Invoke();
         }
 
-        private void OnBulletCollision(GameObject collisionObject, bool isPlayer, int damage)
+        public void OnBulletCollision(GameObject collisionObject, bool isPlayer, int damage)
         {
             if (!collisionObject == _prefab)
             {
@@ -81,7 +80,7 @@ namespace ShootEmUp
                 return;
             }
 
-            _hitPointsComponent.TakeDamage(damage, _hitPoints);
+            _hitPoints = _hitPointsComponent.TakeDamage(damage, _hitPoints);
         }
 
         private void Shoot()

@@ -1,6 +1,7 @@
 using Assets.Scripts.Conditions;
 using Assets.Scripts.InfroStructure;
 using System;
+using UnityEngine;
 
 namespace ShootEmUp
 {
@@ -8,9 +9,10 @@ namespace ShootEmUp
     {
         private float _countdown;
         private float _currentTime;
+        private Transform _target;
 
-        
-        public event Action OnEnemyFireingHandler;
+
+        public event Action<Vector2> OnEnemyFireingHandler;
         
         public void Reset()
         {
@@ -18,17 +20,18 @@ namespace ShootEmUp
         }
 
         [Inject]
-        public void Construct(EnemyAgentsConfig config)
+        public void Construct(EnemyAgentsConfig config, CharacterConfig characterConfig)
         {
             _countdown = config.Countdown;
+            _target = characterConfig.Prefab.transform;
         }
 
-        private void Fire()
+        private void Fire(Vector2 direction)
         {
-            OnEnemyFireingHandler?.Invoke();
+            OnEnemyFireingHandler?.Invoke(direction);
         }
 
-        public void Tick(float fixedDeltaTime, AndCondition condition)
+        public void Tick(float fixedDeltaTime, AndCondition condition, Transform transform)
         {
             if (!condition.IsTrue())
             {
@@ -39,7 +42,9 @@ namespace ShootEmUp
 
             if (_currentTime <= 0)
             {
-                Fire();
+                var direction = _target.position - transform.position;
+
+                Fire(direction.normalized);
                 _currentTime += _countdown;
             }
         }

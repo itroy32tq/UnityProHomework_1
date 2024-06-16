@@ -6,7 +6,7 @@ namespace ShootEmUp
        fileName = "CharacterConfig",
        menuName = "Character/NewCharacterConfig"
    )]
-    public sealed class CharacterConfig : ScriptableObject, IUnitConfig
+    public sealed class CharacterConfig : ScriptableObject
     {
         [field: SerializeField] public GameObject Prefab { get; private set; }
         [field: SerializeField] public int HitPoints { get; private set; }

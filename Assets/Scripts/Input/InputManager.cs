@@ -34,6 +34,9 @@ namespace ShootEmUp
 
         public void OnFixedUpdate(float fixedDeltaTime)
         {
+            if (_horizontalDirection == 0)
+                return;
+
             Vector2 direction = new Vector2(_horizontalDirection, 0) * fixedDeltaTime;
             OnInputMovingHandler?.Invoke(direction);
         }

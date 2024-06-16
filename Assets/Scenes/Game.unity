@@ -251,7 +251,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -1311,6 +1311,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794810565}
   m_CullTransparentMesh: 1
+--- !u!1 &2084307518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2084307519}
+  m_Layer: 0
+  m_Name: '[BULLET_SYSTEM]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2084307519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084307518}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &61006797492197339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,7 +1635,7 @@ PrefabInstance:
     - target: {fileID: 809540891661548872, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.51
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 809540891661548872, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
         type: 3}
@@ -1698,8 +1729,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3951702117947426122}
   - component: {fileID: 3951702117947426123}
+  - component: {fileID: 3951702117947426125}
   - component: {fileID: 3951702117947426124}
-  - component: {fileID: 3951702117947426126}
   m_Layer: 0
   m_Name: '[GAME_SYSTEM]'
   m_TagString: Untagged
@@ -1739,20 +1770,9 @@ MonoBehaviour:
   _startButton: {fileID: 1306316533}
   _pauseButton: {fileID: 1347411862}
   _text: {fileID: 589946494}
-  _diContainers: []
+  _diContainers:
+  - {fileID: 3951702117947426125}
 --- !u!114 &3951702117947426124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3951702117947426121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b155879587c544cbdeede9b7e78534, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3951702117947426126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1764,6 +1784,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d17c292f55249b48bbb09abc19b6f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyConfig: {fileID: 11400000, guid: 267f50f5879c4de47b96483f38565e1a, type: 2}
+  _characterConfig: {fileID: 11400000, guid: 1827520739258db4688a0cc508209c46, type: 2}
+  _levelBoundsConfig: {fileID: 11400000, guid: d608350ecca4bbc49894c06510e7f43a, type: 2}
+  _bulletSystemConfig: {fileID: 11400000, guid: 4f7be43e86410fe49b8dadc3649a1847,
+    type: 2}
+  _levelBackgroundConfig: {fileID: 11400000, guid: f0009ee23b719ad4d81c0dee2064fae3,
+    type: 2}
+  _enemySpawnerConfig: {fileID: 11400000, guid: ee6fb11c1dc17454595a80c03248ce56,
+    type: 2}
+  _enemyAgentsConfig: {fileID: 11400000, guid: 73a03a17f1f463f498772cf879e9c389, type: 2}
+  _gameManager: {fileID: 3951702117947426123}
+  _bullet: {fileID: 201757604187811891, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
+--- !u!114 &3951702117947426125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951702117947426121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b155879587c544cbdeede9b7e78534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _installOnAwake: 1
+  _resolveOnStart: 1
+  _installers:
+  - {fileID: 3951702117947426124}
 --- !u!212 &4162873433806880330
 SpriteRenderer:
   m_ObjectHideFlags: 0

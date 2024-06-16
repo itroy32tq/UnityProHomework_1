@@ -7,7 +7,7 @@ namespace ShootEmUp
 
         public event Action OnHitPointsEnding;
 
-        public void TakeDamage(int damage, int hitPoints)
+        public int TakeDamage(int damage, int hitPoints)
         {
             hitPoints -= damage;
 
@@ -15,6 +15,7 @@ namespace ShootEmUp
             {
                 OnHitPointsEnding?.Invoke();
             }
+            return hitPoints;
         }
     }
 }

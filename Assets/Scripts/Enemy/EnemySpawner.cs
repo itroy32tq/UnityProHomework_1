@@ -17,18 +17,22 @@ namespace ShootEmUp
 
 
         [Inject]
-        public void Construct(EnemySpawnerConfig config, PrefablePool<Enemy> pool, Bullet bullet, EnemySpawnerPositions enemyPositions)
+        public void Construct(EnemySpawnerConfig config, PrefablePool<Enemy> pool, EnemySpawnerPositions enemyPositions)
         {
             _spawnDelay = config.SpawnDelay; 
             _enemyPool = pool;  
-            bullet.OnBulletCollisionHandler += BulletCollision;
             _enemyPositions = enemyPositions;
         }
 
-        private void BulletCollision(GameObject collisionObject, bool isPlayer, int damage)
+        public void OnBulletCollision(GameObject collisionObject, bool isPlayer, int damage)
         {
             var target = _activeEnemies.FirstOrDefault(x => x.Prefab == collisionObject && x.GetTeam() != isPlayer);
-           
+
+            if (target == null)
+            {
+                return;
+            }
+
             target.CollisionHandler(damage);
         }
 

@@ -15,6 +15,7 @@ namespace ShootEmUp
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
         public event Action<Bullet, Collision2D> OnBulletDestroyHandler;
+
         public event Action<GameObject, bool, int> OnBulletCollisionHandler;
 
         public void SetArgsToBullet(Args args)
@@ -40,7 +41,8 @@ namespace ShootEmUp
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            OnBulletCollisionHandler(collision.gameObject, _isPlayer, _damage);
+            OnBulletCollisionHandler?.Invoke(collision.gameObject, _isPlayer, _damage);
+
             OnBulletDestroyHandler?.Invoke(this, collision);
         }
     }

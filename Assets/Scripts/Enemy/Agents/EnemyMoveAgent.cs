@@ -5,7 +5,7 @@ namespace ShootEmUp
 {
     public sealed class EnemyMoveAgent
     {
-        private Vector2 _destination;
+        private Vector2 _destination = new() { x = 0.04f, y = 3.74f };
         public bool IsReached { get; private set; }
         public Vector2 Direction { get; private set; }
 
@@ -24,6 +24,7 @@ namespace ShootEmUp
                 IsReached = true;
                 return;
             }
+
             Direction = vector.normalized;
             var moveDirection = vector.normalized * fixedDeltaTime;
             OnMove?.Invoke(moveDirection);

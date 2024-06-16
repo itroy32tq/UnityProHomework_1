@@ -17,7 +17,6 @@ MonoBehaviour:
   <HitPoints>k__BackingField: 3
   <Speed>k__BackingField: 2
   <IsPlayer>k__BackingField: 0
-  <FirePoint>k__BackingField: {fileID: 7226532164066043785, guid: afff2d97a94d6b34c87850de5e9e35a5,
-    type: 3}
   <BulletConfig>k__BackingField: {fileID: 11400000, guid: c3334524937189d449d9863a40f92bbe,
     type: 2}
+  <Container>k__BackingField: {fileID: 0}

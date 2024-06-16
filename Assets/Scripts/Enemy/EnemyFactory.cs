@@ -7,20 +7,21 @@ namespace ShootEmUp
 {
     public class EnemyFactory : IFactory<Enemy>
     {
-        private HitPointsComponent _hitPointsComponent;
-        private EnemyMoveAgent _enemyMoveAgent;
-        private EnemyAttackAgent _enemyAttackAgent;
-        private WeaponComponent _weaponComponent;
-        private MoveComponent _moveComponent;
-        private Character _character;
+        private readonly HitPointsComponent _hitPointsComponent;
+        private readonly EnemyMoveAgent _enemyMoveAgent;
+        private readonly EnemyAttackAgent _enemyAttackAgent;
+        private readonly WeaponComponent _weaponComponent;
+        private readonly MoveComponent _moveComponent;
+        private readonly Character _character;
+        private readonly EnemyConfig _config;
+        private readonly Transform _container;
         private GameObject _prefab;
-        private EnemyConfig _config;
 
         public Action<IGameListener> OnCreateListener;
 
         public Enemy Create()
         {
-            _prefab = UnityEngine.Object.Instantiate(_prefab);
+            _prefab = UnityEngine.Object.Instantiate(_prefab, _container);
 
             Enemy enemy = new(_character, _hitPointsComponent, _enemyMoveAgent, _enemyAttackAgent,
                 _weaponComponent, _moveComponent, _prefab, _config);
@@ -41,6 +42,7 @@ namespace ShootEmUp
             _character = character;
             _prefab = config.Prefab;
             _config = config;
+            _container = config.Container;
         }
     }
 }

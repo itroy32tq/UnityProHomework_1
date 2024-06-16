@@ -47,10 +47,7 @@ namespace ShootEmUp
 
         public void AddListner(IGameListener listener)
         {
-            if (listener is IGameStartListener startListener)
-            {
-                _gameListeners.Add(startListener);
-            }
+            _gameListeners.Add(listener);
 
             if (listener is IGameUpdateListener updateListener)
             {
@@ -67,7 +64,7 @@ namespace ShootEmUp
         public void StartGame()
         {
 
-            foreach (IGameStartListener listener in _gameListeners)
+            foreach (IGameStartListener listener in _gameListeners.OfType<IGameStartListener>())
             {
                 listener.OnStartGame();
             }

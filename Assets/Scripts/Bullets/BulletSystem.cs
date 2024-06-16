@@ -17,24 +17,29 @@ namespace ShootEmUp
         private Bullet _bullet;
         private LevelBounds _levelBounds;
         private Transform _container;
+        private Character _character;
+        private EnemySpawner _spawner;
 
         private Pool<Bullet> _bulletPool;
         private readonly List<Bullet> _allBulletsList = new();
         public Action<IGameListener> OnCreateListener;
 
         [Inject]
-        public void Construct(Bullet bullet, BulletSystemConfig config, LevelBounds levelBounds)
+        public void Construct(Bullet bullet, BulletSystemConfig config, LevelBounds levelBounds, Character character, EnemySpawner spawner)
         {
             _bullet = bullet;
             _initialCount = config.InitialCount;
             _container = config.Container;
             _levelBounds = levelBounds;
+            _character = character;
+            _spawner = spawner;
         }
 
         public void OnStartGame()
         {
             IFactory<Bullet> factory = new Factory<Bullet>(_bullet, _container);
             _bulletPool = new Pool<Bullet>(_initialCount, factory);
+            
         }
 
         public void Create(Args args)
@@ -44,6 +49,8 @@ namespace ShootEmUp
                 bullet.SetArgsToBullet(args);
                 _allBulletsList.Add(bullet);
                 bullet.OnBulletDestroyHandler += OnBulletCollision;
+                bullet.OnBulletCollisionHandler += _spawner.OnBulletCollision;
+                bullet.OnBulletCollisionHandler += _character.OnBulletCollision;
                 OnCreateListener.Invoke(bullet);
             }
         }

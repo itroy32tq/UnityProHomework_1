@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class Enemy : IPrefable, IGameFixedUpdateListener
+    public sealed class Enemy : IPrefable, IGameFixedUpdateListener, IGameStartListener
     {
         private readonly HitPointsComponent _hitPointsComponent;
         private readonly EnemyMoveAgent _enemyMoveAgent;
@@ -16,9 +16,10 @@ namespace ShootEmUp
         private readonly Character _character;
         private readonly GameObject _prefab;
         private readonly Transform _firePoint;
-        private readonly int _hitPoints;
+        private int _hitPoints;
         private readonly float _speed;
 
+        public int HitPoints => _hitPoints;
         public WeaponComponent WeaponComponent => _weaponComponent;
         public GameObject Prefab =>_prefab;
         public bool IsPlayer { get; private set; }
@@ -45,12 +46,12 @@ namespace ShootEmUp
 
             Rigidbody = _prefab.GetComponent<Rigidbody2D>();
             _speed = config.Speed;
-            _firePoint = config.FirePoint;
+            _firePoint = _prefab.GetComponentInChildren<Transform>();
             _hitPoints = config.HitPoints;
             IsPlayer = config.IsPlayer;
         }
       
-        public void Start()
+        public void OnStartGame()
         {
             _hitPointsComponent.OnHitPointsEnding += Die;
             _enemyAttackAgent.OnEnemyFireingHandler += OnFire;
@@ -63,13 +64,14 @@ namespace ShootEmUp
 
         public void CollisionHandler(int damage)
         {
-            _hitPointsComponent.TakeDamage(damage, _hitPoints);
+            _hitPoints = _hitPointsComponent.TakeDamage(damage, _hitPoints);
         }
 
         public bool GetTeam()
         {
             return IsPlayer;
         }
+
         public void Move(Vector2 vector)
         {
             _moveComponent.Move(Rigidbody, vector, _speed);
@@ -104,17 +106,16 @@ namespace ShootEmUp
             AttackAgentCondition.Clear();
         }
 
-        private void OnFire()
+        private void OnFire(Vector2 direction)
         {
-            _weaponComponent.Shoot(IsPlayer, _enemyMoveAgent.Direction, _bulletConfig, _firePoint);
+            _weaponComponent.Shoot(IsPlayer, direction, _bulletConfig, _firePoint);
             OnEnemyFiringHandler?.Invoke(this);
         }
 
         public void OnFixedUpdate(float fixedDeltaTime)
         {
-            _enemyAttackAgent.Tick(fixedDeltaTime, AttackAgentCondition);
+            _enemyAttackAgent.Tick(fixedDeltaTime, AttackAgentCondition, _prefab.transform);
             _enemyMoveAgent.Tick(fixedDeltaTime, _prefab.transform.position);
         }
     }
-
 }
