@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4888fcc2295a18648a5dc3d8b32786aa, type: 3}
   m_Name: CharacterConfig
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 809540891661548873, guid: 9699e7e809fd44b2bbf3d30c951ecbd2,
-    type: 3}
+  <Prefab>k__BackingField: {fileID: 0}
   <HitPoints>k__BackingField: 3
-  <Speed>k__BackingField: 5
+  <Speed>k__BackingField: 7
   <IsPlayer>k__BackingField: 1
   <FirePoint>k__BackingField: {fileID: 0}
+  <BulletConfig>k__BackingField: {fileID: 11400000, guid: 7138ae5d32d814e0ca50c616c65ea105,
+    type: 2}

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4d59c9f2304e5479bbdfd66e84ae36, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  <Prefab>k__BackingField: {fileID: 0}
-  <HitPoints>k__BackingField: 0
-  <Speed>k__BackingField: 0
+  <Prefab>k__BackingField: {fileID: 559606060570185700, guid: 87fe189881a524806800482ac8eaaa83,
+    type: 3}
+  <HitPoints>k__BackingField: 3
+  <Speed>k__BackingField: 2
   <IsPlayer>k__BackingField: 0
-  <FirePoint>k__BackingField: {fileID: 0}
-  <SpawnPositions>k__BackingField: []
-  <AttackPositions>k__BackingField: []
-  <SpawnDelay>k__BackingField: 0
-  <InitialCount>k__BackingField: 0
+  <FirePoint>k__BackingField: {fileID: 7226532164066043785, guid: afff2d97a94d6b34c87850de5e9e35a5,
+    type: 3}
+  <BulletConfig>k__BackingField: {fileID: 11400000, guid: c3334524937189d449d9863a40f92bbe,
+    type: 2}

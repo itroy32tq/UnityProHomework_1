@@ -12,7 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed7f251cbad48f4d9f5188b97c17d46, type: 3}
   m_Name: EnemySpawnerConfig
   m_EditorClassIdentifier: 
-  <SpawnPositions>k__BackingField: []
-  <AttackPositions>k__BackingField: []
-  <SpawnDelay>k__BackingField: 0
-  <InitialCount>k__BackingField: 0
+  <SpawnPositions>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  <AttackPositions>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  <SpawnDelay>k__BackingField: 1
+  <InitialCount>k__BackingField: 1
