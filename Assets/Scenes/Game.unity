@@ -1199,7 +1199,7 @@ MonoBehaviour:
   _enemySpawnerConfig: {fileID: 11400000, guid: ee6fb11c1dc17454595a80c03248ce56,
     type: 2}
   _enemyAgentsConfig: {fileID: 11400000, guid: 73a03a17f1f463f498772cf879e9c389, type: 2}
-  _enemyContainer: {fileID: 0}
+  _enemyContainer: {fileID: 1683128698}
   _gameManager: {fileID: 3951702117947426123}
   _bullet: {fileID: 201757604187811891, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
 --- !u!114 &3951702117947426125
