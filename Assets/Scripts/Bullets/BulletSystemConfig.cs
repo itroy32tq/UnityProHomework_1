@@ -1,5 +1,4 @@
-﻿using ShootEmUp;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Bullets
 {

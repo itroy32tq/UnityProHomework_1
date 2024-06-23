@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185a4241d07fb2a4e9d58a0adf7e5532, type: 3}
   m_Name: BulletSystemConfig
   m_EditorClassIdentifier: 
-  <InitialCount>k__BackingField: 50
-  <Container>k__BackingField: {fileID: 0}
+  InitialCount: 0
+  Container: {fileID: 0}

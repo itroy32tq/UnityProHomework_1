@@ -32,4 +32,4 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   <SpawnDelay>k__BackingField: 1
-  <InitialCount>k__BackingField: 1
+  <InitialCount>k__BackingField: 3
