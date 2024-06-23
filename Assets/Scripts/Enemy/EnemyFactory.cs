@@ -21,10 +21,10 @@ namespace ShootEmUp
 
         public Enemy Create()
         {
-            _prefab = UnityEngine.Object.Instantiate(_prefab, _container);
+            var newPrefab = UnityEngine.Object.Instantiate(_prefab, _container);
 
             Enemy enemy = new(_character, _hitPointsComponent, _enemyMoveAgent, _enemyAttackAgent,
-                _weaponComponent, _moveComponent, _prefab, _config);
+                _weaponComponent, _moveComponent, newPrefab, _config);
 
             OnCreateListener(enemy);
             return enemy;

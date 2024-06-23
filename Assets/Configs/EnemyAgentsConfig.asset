@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44bf12af511832b45b4e31a7f5efa50f, type: 3}
   m_Name: EnemyAgentsConfig
   m_EditorClassIdentifier: 
-  <Countdown>k__BackingField: 1
+  <Countdown>k__BackingField: 3
