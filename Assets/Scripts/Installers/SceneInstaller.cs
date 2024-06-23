@@ -17,6 +17,7 @@ namespace Assets.Scripts.InfroStructure
         [SerializeField] private LevelBackgroundConfig _levelBackgroundConfig;
         [SerializeField] private EnemySpawnerConfig _enemySpawnerConfig;
         [SerializeField] private EnemyAgentsConfig _enemyAgentsConfig;
+        [SerializeField] private Transform _enemyContainer;
 
         private PrefablePool<Enemy> _enemyPool;
 
@@ -89,7 +90,8 @@ namespace Assets.Scripts.InfroStructure
                                             _enemyAttackAgent,
                                             _weaponComponent,
                                             _moveComponent,
-                                            _enemyConfig);
+                                            _enemyConfig,
+                                            _enemyContainer);
 
             enemyFactory.OnCreateListener += _gameManager.AddListner;
 

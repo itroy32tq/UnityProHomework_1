@@ -32,7 +32,7 @@ namespace ShootEmUp
 
         public EnemyFactory(Character character, HitPointsComponent hitPointsComponent,
             EnemyMoveAgent enemyMoveAgent, EnemyAttackAgent enemyAttackAgent,
-            WeaponComponent weaponComponent, MoveComponent moveComponent, EnemyConfig config)
+            WeaponComponent weaponComponent, MoveComponent moveComponent, EnemyConfig config, Transform container)
         {
             _hitPointsComponent = hitPointsComponent;
             _enemyMoveAgent = enemyMoveAgent;
@@ -42,7 +42,7 @@ namespace ShootEmUp
             _character = character;
             _prefab = config.Prefab;
             _config = config;
-            _container = config.Container;
+            _container = container;
         }
     }
 }

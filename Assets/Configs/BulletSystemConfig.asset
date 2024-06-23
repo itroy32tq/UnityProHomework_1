@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: BulletSystemConfig
   m_EditorClassIdentifier: 
   <InitialCount>k__BackingField: 50
-  <Container>k__BackingField: {fileID: 0}
+  <Container>k__BackingField: {fileID: 3125521290721419208, guid: ff18991ecd8c04e4f93895693242e25b,
+    type: 3}

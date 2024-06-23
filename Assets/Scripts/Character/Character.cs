@@ -35,7 +35,7 @@ namespace ShootEmUp
             _inputManager = inputManager; 
 
             _bullet = bullet;
-            _prefab = config.Prefab;
+            _prefab = UnityEngine.Object.Instantiate(config.Prefab);
 
             Rigidbody = _prefab.GetComponent<Rigidbody2D>();
             _speed = config.Speed;
@@ -43,7 +43,7 @@ namespace ShootEmUp
             _hitPoints = config.HitPoints;
             IsPlayer = config.IsPlayer;
             _bulletConfig = config.BulletConfig;
-            _firePoint = config.FirePoint;
+            _firePoint = _prefab.GetComponentInChildren<Transform>();
         }
 
         public void OnStartGame()

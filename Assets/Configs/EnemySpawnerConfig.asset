@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: EnemySpawnerConfig
   m_EditorClassIdentifier: 
   <SpawnPositions>k__BackingField:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7858026549249580670, guid: b3e3efb541e3bf7408007a3eaaad613f, type: 3}
+  - {fileID: 5217669335187370006, guid: 7be95575812b65e4385eadee2f7859e5, type: 3}
+  - {fileID: 7211640261856241647, guid: 0614dadf93a10ab4d97f285a675d44c2, type: 3}
+  - {fileID: 484708574296765581, guid: cd3a9897ab1b38c4088cd402312b978f, type: 3}
+  - {fileID: 48784399456116970, guid: 1292d348cf2f4e44bae37c5fd4f9eb41, type: 3}
+  - {fileID: 842573012258005968, guid: 8cf1604d53e684c4182f9d49a3b9e92c, type: 3}
   <AttackPositions>k__BackingField:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1293654578679232143, guid: 3e0ec3988aed0244dab64f0ef131bef8, type: 3}
+  - {fileID: 6871186421253534078, guid: 6deba3bc5a3d9f8418f47eafaf03b77a, type: 3}
+  - {fileID: 781694651578521026, guid: 9cd64e66da538e344ba8ab942a51c2df, type: 3}
+  - {fileID: 517230577753237790, guid: bb2f575e88a0df44c899e31a76c37b43, type: 3}
+  - {fileID: 1977759114631272214, guid: 8b1e59ea0680f2b488d17103f90fe2d3, type: 3}
+  - {fileID: 1903179440076383724, guid: 826ec25ef46e8c342b168fc29d841dc8, type: 3}
+  - {fileID: 2248555643733381634, guid: db89853b2a1dc4049afa4f024ff7c6fa, type: 3}
+  - {fileID: 1797201957189258425, guid: 26b72b0d13e16c647b17320e84b2a924, type: 3}
+  - {fileID: 3100638333686569465, guid: df3381e9a4e57eb49b51f0edb41a22d1, type: 3}
+  - {fileID: 1053277739127430326, guid: ea089ea2788a8904cbf838fb8cdce52a, type: 3}
+  - {fileID: 2505998957066224566, guid: bffd85fd48159e541bed3c2bcbfb84af, type: 3}
   <SpawnDelay>k__BackingField: 1
   <InitialCount>k__BackingField: 3

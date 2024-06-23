@@ -19,7 +19,8 @@ namespace ShootEmUp
         [Inject]
         public void Construct(LevelBackgroundConfig config)
         {
-            _myTransform = config.LevelBackground.transform;
+            var back = Object.Instantiate(config.LevelBackground);
+            _myTransform = back.transform;
             _startPositionY = config.StartPositionY;
             _endPositionY = config.EndPositionY;
             _movingSpeedY = config.MovingSpeedY;

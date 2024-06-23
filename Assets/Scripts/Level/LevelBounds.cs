@@ -14,10 +14,11 @@ namespace ShootEmUp
         [Inject]
         public void Construct(LevelBoundsConfig config)
         {
-            _leftBorder = config.LeftBorder;
-            _rightBorder = config.RightBorder;
-            _downBorder = config.DownBorder;
-            _topBorder = config.TopBorder;
+            
+            _leftBorder = Object.Instantiate(config.LeftBorder);
+            _rightBorder = Object.Instantiate(config.RightBorder);
+            _downBorder = Object.Instantiate(config.DownBorder);
+            _topBorder = Object.Instantiate(config.TopBorder);
         }
 
         public bool InBounds(Vector3 position)
