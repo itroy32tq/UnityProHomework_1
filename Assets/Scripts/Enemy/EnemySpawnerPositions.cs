@@ -1,15 +1,23 @@
+using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyPositions : MonoBehaviour
+    public sealed class EnemySpawnerPositions
     {
-        [SerializeField] private Transform[] _spawnPositions;
-        [SerializeField] private Transform[] _attackPositions;
+        private Transform[] _spawnPositions;
+        private Transform[] _attackPositions;
 
         public Transform RandomSpawnPosition()
         {
             return RandomTransform(_spawnPositions);
+        }
+
+        [Inject]
+        public void Construct(EnemySpawnerConfig config)
+        { 
+            _attackPositions = config.AttackPositions; 
+            _spawnPositions = config.SpawnPositions;
         }
 
         public Transform RandomAttackPosition()

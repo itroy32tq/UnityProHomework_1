@@ -1,9 +1,11 @@
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
+using Assets.Scripts.Level;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBackground : MonoBehaviour, IGameStartListener, IGameFinishListener, IGameFixedUpdateListener
+    public sealed class LevelBackground : IGameStartListener, IGameFinishListener, IGameFixedUpdateListener
     {
         [SerializeField] private float _startPositionY;
         [SerializeField] private float _endPositionY;
@@ -13,13 +15,17 @@ namespace ShootEmUp
         private float _positionZ;
         private Transform _myTransform;
 
-        private void Awake()
+
+        [Inject]
+        public void Construct(LevelBackgroundConfig config)
         {
-            IGameListener.Register(this);
+            _myTransform = config.LevelBackground.transform;
+            _startPositionY = config.StartPositionY;
+            _endPositionY = config.EndPositionY;
+            _movingSpeedY = config.MovingSpeedY;
         }
         public void OnStartGame()
         {
-            _myTransform = transform;
             var position = _myTransform.position;
             _positionX = position.x;
             _positionZ = position.z;

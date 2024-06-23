@@ -9,57 +9,41 @@ namespace ShootEmUp
     {
         private bool _isPlayer;
         private int _damage;
-        private Vector2 _cashedvelocity;
+        private Vector2 _cashedVelocity;
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
-        public event Action<Bullet, Collision2D> OnDesrtoyHandler;
+        public event Action<Bullet, Collision2D> OnBulletDestroyHandler;
 
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
+        public event Action<GameObject, bool, int> OnBulletCollisionHandler;
 
-        public void Construct(Args args)
+        public void SetArgsToBullet(Args args)
         { 
-            transform.position = args.position;
-            _spriteRenderer.color = args.color;
-            gameObject.layer = args.physicsLayer;
-            _damage = args.damage;
-            _isPlayer = args.isPlayer;
-            _rigidbody2D.velocity = args.velocity;
+            transform.position = args.Position;
+            _spriteRenderer.color = args.Color;
+            gameObject.layer = args.PhysicsLayer;
+            _damage = args.Damage;
+            _isPlayer = args.IsPlayer;
+            _rigidbody2D.velocity = args.Velocity;
         }
 
         public void OnPauseGame()
         {
-            _cashedvelocity = _rigidbody2D.velocity;
+            _cashedVelocity = _rigidbody2D.velocity;
             _rigidbody2D.velocity = Vector2.zero;
         }
 
         public void OnResumeGame()
         {
-            _rigidbody2D.velocity = _cashedvelocity;
+            _rigidbody2D.velocity = _cashedVelocity;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!collision.gameObject.TryGetComponent(out TeamComponent team))
-            {
-                return;
-            }
+            OnBulletCollisionHandler?.Invoke(collision.gameObject, _isPlayer, _damage);
 
-            if (_isPlayer == team.IsPlayer)
-            {
-                return;
-            }
-
-            if (collision.gameObject.TryGetComponent(out HitPointsComponent hitPoints))
-            {
-                hitPoints.TakeDamage(_damage);
-            }
-
-            OnDesrtoyHandler?.Invoke(this, collision);
+            OnBulletDestroyHandler?.Invoke(this, collision);
         }
     }
 }

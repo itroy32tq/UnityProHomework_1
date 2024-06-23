@@ -1,60 +1,102 @@
-﻿using Assets.Scripts.Interface;
+﻿using Assets.Scripts.InfroStructure;
+using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class Character : MonoBehaviour, IGameStartListener, IGameFinishListener
+    public sealed class Character : IGameStartListener, IGameFinishListener, ITeamComponent
     {
-        [SerializeField] private MoveComponent _moveComponent;
-        [SerializeField] private WeaponComponent _weaponComponent;
-        [SerializeField] private HitPointsComponent _hitPointsComponent;
-        [SerializeField] private TeamComponent _teamComponent;
-        [SerializeField] private InputManager _inputManager;
-        [SerializeField] private BulletSystem _bulletSystem;
-        [SerializeField] private Vector2 _shootDirection = Vector2.up;
+        private MoveComponent _moveComponent;
+        private WeaponComponent _weaponComponent;
+        private HitPointsComponent _hitPointsComponent;
+        private InputManager _inputManager;
+        private Bullet _bullet;
+        private GameObject _prefab;
+        private CharacterConfig _config;
+        private float _speed;
+        private int _hitPoints;
+        private BulletConfig _bulletConfig;
+        private Transform _firePoint;
 
-        public Action<Character> OnCharacterDieingHandler;
+        private Vector2 _shootDirection = Vector2.up;
 
-        private void Awake()
+        public Action OnCharacterDieingHandler;
+        public Rigidbody2D Rigidbody { get; private set; }
+        public bool IsPlayer { get; private set; }
+
+        [Inject]
+        public void Construct(MoveComponent moveComponent, WeaponComponent weaponComponent,
+            HitPointsComponent hitPointsComponent, InputManager inputManager, Bullet bullet, CharacterConfig config)
         {
-            IGameListener.Register(this);
+            _moveComponent = moveComponent; 
+            _weaponComponent = weaponComponent; 
+            _hitPointsComponent = hitPointsComponent;
+            _inputManager = inputManager; 
+
+            _bullet = bullet;
+            _prefab = config.Prefab;
+
+            Rigidbody = _prefab.GetComponent<Rigidbody2D>();
+            _speed = config.Speed;
+            _config = config;
+            _hitPoints = config.HitPoints;
+            IsPlayer = config.IsPlayer;
+            _bulletConfig = config.BulletConfig;
+            _firePoint = config.FirePoint;
         }
-        
+
         public void OnStartGame()
         {
             _hitPointsComponent.OnHitPointsEnding += Die;
-            _inputManager.OnInputMovingHandler += _moveComponent.Move;
+            _inputManager.OnInputMovingHandler += Move;
             _inputManager.OnInputShootingHandler += Shoot;
-            _weaponComponent.SetBulletSystem(_bulletSystem);
         }
 
-        private void OnDisable()
+        public bool GetTeam()
         {
-            _hitPointsComponent.OnHitPointsEnding -= Die;
-            _inputManager.OnInputMovingHandler -= _moveComponent.Move;
-            _inputManager.OnInputShootingHandler -= Shoot;
+            return IsPlayer;
         }
 
-        private void Die(GameObject character)
+        public void Move(Vector2 vector)
         {
-            OnCharacterDieingHandler?.Invoke(this);
+            _moveComponent.Move(Rigidbody, vector, _speed);
+        }
+
+        private void Die()
+        {
+            OnCharacterDieingHandler?.Invoke();
+        }
+
+        public void OnBulletCollision(GameObject collisionObject, bool isPlayer, int damage)
+        {
+            if (!collisionObject == _prefab)
+            {
+                return;
+            }
+
+            if (isPlayer == GetTeam())
+            {
+                return;
+            }
+
+            _hitPoints = _hitPointsComponent.TakeDamage(damage, _hitPoints);
         }
 
         private void Shoot()
         {
-            _weaponComponent.Shoot(_teamComponent.IsPlayer, _shootDirection);
+            _weaponComponent.Shoot(IsPlayer, _shootDirection, _bulletConfig, _firePoint);
         }
 
         public bool IsHitPointsExists()
-        { 
-            return _hitPointsComponent.IsHitPointsExists();
+        {
+            return _hitPoints > 0;
         }
 
         public void OnFinishGame()
         {
             _hitPointsComponent.OnHitPointsEnding -= Die;
-            _inputManager.OnInputMovingHandler -= _moveComponent.Move;
+            _inputManager.OnInputMovingHandler -= Move;
             _inputManager.OnInputShootingHandler -= Shoot;
         }
     }
