@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f58891edf407448b486559ee20d578, type: 3}
   m_Name: LevelBoundsConfig
   m_EditorClassIdentifier: 
-  <LeftBorder>k__BackingField: {fileID: 0}
-  <RightBorder>k__BackingField: {fileID: 0}
-  <DownBorder>k__BackingField: {fileID: 0}
-  <TopBorder>k__BackingField: {fileID: 0}
+  <LeftBorder>k__BackingField: {fileID: 3699543278000981699, guid: e37feac41be6fb045a6a0da846823467,
+    type: 3}
+  <RightBorder>k__BackingField: {fileID: 19343468072614920, guid: a8a6711b7b596204d8b57d7da1578aeb,
+    type: 3}
+  <DownBorder>k__BackingField: {fileID: 3652584929880743139, guid: dd237abeeebec8b4c9ccd1cef7186bfa,
+    type: 3}
+  <TopBorder>k__BackingField: {fileID: 7215209579955415746, guid: 34f576a4fc9595d498c7d823abab1ce4,
+    type: 3}

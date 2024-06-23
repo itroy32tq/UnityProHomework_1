@@ -12,7 +12,6 @@ namespace ShootEmUp
         [field: SerializeField] public int HitPoints { get; private set; }
         [field: SerializeField] public float Speed { get; private set; }
         [field: SerializeField] public bool IsPlayer { get; private set; }
-        [field: SerializeField] public Transform FirePoint { get; private set; }
         [field: SerializeField] public BulletConfig BulletConfig { get; private set; }
     }
 }

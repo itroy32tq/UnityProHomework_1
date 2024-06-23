@@ -29,7 +29,7 @@ namespace ShootEmUp
         {
             _bullet = bullet;
             _initialCount = config.InitialCount;
-            _container = config.Container;
+            _container = UnityEngine.Object.Instantiate(config.Container);
             _levelBounds = levelBounds;
             _character = character;
             _spawner = spawner;

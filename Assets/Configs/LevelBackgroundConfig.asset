@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09a6c69aceebdf34b8aa16aa5af965d2, type: 3}
   m_Name: LevelBackgroundConfig
   m_EditorClassIdentifier: 
-  <LevelBackground>k__BackingField: {fileID: 0}
+  <LevelBackground>k__BackingField: {fileID: 6570774097776767285, guid: 229f4beb3cf84b743a389511d934ad8a,
+    type: 3}
   <StartPositionY>k__BackingField: 18
   <EndPositionY>k__BackingField: -48
   <MovingSpeedY>k__BackingField: 5

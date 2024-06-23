@@ -15,9 +15,23 @@ namespace ShootEmUp
 
         [Inject]
         public void Construct(EnemySpawnerConfig config)
-        { 
-            _attackPositions = config.AttackPositions; 
-            _spawnPositions = config.SpawnPositions;
+        {
+            _spawnPositions = new Transform[config.SpawnPositions.Length];
+
+            for (int i = 0; i < config.SpawnPositions.Length; i++)
+            {
+                var spawnPos = Object.Instantiate(config.SpawnPositions[i]);
+                _spawnPositions[i] = spawnPos;
+            }
+
+            _attackPositions = new Transform[config.AttackPositions.Length];
+
+            for (int i = 0; i < config.AttackPositions.Length; i++)
+            {
+                var attackPos = Object.Instantiate(config.AttackPositions[i]);
+                _attackPositions[i] = attackPos;
+            }
+
         }
 
         public Transform RandomAttackPosition()
