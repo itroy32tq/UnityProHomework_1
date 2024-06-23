@@ -1,19 +1,22 @@
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : MonoBehaviour, IGameStartListener, IGameFinishListener
+    public sealed class CharacterDethObserver : IGameStartListener, IGameFinishListener
     {
         [SerializeField] private Character _character;
         [SerializeField] private GameManager _gameManager;
 
-        private void Awake()
-        {
-            IGameListener.Register(this);
+        [Inject]
+        public void Construct(Character character, GameManager gameManager)
+        { 
+            _character = character; 
+            _gameManager = gameManager;
         }
 
-        private void CharacterDeathHandler(Character _)
+        private void CharacterDeathHandler()
         {
             _gameManager.FinishGame();
         }

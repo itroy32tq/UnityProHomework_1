@@ -1,16 +1,16 @@
+using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class MoveComponent : MonoBehaviour
+    public sealed class MoveComponent
     {
-        [SerializeField] private Rigidbody2D _rigidbody2D;
-        [SerializeField] private float _speed = 5.0f;
         
-        public void Move(Vector2 vector)
+        public void Move(Rigidbody2D rigidbody, Vector2 vector, float speed)
         {
-            var nextPosition = _rigidbody2D.position + vector * _speed;
-            _rigidbody2D.MovePosition(nextPosition);
+            var nextPosition = rigidbody.position + vector * speed;
+            rigidbody.MovePosition(nextPosition);
         }
+
     }
 }

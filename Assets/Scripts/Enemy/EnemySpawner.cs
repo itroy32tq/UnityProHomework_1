@@ -1,54 +1,76 @@
-using Assets.Scripts.Factory;
-using Assets.Scripts.GenericPool;
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
+using Assets.Scripts.Pools;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemySpawner : MonoBehaviour, IGameStartListener, IGameUpdateListener
+    public sealed class EnemySpawner : IGameUpdateListener
     {
-        private Pool<Enemy> _enemyPool;
+        private PrefablePool<Enemy> _enemyPool;
         private readonly List<Enemy> _activeEnemies = new();
         private float _timer;
+        private EnemySpawnerPositions _enemyPositions;
+        private float _spawnDelay;
 
-        [SerializeField] private EnemyFactory _enemyFactory; 
-        [SerializeField] private float _spawnDelay = 1f;
-        [Header("Pool")]
-        [SerializeField] private int _initialCount = 7;
 
-        private void Awake()
+        [Inject]
+        public void Construct(EnemySpawnerConfig config, PrefablePool<Enemy> pool, EnemySpawnerPositions enemyPositions)
         {
-            IGameListener.Register(this);
+            _spawnDelay = config.SpawnDelay; 
+            _enemyPool = pool;  
+            _enemyPositions = enemyPositions;
         }
 
-        public void OnStartGame()
+        public void OnBulletCollision(GameObject collisionObject, bool isPlayer, int damage)
         {
-            _enemyPool = new Pool<Enemy>(_initialCount, _enemyFactory);
+            var target = _activeEnemies.FirstOrDefault(x => x.Prefab == collisionObject && x.GetTeam() != isPlayer);
+
+            if (target == null)
+            {
+                return;
+            }
+
+            target.CollisionHandler(damage);
         }
 
         private void RemoveEnemy(Enemy enemy)
         {
             if (_activeEnemies.Remove(enemy))
             {
-                _enemyPool?.Release(enemy);
+                _enemyPool.Release(enemy);
                 enemy.OnEnemyDieingHandler -= RemoveEnemy;
             }
+        }
+
+        public void SetRandomAttackPosition(Enemy enemy)
+        {
+            enemy.SetTargetDestination(_enemyPositions.RandomAttackPosition());
+        }
+
+        public void SetRandomPosition(Enemy enemy)
+        {
+            enemy.SetPosition(_enemyPositions.RandomSpawnPosition());
         }
 
         public void OnUpdate(float deltaTime)
         {
             _timer += deltaTime;
 
-            if (_timer < _spawnDelay || _enemyPool == null) return;
+            if (_timer < _spawnDelay || _enemyPool == null)
+            {
+                return;
+            }
 
             if (!_enemyPool.TryGet(out Enemy enemy))
             {
                 return;
             }
 
-            _enemyFactory.SetRandomPosition(enemy);
-            _enemyFactory.SetRandomAttackPosition(enemy);
+            SetRandomPosition(enemy);
+            SetRandomAttackPosition(enemy);
             _activeEnemies.Add(enemy);
             enemy.OnEnemyDieingHandler += RemoveEnemy;
 

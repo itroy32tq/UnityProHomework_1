@@ -1,14 +1,25 @@
+using Assets.Scripts.InfroStructure;
+using Assets.Scripts.Level;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBounds : MonoBehaviour
+    public sealed class LevelBounds
     {
-        [SerializeField] private Transform _leftBorder;
-        [SerializeField] private Transform _rightBorder;
-        [SerializeField] private Transform _downBorder;
-        [SerializeField] private Transform _topBorder;
-        
+        private Transform _leftBorder;
+        private Transform _rightBorder;
+        private Transform _downBorder;
+        private Transform _topBorder;
+
+        [Inject]
+        public void Construct(LevelBoundsConfig config)
+        {
+            _leftBorder = config.LeftBorder;
+            _rightBorder = config.RightBorder;
+            _downBorder = config.DownBorder;
+            _topBorder = config.TopBorder;
+        }
+
         public bool InBounds(Vector3 position)
         {
             var positionX = position.x;

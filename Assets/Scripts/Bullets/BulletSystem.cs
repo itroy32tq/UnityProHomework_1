@@ -1,39 +1,57 @@
+using Assets.Scripts.Bullets;
 using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
+using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
+using Assets.Scripts.Inventary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour, IGameStartListener, IGameFixedUpdateListener
+    public sealed class BulletSystem : IGameStartListener, IGameFixedUpdateListener
     {
-        [SerializeField] private int _initialCount = 50;
-        [SerializeField] private Bullet _prefab;
-        [SerializeField] private Transform _container;
-        [SerializeField] private LevelBounds _levelBounds;
+        private int _initialCount;
+        private Bullet _bullet;
+        private LevelBounds _levelBounds;
+        private Transform _container;
+        private Character _character;
+        private EnemySpawner _spawner;
 
         private Pool<Bullet> _bulletPool;
         private readonly List<Bullet> _allBulletsList = new();
+        public Action<IGameListener> OnCreateListener;
 
-        private void Awake()
+        [Inject]
+        public void Construct(Bullet bullet, BulletSystemConfig config, LevelBounds levelBounds, Character character, EnemySpawner spawner)
         {
-            IGameListener.Register(this);
+            _bullet = bullet;
+            _initialCount = config.InitialCount;
+            _container = config.Container;
+            _levelBounds = levelBounds;
+            _character = character;
+            _spawner = spawner;
         }
 
         public void OnStartGame()
         {
-            _bulletPool = new Pool<Bullet>(_initialCount, new Factory<Bullet>(_prefab, _container));
+            IFactory<Bullet> factory = new Factory<Bullet>(_bullet, _container);
+            _bulletPool = new Pool<Bullet>(_initialCount, factory);
+            
         }
 
         public void Create(Args args)
         {
             if (_bulletPool.TryGet(out Bullet bullet))
             {
-                bullet.Construct(args);
+                bullet.SetArgsToBullet(args);
                 _allBulletsList.Add(bullet);
-                bullet.OnDesrtoyHandler += OnBulletCollision;
+                bullet.OnBulletDestroyHandler += OnBulletCollision;
+                bullet.OnBulletCollisionHandler += _spawner.OnBulletCollision;
+                bullet.OnBulletCollisionHandler += _character.OnBulletCollision;
+                OnCreateListener.Invoke(bullet);
             }
         }
         
@@ -46,7 +64,7 @@ namespace ShootEmUp
         {
             if (_allBulletsList.Remove(bullet))
             {
-                bullet.OnDesrtoyHandler -= OnBulletCollision;
+                bullet.OnBulletDestroyHandler -= OnBulletCollision;
                 _bulletPool.Release(bullet);
             }
         }
@@ -75,12 +93,12 @@ namespace ShootEmUp
 
         public struct Args
         {
-            public Vector2 position;
-            public Vector2 velocity;
-            public Color color;
-            public int physicsLayer;
-            public int damage;
-            public bool isPlayer;
+            public Vector2 Position;
+            public Vector2 Velocity;
+            public Color Color;
+            public int PhysicsLayer;
+            public int Damage;
+            public bool IsPlayer;
         }
     }
 }

@@ -1,44 +1,50 @@
 using Assets.Scripts.Conditions;
-using Assets.Scripts.Interface;
+using Assets.Scripts.InfroStructure;
 using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyAttackAgent : MonoBehaviour, IGameFixedUpdateListener
+    public sealed class EnemyAttackAgent
     {
-        [SerializeField] private float _countdown;
+        private float _countdown;
         private float _currentTime;
+        private Transform _target;
 
-        public readonly AndCondition AttackAgentCondition = new();
-        public event Action OnEnemyFireingHandler;
+
+        public event Action<Vector2> OnEnemyFireingHandler;
         
-        private void Awake()
-        {
-            IGameListener.Register(this);
-        }
-
         public void Reset()
         {
             _currentTime = _countdown;
         }
 
-        private void Fire()
+        [Inject]
+        public void Construct(EnemyAgentsConfig config, CharacterConfig characterConfig)
         {
-            OnEnemyFireingHandler?.Invoke();
+            _countdown = config.Countdown;
+            _target = characterConfig.Prefab.transform;
         }
 
-        public void OnFixedUpdate(float fixedDeltaTime)
+        private void Fire(Vector2 direction)
         {
-            if (!AttackAgentCondition.IsTrue())
+            OnEnemyFireingHandler?.Invoke(direction);
+        }
+
+        public void Tick(float fixedDeltaTime, AndCondition condition, Transform transform)
+        {
+            if (!condition.IsTrue())
             {
                 return;
             }
 
             _currentTime -= fixedDeltaTime;
+
             if (_currentTime <= 0)
             {
-                Fire();
+                var direction = _target.position - transform.position;
+
+                Fire(direction.normalized);
                 _currentTime += _countdown;
             }
         }

@@ -82,7 +82,7 @@ namespace TMPro.Examples
         {
             if (isHoveringObject)
             {
-                // Check if Mouse Intersects any of the characters. If so, assign a random color.
+                // Check if Mouse Intersects any of the characters. If so, assign a random Color.
                 #region Handle Character Selection
                 int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, Input.mousePosition, m_Camera, true);
 
@@ -130,7 +130,7 @@ namespace TMPro.Examples
                     vertices[vertexIndex + 2] = m_matrix.MultiplyPoint3x4(vertices[vertexIndex + 2]);
                     vertices[vertexIndex + 3] = m_matrix.MultiplyPoint3x4(vertices[vertexIndex + 3]);
 
-                    // Translate the character back to its original position.
+                    // Translate the character back to its original Position.
                     vertices[vertexIndex + 0] = vertices[vertexIndex + 0] + offset;
                     vertices[vertexIndex + 1] = vertices[vertexIndex + 1] + offset;
                     vertices[vertexIndex + 2] = vertices[vertexIndex + 2] + offset;
@@ -139,7 +139,7 @@ namespace TMPro.Examples
                     // Change Vertex Colors of the highlighted character
                     Color32 c = new Color32(255, 255, 192, 255);
 
-                    // Get a reference to the vertex color
+                    // Get a reference to the vertex Color
                     Color32[] vertexColors = m_TextMeshPro.textInfo.meshInfo[materialIndex].colors32;
 
                     vertexColors[vertexIndex + 0] = c;
@@ -165,7 +165,7 @@ namespace TMPro.Examples
 
 
                 #region Word Selection Handling
-                //Check if Mouse intersects any words and if so assign a random color to that word.
+                //Check if Mouse intersects any words and if so assign a random Color to that word.
                 int wordIndex = TMP_TextUtilities.FindIntersectingWord(m_TextMeshPro, Input.mousePosition, m_Camera);
 
                 // Clear previous word selection.
@@ -184,7 +184,7 @@ namespace TMPro.Examples
                         // Get the index of the first vertex of this character.
                         int vertexIndex = m_TextMeshPro.textInfo.characterInfo[characterIndex].vertexIndex;
 
-                        // Get a reference to the vertex color
+                        // Get a reference to the vertex Color
                         Color32[] vertexColors = m_TextMeshPro.textInfo.meshInfo[meshIndex].colors32;
 
                         Color32 c = vertexColors[vertexIndex + 0].Tint(1.33333f);
@@ -219,7 +219,7 @@ namespace TMPro.Examples
 
                         int vertexIndex = m_TextMeshPro.textInfo.characterInfo[characterIndex].vertexIndex;
 
-                        // Get a reference to the vertex color
+                        // Get a reference to the vertex Color
                         Color32[] vertexColors = m_TextMeshPro.textInfo.meshInfo[meshIndex].colors32;
 
                         Color32 c = vertexColors[vertexIndex + 0].Tint(0.75f);
@@ -306,15 +306,15 @@ namespace TMPro.Examples
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            //Debug.Log("Click at POS: " + eventData.position + "  World POS: " + eventData.worldPosition);
+            //Debug.Log("Click at POS: " + eventData.Position + "  World POS: " + eventData.worldPosition);
 
-            // Check if Mouse Intersects any of the characters. If so, assign a random color.
+            // Check if Mouse Intersects any of the characters. If so, assign a random Color.
             #region Character Selection Handling
             /*
             int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, Input.mousePosition, m_Camera, true);
             if (charIndex != -1 && charIndex != m_lastIndex)
             {
-                //Debug.Log("Character [" + m_TextMeshPro.textInfo.characterInfo[index].character + "] was selected at POS: " + eventData.position);
+                //Debug.Log("_character [" + m_TextMeshPro.textInfo.characterInfo[index].character + "] was selected at POS: " + eventData.Position);
                 m_lastIndex = charIndex;
 
                 Color32 c = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
@@ -322,10 +322,10 @@ namespace TMPro.Examples
 
                 UIVertex[] uiVertices = m_TextMeshPro.textInfo.meshInfo.uiVertices;
 
-                uiVertices[vertexIndex + 0].color = c;
-                uiVertices[vertexIndex + 1].color = c;
-                uiVertices[vertexIndex + 2].color = c;
-                uiVertices[vertexIndex + 3].color = c;
+                uiVertices[vertexIndex + 0].Color = c;
+                uiVertices[vertexIndex + 1].Color = c;
+                uiVertices[vertexIndex + 2].Color = c;
+                uiVertices[vertexIndex + 3].Color = c;
 
                 m_TextMeshPro.canvasRenderer.SetVertices(uiVertices, uiVertices.Length);
             }
@@ -334,7 +334,7 @@ namespace TMPro.Examples
 
 
             #region Word Selection Handling
-            //Check if Mouse intersects any words and if so assign a random color to that word.
+            //Check if Mouse intersects any words and if so assign a random Color to that word.
             /*
             int wordIndex = TMP_TextUtilities.FindIntersectingWord(m_TextMeshPro, Input.mousePosition, m_Camera);
 
@@ -351,12 +351,12 @@ namespace TMPro.Examples
                 {
                     int vertexIndex = m_TextMeshPro.textInfo.characterInfo[wInfo.firstCharacterIndex + i].vertexIndex;
 
-                    Color32 c = uiVertices[vertexIndex + 0].color.Tint(1.33333f);
+                    Color32 c = uiVertices[vertexIndex + 0].Color.Tint(1.33333f);
 
-                    uiVertices[vertexIndex + 0].color = c;
-                    uiVertices[vertexIndex + 1].color = c;
-                    uiVertices[vertexIndex + 2].color = c;
-                    uiVertices[vertexIndex + 3].color = c;
+                    uiVertices[vertexIndex + 0].Color = c;
+                    uiVertices[vertexIndex + 1].Color = c;
+                    uiVertices[vertexIndex + 2].Color = c;
+                    uiVertices[vertexIndex + 3].Color = c;
                 }
 
                 m_TextMeshPro.canvasRenderer.SetVertices(uiVertices, uiVertices.Length);
@@ -379,12 +379,12 @@ namespace TMPro.Examples
                 {
                     int vertexIndex = m_TextMeshPro.textInfo.characterInfo[wInfo.firstCharacterIndex + i].vertexIndex;
 
-                    Color32 c = uiVertices[vertexIndex + 0].color.Tint(0.75f);
+                    Color32 c = uiVertices[vertexIndex + 0].Color.Tint(0.75f);
 
-                    uiVertices[vertexIndex + 0].color = c;
-                    uiVertices[vertexIndex + 1].color = c;
-                    uiVertices[vertexIndex + 2].color = c;
-                    uiVertices[vertexIndex + 3].color = c;
+                    uiVertices[vertexIndex + 0].Color = c;
+                    uiVertices[vertexIndex + 1].Color = c;
+                    uiVertices[vertexIndex + 2].Color = c;
+                    uiVertices[vertexIndex + 3].Color = c;
                 }
 
                 m_TextMeshPro.canvasRenderer.SetVertices(uiVertices, uiVertices.Length);
@@ -395,7 +395,7 @@ namespace TMPro.Examples
 
             #region Link Selection Handling
             /*
-            // Check if Mouse intersects any words and if so assign a random color to that word.
+            // Check if Mouse intersects any words and if so assign a random Color to that word.
             int linkIndex = TMP_TextUtilities.FindIntersectingLink(m_TextMeshPro, Input.mousePosition, m_Camera);
             if (linkIndex != -1)
             {
@@ -433,10 +433,10 @@ namespace TMPro.Examples
 
                     int vertexIndex = cInfo.vertexIndex;
 
-                    uiVertices[vertexIndex + 0].color = c;
-                    uiVertices[vertexIndex + 1].color = c;
-                    uiVertices[vertexIndex + 2].color = c;
-                    uiVertices[vertexIndex + 3].color = c;
+                    uiVertices[vertexIndex + 0].Color = c;
+                    uiVertices[vertexIndex + 1].Color = c;
+                    uiVertices[vertexIndex + 2].Color = c;
+                    uiVertices[vertexIndex + 3].Color = c;
                 }
 
                 m_TextMeshPro.canvasRenderer.SetVertices(uiVertices, uiVertices.Length);

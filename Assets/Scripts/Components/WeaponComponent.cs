@@ -1,28 +1,29 @@
+using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class WeaponComponent : MonoBehaviour
+    public sealed class WeaponComponent
     {
-        [SerializeField] private Transform _firePoint;
-        [SerializeField] private BulletConfig _bulletConfig;
+
         private BulletSystem _bulletSystem;
 
-        public void SetBulletSystem(BulletSystem bulletSystem)
+        [Inject]
+        public void Construct(BulletSystem bulletSystem)
         { 
             _bulletSystem = bulletSystem;
         }
 
-        public void Shoot(bool isPlayer, Vector2 direction)
+        public void Shoot(bool isPlayer, Vector2 direction, BulletConfig bulletConfig, Transform firePoint)
         {
             _bulletSystem.Create(new BulletSystem.Args
             {
-                isPlayer = isPlayer,
-                physicsLayer = (int)_bulletConfig.PhysicsLayer,
-                color = _bulletConfig.Color,
-                damage = _bulletConfig.Damage,
-                position = _firePoint.position,
-                velocity = _firePoint.rotation * direction * _bulletConfig.Speed
+                IsPlayer = isPlayer,
+                PhysicsLayer = (int)bulletConfig.PhysicsLayer,
+                Color = bulletConfig.Color,
+                Damage = bulletConfig.Damage,
+                Position = firePoint.position,
+                Velocity = firePoint.rotation * direction * bulletConfig.Speed
             });
         }
     }
