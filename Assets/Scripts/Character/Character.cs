@@ -7,17 +7,15 @@ namespace ShootEmUp
 {
     public sealed class Character : IGameStartListener, IGameFinishListener, ITeamComponent
     {
-        private MoveComponent _moveComponent;
-        private WeaponComponent _weaponComponent;
-        private HitPointsComponent _hitPointsComponent;
-        private InputManager _inputManager;
-        private Bullet _bullet;
-        private GameObject _prefab;
-        private CharacterConfig _config;
-        private float _speed;
+        private readonly MoveComponent _moveComponent;
+        private readonly WeaponComponent _weaponComponent;
+        private readonly HitPointsComponent _hitPointsComponent;
+        private readonly InputManager _inputManager;
+        private readonly GameObject _prefab;
+        private readonly float _speed;
+        private readonly BulletConfig _bulletConfig;
+        private readonly Transform _firePoint;
         private int _hitPoints;
-        private BulletConfig _bulletConfig;
-        private Transform _firePoint;
 
         private Vector2 _shootDirection = Vector2.up;
 
@@ -25,25 +23,22 @@ namespace ShootEmUp
         public Rigidbody2D Rigidbody { get; private set; }
         public bool IsPlayer { get; private set; }
 
-        [Inject]
-        public void Construct(MoveComponent moveComponent, WeaponComponent weaponComponent,
-            HitPointsComponent hitPointsComponent, InputManager inputManager, Bullet bullet, CharacterConfig config)
+
+        public Character(MoveComponent moveComponent, WeaponComponent weaponComponent, HitPointsComponent hitPointsComponent, 
+            InputManager inputManager, CharacterConfig config, GameObject prefab, Rigidbody2D rigidbody, Transform firePoint)
         {
             _moveComponent = moveComponent; 
             _weaponComponent = weaponComponent; 
             _hitPointsComponent = hitPointsComponent;
             _inputManager = inputManager; 
 
-            _bullet = bullet;
-            _prefab = UnityEngine.Object.Instantiate(config.Prefab);
-
-            Rigidbody = _prefab.GetComponent<Rigidbody2D>();
+            _prefab = prefab;
+            Rigidbody = rigidbody;
             _speed = config.Speed;
-            _config = config;
             _hitPoints = config.HitPoints;
             IsPlayer = config.IsPlayer;
             _bulletConfig = config.BulletConfig;
-            _firePoint = _prefab.GetComponentInChildren<Transform>();
+            _firePoint = firePoint;
         }
 
         public void OnStartGame()

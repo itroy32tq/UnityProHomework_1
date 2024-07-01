@@ -17,7 +17,7 @@ namespace Assets.Scripts.InfroStructure
         [SerializeField] private LevelBackgroundConfig _levelBackgroundConfig;
         [SerializeField] private EnemySpawnerConfig _enemySpawnerConfig;
         [SerializeField] private EnemyAgentsConfig _enemyAgentsConfig;
-        [SerializeField] private Transform _enemyContainer;
+        [SerializeField] private Transform _worldContainer;
 
         private PrefablePool<Enemy> _enemyPool;
 
@@ -33,7 +33,7 @@ namespace Assets.Scripts.InfroStructure
         private readonly EnemyAttackAgent _enemyAttackAgent = new();
         
 
-        [Listener] private readonly Character _character = new();
+        private Character _character;
         [Listener] private readonly CharacterDethObserver _characterController = new();
         [Listener] private readonly InputManager _inputManager = new();
 
@@ -45,6 +45,7 @@ namespace Assets.Scripts.InfroStructure
 
         public override void Install(DiContainer container)
         {
+            CreateCharacter();
             CreateEnemys();
             CreateBullets();
 
@@ -77,6 +78,19 @@ namespace Assets.Scripts.InfroStructure
             container.AddService<EnemySpawner>(_enemySpawner);
         }
 
+        private void CreateCharacter()
+        {
+            CharacterFactory characterFactory  = new(_worldContainer,
+                                                     _moveComponent,
+                                                     _weaponComponent,
+                                                     _hitPointsComponent,
+                                                     _inputManager,
+                                                     _characterConfig);
+
+            characterFactory.OnCreateListener += _gameManager.AddListner;
+            _character = characterFactory.Create();
+        }
+
         private void CreateBullets()
         {
             _bulletSystem.OnCreateListener += _gameManager.AddListner;
@@ -91,13 +105,19 @@ namespace Assets.Scripts.InfroStructure
                                             _weaponComponent,
                                             _moveComponent,
                                             _enemyConfig,
-                                            _enemyContainer);
+                                            _worldContainer);
 
             enemyFactory.OnCreateListener += _gameManager.AddListner;
 
             int initialSize = _enemySpawnerConfig.InitialCount;
 
             _enemyPool = new(initialSize, enemyFactory);
+        }
+
+        private void OnDisable()
+        {
+            _bulletSystem.OnCreateListener -= _gameManager.AddListner;
+            //enemyFactory.OnCreateListener -= _gameManager.AddListner;
         }
     }
 }
