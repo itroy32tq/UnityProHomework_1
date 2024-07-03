@@ -81,11 +81,6 @@ namespace ShootEmUp
             return _enemyMoveAgent.IsReached;
         }
 
-        public void SetParent(Transform tr)
-        {
-            _prefab.transform.SetParent(tr);
-        }
-
         public void SetPosition(Transform tr)
         {
             _prefab.transform.position = tr.position;

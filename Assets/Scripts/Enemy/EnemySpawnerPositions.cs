@@ -5,33 +5,18 @@ namespace ShootEmUp
 {
     public sealed class EnemySpawnerPositions
     {
-        private Transform[] _spawnPositions;
-        private Transform[] _attackPositions;
+        private readonly Transform[] _spawnPositions;
+        private readonly Transform[] _attackPositions;
 
         public Transform RandomSpawnPosition()
         {
             return RandomTransform(_spawnPositions);
         }
 
-        [Inject]
-        public void Construct(EnemySpawnerConfig config)
+        public EnemySpawnerPositions(Transform[] spawnPositions, Transform[] attackPositions)
         {
-            _spawnPositions = new Transform[config.SpawnPositions.Length];
-
-            for (int i = 0; i < config.SpawnPositions.Length; i++)
-            {
-                var spawnPos = Object.Instantiate(config.SpawnPositions[i]);
-                _spawnPositions[i] = spawnPos;
-            }
-
-            _attackPositions = new Transform[config.AttackPositions.Length];
-
-            for (int i = 0; i < config.AttackPositions.Length; i++)
-            {
-                var attackPos = Object.Instantiate(config.AttackPositions[i]);
-                _attackPositions[i] = attackPos;
-            }
-
+            _spawnPositions = spawnPositions;
+            _attackPositions = attackPositions;
         }
 
         public Transform RandomAttackPosition()
