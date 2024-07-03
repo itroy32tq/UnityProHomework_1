@@ -2,6 +2,7 @@ using Assets.Scripts.Conditions;
 using Assets.Scripts.InfroStructure;
 using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace ShootEmUp
 {
@@ -20,10 +21,10 @@ namespace ShootEmUp
         }
 
         [Inject]
-        public void Construct(EnemyAgentsConfig config, CharacterConfig characterConfig)
+        public void Construct(EnemyAgentsConfig config, Character character)
         {
             _countdown = config.Countdown;
-            _target = characterConfig.Prefab.transform;
+            _target = character.GetTransform();
         }
 
         private void Fire(Vector2 direction)

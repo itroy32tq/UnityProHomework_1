@@ -1,4 +1,3 @@
-using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
 using Assets.Scripts.Level;
 using UnityEngine;
@@ -7,24 +6,23 @@ namespace ShootEmUp
 {
     public sealed class LevelBackground : IGameStartListener, IGameFinishListener, IGameFixedUpdateListener
     {
-        [SerializeField] private float _startPositionY;
-        [SerializeField] private float _endPositionY;
-        [SerializeField] private float _movingSpeedY;
+        private readonly float _startPositionY;
+        private readonly float _endPositionY;
+        private readonly float _movingSpeedY;
 
         private float _positionX;
         private float _positionZ;
         private Transform _myTransform;
 
-
-        [Inject]
-        public void Construct(LevelBackgroundConfig config)
+        public LevelBackground(LevelBackgroundConfig config, Transform back)
         {
-            var back = Object.Instantiate(config.LevelBackground);
+            
             _myTransform = back.transform;
             _startPositionY = config.StartPositionY;
             _endPositionY = config.EndPositionY;
             _movingSpeedY = config.MovingSpeedY;
         }
+
         public void OnStartGame()
         {
             var position = _myTransform.position;

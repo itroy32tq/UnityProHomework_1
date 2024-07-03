@@ -1,17 +1,14 @@
 using Assets.Scripts.Bullets;
-using Assets.Scripts.Factory;
 using Assets.Scripts.GenericPool;
 using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
-using Assets.Scripts.Inventary;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : IGameStartListener, IGameFixedUpdateListener
+    public sealed class BulletSystem : IGameFixedUpdateListener, IGamePauseListener, IGameResumeListener
     {
         private int _initialCount;
         private Bullet _bullet;
@@ -22,24 +19,14 @@ namespace ShootEmUp
 
         private Pool<Bullet> _bulletPool;
         private readonly List<Bullet> _allBulletsList = new();
-        public Action<IGameListener> OnCreateListener;
 
         [Inject]
-        public void Construct(Bullet bullet, BulletSystemConfig config, LevelBounds levelBounds, Character character, EnemySpawner spawner)
+        public void Construct(Pool<Bullet> bulletPool, BulletSystemConfig config, LevelBounds levelBounds, Character character, EnemySpawner spawner)
         {
-            _bullet = bullet;
-            _initialCount = config.InitialCount;
-            _container = UnityEngine.Object.Instantiate(config.Container);
             _levelBounds = levelBounds;
             _character = character;
             _spawner = spawner;
-        }
-
-        public void OnStartGame()
-        {
-            IFactory<Bullet> factory = new Factory<Bullet>(_bullet, _container);
-            _bulletPool = new Pool<Bullet>(_initialCount, factory);
-            
+            _bulletPool = bulletPool;
         }
 
         public void Create(Args args)
@@ -51,7 +38,6 @@ namespace ShootEmUp
                 bullet.OnBulletDestroyHandler += OnBulletCollision;
                 bullet.OnBulletCollisionHandler += _spawner.OnBulletCollision;
                 bullet.OnBulletCollisionHandler += _character.OnBulletCollision;
-                OnCreateListener.Invoke(bullet);
             }
         }
         
@@ -72,6 +58,7 @@ namespace ShootEmUp
         public void OnFixedUpdate(float deltaTime)
         {
             List<Bullet> notBoundsBullet = new();
+
             for (int i = 0; i < _allBulletsList.Count; i++)
             {
                 if (!_levelBounds.InBounds(_allBulletsList[i].transform.position))
@@ -88,6 +75,22 @@ namespace ShootEmUp
             for (int i = 0; i < notBoundsBullet.Count; i++)
             {
                 RemoveBullet(notBoundsBullet[i]);
+            }
+        }
+
+        public void OnPauseGame()
+        {
+            for (int i = 0; i < _allBulletsList.Count; i++)
+            {
+                _allBulletsList[i].PauseBullet();
+            }
+        }
+       
+        public void OnResumeGame()
+        {
+            for (int i = 0; i < _allBulletsList.Count; i++)
+            {
+                _allBulletsList[i].ResumeBullet();
             }
         }
 

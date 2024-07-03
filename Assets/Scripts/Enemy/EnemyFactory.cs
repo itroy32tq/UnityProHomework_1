@@ -21,7 +21,7 @@ namespace ShootEmUp
 
         public Enemy Create()
         {
-            var newPrefab = UnityEngine.Object.Instantiate(_prefab, _container);
+            GameObject newPrefab = UnityEngine.Object.Instantiate(_prefab, _container);
 
             Enemy enemy = new(_character, _hitPointsComponent, _enemyMoveAgent, _enemyAttackAgent,
                 _weaponComponent, _moveComponent, newPrefab, _config);

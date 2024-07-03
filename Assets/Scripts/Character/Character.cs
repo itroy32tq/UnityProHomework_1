@@ -48,6 +48,11 @@ namespace ShootEmUp
             _inputManager.OnInputShootingHandler += Shoot;
         }
 
+        public Transform GetTransform()
+        {
+            return _prefab.transform;
+        }
+
         public bool GetTeam()
         {
             return IsPlayer;

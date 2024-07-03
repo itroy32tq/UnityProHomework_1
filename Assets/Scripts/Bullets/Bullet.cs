@@ -1,11 +1,10 @@
-using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
 using static ShootEmUp.BulletSystem;
 
 namespace ShootEmUp
 {
-    public sealed class Bullet : MonoBehaviour, IGamePauseListener, IGameResumeListener
+    public sealed class Bullet : MonoBehaviour
     {
         private bool _isPlayer;
         private int _damage;
@@ -28,13 +27,13 @@ namespace ShootEmUp
             _rigidbody2D.velocity = args.Velocity;
         }
 
-        public void OnPauseGame()
+        public void PauseBullet()
         {
             _cashedVelocity = _rigidbody2D.velocity;
             _rigidbody2D.velocity = Vector2.zero;
         }
 
-        public void OnResumeGame()
+        public void ResumeBullet()
         {
             _rigidbody2D.velocity = _cashedVelocity;
         }

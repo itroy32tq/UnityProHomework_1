@@ -1,24 +1,20 @@
-using Assets.Scripts.InfroStructure;
-using Assets.Scripts.Level;
 using UnityEngine;
 
 namespace ShootEmUp
 {
     public sealed class LevelBounds
     {
-        private Transform _leftBorder;
-        private Transform _rightBorder;
-        private Transform _downBorder;
-        private Transform _topBorder;
+        private readonly Transform _leftBorder;
+        private readonly Transform _rightBorder;
+        private readonly Transform _downBorder;
+        private readonly Transform _topBorder;
 
-        [Inject]
-        public void Construct(LevelBoundsConfig config)
+        public LevelBounds(Transform leftBorder, Transform rightBorder, Transform downBorder, Transform topBorder)
         {
-            
-            _leftBorder = Object.Instantiate(config.LeftBorder);
-            _rightBorder = Object.Instantiate(config.RightBorder);
-            _downBorder = Object.Instantiate(config.DownBorder);
-            _topBorder = Object.Instantiate(config.TopBorder);
+            _leftBorder = leftBorder;
+            _rightBorder = rightBorder;
+            _downBorder = downBorder;
+            _topBorder = topBorder;
         }
 
         public bool InBounds(Vector3 position)

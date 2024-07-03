@@ -12,3 +12,4 @@ namespace Assets.Scripts.Bullets
         [field: SerializeField] public Transform Container { get; private set; }
     }
 }
+    

@@ -30,15 +30,14 @@ namespace ShootEmUp
         public readonly AndCondition AttackAgentCondition = new();
 
 
-        public Enemy(Character character, HitPointsComponent hitPointsComponent, 
-            EnemyMoveAgent enemyMoveAgent, EnemyAttackAgent enemyAttackAgent, 
-            WeaponComponent weaponComponent, MoveComponent moveComponent, 
-            GameObject prefab, EnemyConfig config)
+        public Enemy(Character character, HitPointsComponent hitPointsComponent, EnemyMoveAgent enemyMoveAgent,
+                     EnemyAttackAgent enemyAttackAgent, WeaponComponent weaponComponent, MoveComponent moveComponent,
+                     GameObject prefab, EnemyConfig config)
         { 
             _hitPointsComponent = hitPointsComponent; 
             _enemyMoveAgent = enemyMoveAgent; 
             _enemyAttackAgent = enemyAttackAgent;
-            _weaponComponent = weaponComponent; 
+            _weaponComponent = weaponComponent;
             _moveComponent = moveComponent;
             _bulletConfig = config.BulletConfig;
             _character = character;

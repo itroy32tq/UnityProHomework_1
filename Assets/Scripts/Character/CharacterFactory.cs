@@ -14,14 +14,17 @@ namespace ShootEmUp
         private readonly HitPointsComponent _hitPointsComponent;
         private readonly InputManager _inputManager;
         private readonly CharacterConfig _config;
-        private readonly BulletConfig _bulletConfig;
         private Transform _firePoint;
         private Rigidbody2D _rigidbody;
 
         public Action<IGameListener> OnCreateListener;
 
-        public CharacterFactory(Transform container, MoveComponent moveComponent, WeaponComponent weaponComponent, HitPointsComponent hitPointsComponent, 
-            InputManager inputManager, CharacterConfig config)
+        public CharacterFactory(Transform container,
+                                MoveComponent moveComponent,
+                                WeaponComponent weaponComponent,
+                                HitPointsComponent hitPointsComponent,
+                                InputManager inputManager,
+                                CharacterConfig config)
         {
             _container = container;
             _prefab = config.Prefab;
@@ -30,7 +33,6 @@ namespace ShootEmUp
             _hitPointsComponent = hitPointsComponent;
             _inputManager = inputManager;
             _config = config;
-            _bulletConfig = config.BulletConfig;
         }
 
         public Character Create()
