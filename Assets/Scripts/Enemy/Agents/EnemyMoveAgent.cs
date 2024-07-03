@@ -18,7 +18,7 @@ namespace ShootEmUp
                 return;
             }
 
-            var vector = _destination - unitPosition;
+            Vector2 vector = _destination - unitPosition;
             if (vector.magnitude <= 0.25f)
             {
                 IsReached = true;
@@ -26,7 +26,7 @@ namespace ShootEmUp
             }
 
             Direction = vector.normalized;
-            var moveDirection = vector.normalized * fixedDeltaTime;
+            Vector2 moveDirection = vector.normalized * fixedDeltaTime;
             OnMove?.Invoke(moveDirection);
         }
 

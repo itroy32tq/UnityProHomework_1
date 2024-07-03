@@ -1,4 +1,3 @@
-using Assets.Scripts.InfroStructure;
 using UnityEngine;
 
 namespace ShootEmUp

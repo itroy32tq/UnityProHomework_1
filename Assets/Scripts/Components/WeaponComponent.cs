@@ -16,7 +16,7 @@ namespace ShootEmUp
 
         public void Shoot(bool isPlayer, Vector2 direction, BulletConfig bulletConfig, Transform firePoint)
         {
-            _bulletSystem.Create(new BulletSystem.Args
+            _bulletSystem.Create(new Args
             {
                 IsPlayer = isPlayer,
                 PhysicsLayer = (int)bulletConfig.PhysicsLayer,

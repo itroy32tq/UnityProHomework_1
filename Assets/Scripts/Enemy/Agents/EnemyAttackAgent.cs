@@ -2,7 +2,6 @@ using Assets.Scripts.Conditions;
 using Assets.Scripts.InfroStructure;
 using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace ShootEmUp
 {
@@ -43,7 +42,7 @@ namespace ShootEmUp
 
             if (_currentTime <= 0)
             {
-                var direction = _target.position - transform.position;
+                Vector3 direction = _target.position - transform.position;
 
                 Fire(direction.normalized);
                 _currentTime += _countdown;

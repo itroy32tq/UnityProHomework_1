@@ -1,11 +1,10 @@
-﻿using Assets.Scripts.InfroStructure;
-using Assets.Scripts.Interface;
+﻿using Assets.Scripts.Interface;
 using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class Character : IGameStartListener, IGameFinishListener, ITeamComponent
+    public sealed class Character : IGameStartListener, IGameFinishListener
     {
         private readonly MoveComponent _moveComponent;
         private readonly WeaponComponent _weaponComponent;

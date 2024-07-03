@@ -21,7 +21,7 @@ namespace ShootEmUp
 
         public int HitPoints => _hitPoints;
         public WeaponComponent WeaponComponent => _weaponComponent;
-        public GameObject Prefab =>_prefab;
+        public GameObject Prefab => _prefab;
         public bool IsPlayer { get; private set; }
         public Rigidbody2D Rigidbody { get; private set; }
 
@@ -54,10 +54,8 @@ namespace ShootEmUp
         {
             _hitPointsComponent.OnHitPointsEnding += Die;
             _enemyAttackAgent.OnEnemyFireingHandler += OnFire;
-
             AttackAgentCondition.Append(_character.IsHitPointsExists);
             AttackAgentCondition.Append(IsReached);
-
             _enemyMoveAgent.OnMove += Move;
         }
 

@@ -15,7 +15,7 @@ namespace ShootEmUp
         private readonly Character _character;
         private readonly EnemyConfig _config;
         private readonly Transform _container;
-        private GameObject _prefab;
+        private readonly GameObject _prefab;
 
         public Action<IGameListener> OnCreateListener;
 

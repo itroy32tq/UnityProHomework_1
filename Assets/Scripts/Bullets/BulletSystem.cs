@@ -1,4 +1,3 @@
-using Assets.Scripts.Bullets;
 using Assets.Scripts.GenericPool;
 using Assets.Scripts.InfroStructure;
 using Assets.Scripts.Interface;
@@ -10,10 +9,7 @@ namespace ShootEmUp
 {
     public sealed class BulletSystem : IGameFixedUpdateListener, IGamePauseListener, IGameResumeListener
     {
-        private int _initialCount;
-        private Bullet _bullet;
         private LevelBounds _levelBounds;
-        private Transform _container;
         private Character _character;
         private EnemySpawner _spawner;
 
@@ -21,7 +17,7 @@ namespace ShootEmUp
         private readonly List<Bullet> _allBulletsList = new();
 
         [Inject]
-        public void Construct(Pool<Bullet> bulletPool, BulletSystemConfig config, LevelBounds levelBounds, Character character, EnemySpawner spawner)
+        public void Construct(Pool<Bullet> bulletPool, LevelBounds levelBounds, Character character, EnemySpawner spawner)
         {
             _levelBounds = levelBounds;
             _character = character;
@@ -92,16 +88,6 @@ namespace ShootEmUp
             {
                 _allBulletsList[i].ResumeBullet();
             }
-        }
-
-        public struct Args
-        {
-            public Vector2 Position;
-            public Vector2 Velocity;
-            public Color Color;
-            public int PhysicsLayer;
-            public int Damage;
-            public bool IsPlayer;
         }
     }
 }

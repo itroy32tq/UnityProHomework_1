@@ -26,7 +26,7 @@ namespace ShootEmUp
 
         public void OnBulletCollision(GameObject collisionObject, bool isPlayer, int damage)
         {
-            var target = _activeEnemies.FirstOrDefault(x => x.Prefab == collisionObject && x.GetTeam() != isPlayer);
+            Enemy target = _activeEnemies.FirstOrDefault(x => x.Prefab == collisionObject && x.GetTeam() != isPlayer);
 
             if (target == null)
             {
