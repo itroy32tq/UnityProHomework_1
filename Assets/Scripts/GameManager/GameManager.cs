@@ -15,7 +15,7 @@ namespace ShootEmUp
     {
         private readonly HashSet<IGameListener> _gameListeners = new();
         private readonly HashSet<IGameUpdateListener> _gameUpdateListeners = new();
-        private readonly HashSet<IGameFixedUpdateListener> _gameFixedUpdateListeners= new();
+        private readonly HashSet<IGameFixedUpdateListener> _gameFixedUpdateListeners = new();
 
         [SerializeField] private GameState _gameState = GameState.Off;
         [SerializeField] private Button _startButton;
@@ -27,9 +27,9 @@ namespace ShootEmUp
         {
             _gameState = GameState.Off;
 
-            foreach (var container in _diContainers)
+            foreach (DiContainer container in _diContainers)
             {
-                foreach (var listner in container.GameListeners)
+                foreach (IGameListener listner in container.GameListeners)
                 {
                     AddListner(listner);
                 }
@@ -67,8 +67,6 @@ namespace ShootEmUp
             {
                 listener.OnStartGame();
             }
-
-
             _gameState = GameState.Start;
         }
 
@@ -96,7 +94,7 @@ namespace ShootEmUp
         public void FinishGame()
         {
 
-            foreach (var listener in _gameListeners)
+            foreach (IGameListener listener in _gameListeners)
             {
                 if (listener is IGameFinishListener finishListener)
                 { 
@@ -120,7 +118,7 @@ namespace ShootEmUp
 
             float deltaTime = Time.deltaTime;
 
-            foreach (var listener in _gameUpdateListeners)
+            foreach (IGameUpdateListener listener in _gameUpdateListeners)
             {
                 listener.OnUpdate(deltaTime);
             }
@@ -135,7 +133,7 @@ namespace ShootEmUp
 
             float fixedDeltaTime = Time.fixedDeltaTime;
 
-            foreach (var listener in _gameFixedUpdateListeners)
+            foreach (IGameFixedUpdateListener listener in _gameFixedUpdateListeners)
             {
                 listener.OnFixedUpdate(fixedDeltaTime);
             }
@@ -146,7 +144,7 @@ namespace ShootEmUp
         {
             if (_gameState != GameState.Pause)
             {
-                foreach (var listener in _gameListeners)
+                foreach (IGameListener listener in _gameListeners)
                 {
                     if (listener is IGamePauseListener pauseListener)
                     {
@@ -160,7 +158,7 @@ namespace ShootEmUp
 
             if (_gameState == GameState.Pause)
             {
-                foreach (var listener in _gameListeners)
+                foreach (IGameListener listener in _gameListeners)
                 {
                     if (listener is IGameResumeListener resumeListener)
                     {
@@ -176,7 +174,7 @@ namespace ShootEmUp
         private void ResumeGame()
         {
             
-            foreach (var listener in _gameListeners)
+            foreach (IGameListener listener in _gameListeners)
             {
                 if (listener is IGameResumeListener resumeListener)
                 {

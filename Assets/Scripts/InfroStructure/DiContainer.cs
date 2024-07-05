@@ -12,9 +12,9 @@ namespace Assets.Scripts
     {
         private readonly Dictionary<Type, object> _services = new();
 
-        [field: SerializeField] private bool _installOnAwake;
-        [field: SerializeField] private bool _resolveOnStart;
-        [field: SerializeField] private Installer[] _installers;
+        [SerializeField] private bool _installOnAwake;
+        [SerializeField] private bool _resolveOnStart;
+        [SerializeField] private Installer[] _installers;
         public List<IGameListener> GameListeners { get; private set; } = new List<IGameListener>();
 
         private void Awake()

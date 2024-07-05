@@ -16,16 +16,15 @@ namespace ShootEmUp
         private readonly Character _character;
         private readonly GameObject _prefab;
         private readonly Transform _firePoint;
-        private int _hitPoints;
+        private readonly Rigidbody2D _rigidbody;
         private readonly float _speed;
+        private int _hitPoints;
 
         public bool IsReached { get; private set; }
         public Vector2 Destination { get; private set; } = Vector2.one;
-        public int HitPoints => _hitPoints;
-        public WeaponComponent WeaponComponent => _weaponComponent;
         public GameObject Prefab => _prefab;
         public bool IsPlayer { get; private set; }
-        public Rigidbody2D Rigidbody { get; private set; }
+        
 
         public Action<Enemy> OnEnemyDieingHandler;
         public Action<Enemy> OnEnemyFiringHandler;
@@ -45,7 +44,7 @@ namespace ShootEmUp
             _character = character;
             _prefab = prefab;
 
-            Rigidbody = _prefab.GetComponent<Rigidbody2D>();
+            _rigidbody = _prefab.GetComponent<Rigidbody2D>();
             _speed = config.Speed;
             _firePoint = _prefab.GetComponentInChildren<Transform>();
             _hitPoints = config.HitPoints;
@@ -73,7 +72,7 @@ namespace ShootEmUp
 
         public void Move(Vector2 vector)
         {
-            _moveComponent.Move(Rigidbody, vector, _speed);
+            _moveComponent.Move(_rigidbody, vector, _speed);
         }
 
         public void SetReachedState(bool state)

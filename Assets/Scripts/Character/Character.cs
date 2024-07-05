@@ -14,14 +14,13 @@ namespace ShootEmUp
         private readonly float _speed;
         private readonly BulletConfig _bulletConfig;
         private readonly Transform _firePoint;
+        private readonly Rigidbody2D _rigidbody;
+
         private int _hitPoints;
 
         private Vector2 _shootDirection = Vector2.up;
-
         public Action OnCharacterDieingHandler;
-        public Rigidbody2D Rigidbody { get; private set; }
         public bool IsPlayer { get; private set; }
-
 
         public Character(MoveComponent moveComponent, WeaponComponent weaponComponent, HitPointsComponent hitPointsComponent, 
             InputManager inputManager, CharacterConfig config, GameObject prefab, Rigidbody2D rigidbody, Transform firePoint)
@@ -32,7 +31,7 @@ namespace ShootEmUp
             _inputManager = inputManager; 
 
             _prefab = prefab;
-            Rigidbody = rigidbody;
+            _rigidbody = rigidbody;
             _speed = config.Speed;
             _hitPoints = config.HitPoints;
             IsPlayer = config.IsPlayer;
@@ -59,7 +58,7 @@ namespace ShootEmUp
 
         public void Move(Vector2 vector)
         {
-            _moveComponent.Move(Rigidbody, vector, _speed);
+            _moveComponent.Move(_rigidbody, vector, _speed);
         }
 
         private void Die(object sender)

@@ -25,7 +25,7 @@ namespace ShootEmUp
 
         public void OnStartGame()
         {
-            var position = _myTransform.position;
+            Vector3 position = _myTransform.position;
             _positionX = position.x;
             _positionZ = position.z;
         }
