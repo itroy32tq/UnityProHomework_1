@@ -5,7 +5,6 @@ namespace ShootEmUp
 {
     public sealed class EnemyMoveAgent
     {
-        
         public Vector2 Direction { get; private set; }
         public event Action<Vector2> OnMove;
 

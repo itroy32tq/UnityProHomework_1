@@ -7,7 +7,7 @@ namespace ShootEmUp
         
         public void Move(Rigidbody2D rigidbody, Vector2 vector, float speed)
         {
-            var nextPosition = rigidbody.position + vector * speed;
+            Vector2 nextPosition = rigidbody.position + vector * speed;
             rigidbody.MovePosition(nextPosition);
         }
 

@@ -11,7 +11,6 @@ namespace ShootEmUp
         private float _currentTime;
         private Transform _target;
 
-
         public event Action<Vector2> OnEnemyFireingHandler;
         
         public void Reset()
