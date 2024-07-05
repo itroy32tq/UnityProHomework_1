@@ -5,15 +5,15 @@ namespace ShootEmUp
     public sealed class HitPointsComponent
     {
 
-        public event Action OnHitPointsEnding;
+        public event Action<object> OnHitPointsEnding;
 
-        public int TakeDamage(int damage, int hitPoints)
+        public int TakeDamage(object sender, int damage, int hitPoints)
         {
             hitPoints -= damage;
 
             if (hitPoints <= 0)
             {
-                OnHitPointsEnding?.Invoke();
+                OnHitPointsEnding?.Invoke(sender);
             }
             return hitPoints;
         }

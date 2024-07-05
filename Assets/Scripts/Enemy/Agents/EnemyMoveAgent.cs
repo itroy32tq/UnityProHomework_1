@@ -5,35 +5,28 @@ namespace ShootEmUp
 {
     public sealed class EnemyMoveAgent
     {
-        private Vector2 _destination = new() { x = 0.04f, y = 3.74f };
-        public bool IsReached { get; private set; }
+        
         public Vector2 Direction { get; private set; }
-
         public event Action<Vector2> OnMove;
 
-        public void Tick(float fixedDeltaTime, Vector2 unitPosition)
+        public void Tick(Enemy enemy, float fixedDeltaTime, Vector2 unitPosition)
         {
-            if (IsReached)
+            if (enemy.IsReached)
             {
                 return;
             }
 
-            Vector2 vector = _destination - unitPosition;
+            Vector2 vector = enemy.Destination - unitPosition;
+
             if (vector.magnitude <= 0.25f)
             {
-                IsReached = true;
+                enemy.SetReachedState(true);
                 return;
             }
 
             Direction = vector.normalized;
             Vector2 moveDirection = vector.normalized * fixedDeltaTime;
             OnMove?.Invoke(moveDirection);
-        }
-
-        public void SetDestination(Vector2 endPoint)
-        {
-            _destination = endPoint;
-            IsReached = false;
         }
     }
 }

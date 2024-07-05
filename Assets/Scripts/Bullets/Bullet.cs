@@ -16,7 +16,7 @@ namespace ShootEmUp
 
         public event Action<GameObject, bool, int> OnBulletCollisionHandler;
 
-        public void SetArgsToBullet(Args args)
+        public void SetArgsToBullet(BulletsArgs args)
         { 
             transform.position = args.Position;
             _spriteRenderer.color = args.Color;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public struct Args
+public struct BulletsArgs
 {
     public Vector2 Position;
     public Vector2 Velocity;

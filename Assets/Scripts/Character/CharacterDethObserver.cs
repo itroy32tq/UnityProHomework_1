@@ -6,8 +6,8 @@ namespace ShootEmUp
 {
     public sealed class CharacterDethObserver : IGameStartListener, IGameFinishListener
     {
-        [SerializeField] private Character _character;
-        [SerializeField] private GameManager _gameManager;
+        private Character _character;
+        private GameManager _gameManager;
 
         [Inject]
         public void Construct(Character character, GameManager gameManager)

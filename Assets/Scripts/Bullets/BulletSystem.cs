@@ -25,7 +25,7 @@ namespace ShootEmUp
             _bulletPool = bulletPool;
         }
 
-        public void Create(Args args)
+        public void Create(BulletsArgs args)
         {
             if (_bulletPool.TryGet(out Bullet bullet))
             {

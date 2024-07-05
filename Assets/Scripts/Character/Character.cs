@@ -62,9 +62,12 @@ namespace ShootEmUp
             _moveComponent.Move(Rigidbody, vector, _speed);
         }
 
-        private void Die()
+        private void Die(object sender)
         {
-            OnCharacterDieingHandler?.Invoke();
+            if (sender is Character)
+            {
+                OnCharacterDieingHandler?.Invoke();
+            }
         }
 
         public void OnBulletCollision(GameObject collisionObject, bool isPlayer, int damage)
@@ -79,7 +82,7 @@ namespace ShootEmUp
                 return;
             }
 
-            _hitPoints = _hitPointsComponent.TakeDamage(damage, _hitPoints);
+            _hitPoints = _hitPointsComponent.TakeDamage(this, damage, _hitPoints);
         }
 
         private void Shoot()
@@ -87,7 +90,7 @@ namespace ShootEmUp
             _weaponComponent.Shoot(IsPlayer, _shootDirection, _bulletConfig, _firePoint);
         }
 
-        public bool IsHitPointsExists()
+        public bool IsCharacterLive()
         {
             return _hitPoints > 0;
         }

@@ -19,6 +19,8 @@ namespace ShootEmUp
         private int _hitPoints;
         private readonly float _speed;
 
+        public bool IsReached { get; private set; }
+        public Vector2 Destination { get; private set; } = Vector2.one;
         public int HitPoints => _hitPoints;
         public WeaponComponent WeaponComponent => _weaponComponent;
         public GameObject Prefab => _prefab;
@@ -54,14 +56,14 @@ namespace ShootEmUp
         {
             _hitPointsComponent.OnHitPointsEnding += Die;
             _enemyAttackAgent.OnEnemyFireingHandler += OnFire;
-            AttackAgentCondition.Append(_character.IsHitPointsExists);
-            AttackAgentCondition.Append(IsReached);
+            AttackAgentCondition.Append(_character.IsCharacterLive);
+            AttackAgentCondition.Append(() => IsReached == true);
             _enemyMoveAgent.OnMove += Move;
         }
 
         public void CollisionHandler(int damage)
         {
-            _hitPoints = _hitPointsComponent.TakeDamage(damage, _hitPoints);
+            _hitPoints = _hitPointsComponent.TakeDamage(this, damage, _hitPoints);
         }
 
         public bool GetTeam()
@@ -74,9 +76,9 @@ namespace ShootEmUp
             _moveComponent.Move(Rigidbody, vector, _speed);
         }
 
-        private bool IsReached()
-        { 
-            return _enemyMoveAgent.IsReached;
+        public void SetReachedState(bool state)
+        {
+            IsReached = state;
         }
 
         public void SetPosition(Transform tr)
@@ -86,16 +88,19 @@ namespace ShootEmUp
 
         public void SetTargetDestination(Transform tr)
         {
-            _enemyMoveAgent.SetDestination(tr.position);
+            Destination = tr.position;
         }
         
-        private void Die()
+        private void Die(object sender)
         {
-            _hitPointsComponent.OnHitPointsEnding -= Die;
-            _enemyAttackAgent.OnEnemyFireingHandler -= OnFire;
-            _enemyMoveAgent.OnMove -= Move;
-            OnEnemyDieingHandler?.Invoke(this);
-            AttackAgentCondition.Clear();
+            if (sender == this)
+            {
+                _hitPointsComponent.OnHitPointsEnding -= Die;
+                _enemyAttackAgent.OnEnemyFireingHandler -= OnFire;
+                _enemyMoveAgent.OnMove -= Move;
+                OnEnemyDieingHandler?.Invoke(this);
+                AttackAgentCondition.Clear();
+            }
         }
 
         private void OnFire(Vector2 direction)
@@ -107,7 +112,7 @@ namespace ShootEmUp
         public void OnFixedUpdate(float fixedDeltaTime)
         {
             _enemyAttackAgent.Tick(fixedDeltaTime, AttackAgentCondition, _prefab.transform);
-            _enemyMoveAgent.Tick(fixedDeltaTime, _prefab.transform.position);
+            _enemyMoveAgent.Tick(this, fixedDeltaTime, _prefab.transform.position);
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Assets.Scripts.InfroStructure
         [SerializeField] private EnemySpawnerConfig _enemySpawnerConfig;
         private EnemySpawnerPositions _enemySpawnerPositions;
 
+        [SerializeField] private Transform _worldContainer;
+
         public override void Install(DiContainer container)
         {
             CreateBorder();
@@ -34,7 +36,7 @@ namespace Assets.Scripts.InfroStructure
 
             for (int i = 0; i < len; i++)
             {
-                var spawnPos = Instantiate(_enemySpawnerConfig.SpawnPositions[i]);
+                var spawnPos = Instantiate(_enemySpawnerConfig.SpawnPositions[i], _worldContainer);
                 spawnPositions[i] = spawnPos;
             }
 
@@ -43,7 +45,7 @@ namespace Assets.Scripts.InfroStructure
 
             for (int i = 0; i < len; i++)
             {
-                var attackPos = Instantiate(_enemySpawnerConfig.AttackPositions[i]);
+                var attackPos = Instantiate(_enemySpawnerConfig.AttackPositions[i], _worldContainer);
                 attackPositions[i] = attackPos;
             }
 
