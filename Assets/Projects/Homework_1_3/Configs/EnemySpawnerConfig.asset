@@ -31,5 +31,5 @@ MonoBehaviour:
   - {fileID: 3100638333686569465, guid: df3381e9a4e57eb49b51f0edb41a22d1, type: 3}
   - {fileID: 1053277739127430326, guid: ea089ea2788a8904cbf838fb8cdce52a, type: 3}
   - {fileID: 2505998957066224566, guid: bffd85fd48159e541bed3c2bcbfb84af, type: 3}
-  <SpawnDelay>k__BackingField: 1
+  <SpawnDelay>k__BackingField: 2
   <InitialCount>k__BackingField: 3

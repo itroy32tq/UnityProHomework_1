@@ -1234,3 +1234,4 @@ MonoBehaviour:
     type: 2}
   _enemySpawnerConfig: {fileID: 11400000, guid: ee6fb11c1dc17454595a80c03248ce56,
     type: 2}
+  _worldContainer: {fileID: 1683128698}
